@@ -1,377 +1,324 @@
- <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://sdk.minepi.com; connect-src 'self' https://socialchain.app https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
-    <title>Pi Global Land, Property & Antiques | Decentralized Marketplace</title>
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Pi Global Land & Antiques</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        pi: { 50: '#f5f3ff', 100: '#ede9fe', 200: '#ddd6fe', 500: '#8b5cf6', 600: '#7c3aed', 700: '#6d28d9', 900: '#4c1d95' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --accent: #10b981;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; }
-
-        header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 25px 20px;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .logo-area h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
-        .logo-area p { font-size: 12px; opacity: 0.85; }
-
-        .auth-badge {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .main-container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
-
-        /* Ticker Bar */
-        .ticker-bar {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 12px 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: var(--shadow);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        .ticker-item { text-align: center; }
-        .ticker-item span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
-        .ticker-item b { font-size: 15px; color: var(--primary); }
-
-        /* Filter Tabs */
-        .filter-section {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-        .filter-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Grid Layout */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-        }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.08); }
-        .card-img {
-            height: 180px;
-            background: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            position: relative;
-        }
-        .tag {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(4px);
-            color: white;
-            padding: 4px 10px;
-            font-size: 11px;
-            font-weight: 600;
-            border-radius: 6px;
-        }
-        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-        .card-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
-        .card-location { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
-        .card-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid var(--border);
-        }
-        .price { font-size: 16px; font-weight: 700; color: var(--primary); }
-        .btn-action {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-action:hover { background: var(--primary-hover); }
-
-        /* Login Overlay / Screen */
-        #login-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-        .login-card {
-            background: var(--bg-card);
-            padding: 35px;
-            border-radius: 24px;
-            text-align: center;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        .login-card h2 { font-size: 24px; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
-        .login-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
-        .btn-login {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 12px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
-            transition: transform 0.2s;
-        }
-        .btn-login:hover { transform: translateY(-2px); }
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
-    <!-- Màn hình đăng nhập bắt buộc qua Pi Auth -->
-    <div id="login-overlay">
-        <div class="login-card">
-            <h2>Pi Global Network</h2>
-            <p>Connect your Pi Wallet to access global real estate, premium antiquities & verified escrow smart contracts.</p>
-            <button class="btn-login" onclick="loginPiUser()">Sign In with Pi Network</button>
-            <div id="login-status" style="margin-top: 15px; font-size: 13px; font-weight: 600; color: var(--text-muted);">Ready to connect</div>
-        </div>
+    <!-- Top Ticker Bar -->
+    <div class="bg-pi-900 text-white text-[11px] py-1.5 px-3 flex justify-between items-center overflow-x-auto whitespace-nowrap">
+        <span class="text-pi-200 font-semibold"><i class="fa-solid fa-globe"></i> GLOBAL NETWORK: ACTIVE</span>
+        <span class="text-amber-300 ml-4"><i class="fa-solid fa-coins"></i> 1 Pi = $314.15 USD</span>
     </div>
 
-    <header>
-        <div class="header-content">
-            <div class="logo-area">
-                <h1>🌐 Pi Global Marketplace</h1>
-                <p>Decentralized Worldwide Real Estate & Antiques</p>
+    <!-- Main Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+        <div class="max-w-7xl mx-auto px-3 h-16 flex items-center justify-between gap-2">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-2 cursor-pointer overflow-hidden" onclick="resetFilter()">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pi-600 to-indigo-500 flex items-center justify-center text-white shrink-0 shadow-sm">
+                    <i class="fa-solid fa-cubes text-sm"></i>
+                </div>
+                <div class="truncate">
+                    <h1 class="font-bold text-xs sm:text-sm text-slate-900 truncate">Pi Global Land</h1>
+                    <p class="text-[10px] text-slate-500 truncate">Web3 Marketplace</p>
+                </div>
             </div>
-            <div class="auth-badge" id="user-badge">
-                <span>🟢 Connected:</span> <b id="username-display">Guest</b>
+
+            <!-- Wallet & Menu Actions -->
+            <div class="flex items-center gap-2 shrink-0">
+                <button id="connectWalletBtn" onclick="toggleWalletConnection()" class="bg-pi-600 hover:bg-pi-700 text-white font-semibold px-3 py-1.5 rounded-lg text-xs shadow-sm flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span id="walletBtnText">Connect Pi</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+                    <i class="fa-solid fa-bars text-base"></i>
+                </button>
             </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden bg-white border-b border-slate-200 px-4 py-3 space-y-2 text-xs font-medium shadow-lg">
+            <a href="#marketplace" onclick="toggleMobileMenu()" class="block py-1 text-slate-700"><i class="fa-solid fa-compass mr-2 text-pi-600"></i> Explore Assets</a>
+            <a href="#" onclick="toggleMobileMenu(); openEscrowModal();" class="block py-1 text-slate-700"><i class="fa-solid fa-file-contract mr-2 text-pi-600"></i> Escrow Status</a>
+            <a href="#" onclick="toggleMobileMenu(); openAnalyticsModal();" class="block py-1 text-slate-700"><i class="fa-solid fa-chart-pie mr-2 text-pi-600"></i> Market Analytics</a>
+            <button onclick="toggleMobileMenu(); openAddAssetModal();" class="w-full mt-2 bg-pi-50 text-pi-700 border border-pi-200 py-2 rounded-lg font-semibold">
+                <i class="fa-solid fa-plus-circle mr-1"></i> List New Asset
+            </button>
         </div>
     </header>
 
-    <div class="main-container">
-        <!-- Ticker thống kê toàn cầu -->
-        <div class="ticker-bar">
-            <div class="ticker-item">
-                <span>Global Listings</span>
-                <b>1,482 Assets</b>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-pi-50/60 to-white py-8 px-4 text-center border-b border-slate-100">
+        <div class="max-w-3xl mx-auto">
+            <span class="inline-block bg-pi-100 text-pi-800 px-3 py-1 rounded-full text-[11px] font-semibold mb-3">
+                <i class="fa-solid fa-shield-check text-pi-600"></i> Decentralized Escrow Verified
+            </span>
+            <h2 class="text-2xl sm:text-4xl font-bold text-slate-900 mb-3 leading-tight">
+                Global Real Estate & Antiques<br>
+                <span class="text-pi-600">Secured on Pi Network</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 mb-6 px-2">
+                Discover prime properties and museum antiquities in Paris, Tokyo, London, New York, Singapore, and Can Tho with instant Pi settlement.
+            </p>
+
+            <!-- Search Bar -->
+            <div class="bg-white p-2.5 rounded-2xl shadow-lg border border-slate-200 flex flex-col sm:flex-row gap-2">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="searchInput" oninput="filterAssets()" placeholder="Search city or asset..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-pi-500">
+                </div>
+                <div class="sm:w-36">
+                    <select id="regionFilter" onchange="filterAssets()" class="w-full px-2 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:outline-none">
+                        <option value="ALL">🌍 All Regions</option>
+                        <option value="Paris">Paris</option>
+                        <option value="Tokyo">Tokyo</option>
+                        <option value="London">London</option>
+                        <option value="New York">New York</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Can Tho">Can Tho</option>
+                    </select>
+                </div>
+                <button onclick="filterAssets()" class="bg-pi-600 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-pi-700 transition">
+                    Search
+                </button>
             </div>
-            <div class="ticker-item">
-                <span>Total Volume</span>
-                <b>184,500 Pi</b>
-            </div>
-            <div class="ticker-item">
-                <span>Escrow Security</span>
-                <b>100% On-Chain</b>
-            </div>
-            <div class="ticker-item">
-                <span>Network Status</span>
-                <b style="color: var(--accent);">Mainnet Live</b>
+
+            <!-- Categories -->
+            <div class="flex flex-wrap justify-center gap-1.5 mt-4">
+                <button onclick="setCategory('ALL')" id="cat_ALL" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-pi-600 text-white shadow-xs">All</button>
+                <button onclick="setCategory('Real Estate')" id="cat_Real Estate" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200">Real Estate</button>
+                <button onclick="setCategory('Antique Ceramics')" id="cat_Antique Ceramics" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200">Ceramics</button>
+                <button onclick="setCategory('Jade')" id="cat_Jade" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200">Jade</button>
             </div>
         </div>
+    </section>
 
-        <!-- Bộ lọc danh mục -->
-        <div class="filter-section">
-            <button class="filter-btn active" onclick="filterItems('all', this)">🌍 All Global Assets</button>
-            <button class="filter-btn" onclick="filterItems('property', this)">🏢 Real Estate & Lands</button>
-            <button class="filter-btn" onclick="filterItems('antique', this)">🏺 Antique & Artifacts</button>
-            <button class="filter-btn" onclick="filterItems('luxury', this)">💎 Luxury Estates</button>
+    <!-- Marketplace Grid -->
+    <main id="marketplace" class="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-slate-900 text-base">Verified Assets</h3>
+            <select id="sortBy" onchange="sortAssets()" class="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs">
+                <option value="newest">Newest</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+            </select>
         </div>
 
-        <!-- Danh sách tài sản toàn cầu -->
-        <div class="grid-layout" id="asset-grid">
-            <!-- Item 1 -->
-            <div class="card" data-category="property">
-                <div class="card-img">
-                    <span class="tag">Real Estate</span>
-                    🏢
-                </div>
-                <div class="card-body">
-                    <div class="card-title">Alpine Luxury Chalet</div>
-                    <div class="card-location">📍 Zurich, Switzerland</div>
-                    <div class="card-footer">
-                        <div class="price">3,500 Pi</div>
-                        <button class="btn-action" onclick="inspectAsset('Alpine Luxury Chalet')">Acquire</button>
-                    </div>
-                </div>
-            </div>
+        <div id="assetsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-            <!-- Item 2 -->
-            <div class="card" data-category="antique">
-                <div class="card-img">
-                    <span class="tag">Antique</span>
-                    🏺
-                </div>
-                <div class="card-body">
-                    <div class="card-title">Ming Dynasty Ceramic Vase</div>
-                    <div class="card-location">📍 Beijing, China</div>
-                    <div class="card-footer">
-                        <div class="price">1,200 Pi</div>
-                        <button class="btn-action" onclick="inspectAsset('Ming Dynasty Ceramic Vase')">Acquire</button>
-                    </div>
-                </div>
-            </div>
+        <div id="emptyState" class="hidden text-center py-12 bg-white rounded-2xl border border-slate-200 mt-4">
+            <p class="text-xs text-slate-500">No assets found matching your criteria.</p>
+        </div>
+    </main>
 
-            <!-- Item 3 -->
-            <div class="card" data-category="luxury">
-                <div class="card-img">
-                    <span class="tag">Luxury</span>
-                    🏝️
-                </div>
-                <div class="card-body">
-                    <div class="card-title">Private Island Villa</div>
-                    <div class="card-location">📍 Maldives, Indian Ocean</div>
-                    <div class="card-footer">
-                        <div class="price">8,900 Pi</div>
-                        <button class="btn-action" onclick="inspectAsset('Private Island Villa')">Acquire</button>
-                    </div>
-                </div>
-            </div>
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        <p>&copy; 2026 Pi Global Land & Antiques. Pi Browser Sandbox Active.</p>
+    </footer>
 
-            <!-- Item 4 -->
-            <div class="card" data-category="property">
-                <div class="card-img">
-                    <span class="tag">Real Estate</span>
-                    🏡
+    <!-- Modals & Toast -->
+    <div id="addAssetModal" class="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAddAssetModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-bold text-slate-900 text-base mb-4">List New Asset</h3>
+            <form id="newAssetForm" onsubmit="submitNewAsset(event)" class="space-y-3 text-xs">
+                <div><label class="block font-semibold mb-1">Title</label><input type="text" id="newTitle" required class="w-full p-2 bg-slate-50 border rounded-lg"></div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div><label class="block font-semibold mb-1">Category</label><select id="newCategory" class="w-full p-2 bg-slate-50 border rounded-lg"><option value="Real Estate">Real Estate</option><option value="Antique Ceramics">Ceramics</option><option value="Jade">Jade</option></select></div>
+                    <div><label class="block font-semibold mb-1">City</label><select id="newCity" class="w-full p-2 bg-slate-50 border rounded-lg"><option value="Paris">Paris</option><option value="Tokyo">Tokyo</option><option value="Can Tho">Can Tho</option></select></div>
                 </div>
-                <div class="card-body">
-                    <div class="card-title">Kyoto Traditional Machiya</div>
-                    <div class="card-location">📍 Kyoto, Japan</div>
-                    <div class="card-footer">
-                        <div class="price">2,400 Pi</div>
-                        <button class="btn-action" onclick="inspectAsset('Kyoto Traditional Machiya')">Acquire</button>
-                    </div>
-                </div>
-            </div>
+                <div><label class="block font-semibold mb-1">Price in Pi (π)</label><input type="number" step="0.01" id="newPricePi" required class="w-full p-2 bg-slate-50 border rounded-lg"></div>
+                <div><label class="block font-semibold mb-1">Description</label><textarea id="newDesc" rows="2" required class="w-full p-2 bg-slate-50 border rounded-lg"></textarea></div>
+                <button type="submit" class="w-full bg-pi-600 text-white font-semibold py-2.5 rounded-lg">Submit Listing</button>
+            </form>
         </div>
     </div>
 
+    <div id="detailModal" class="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modalContentBody"></div>
+        </div>
+    </div>
+
+    <div id="escrowModal" class="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center">
+            <h3 class="font-bold text-slate-900 text-base mb-2">Escrow Smart Contract</h3>
+            <p class="text-xs text-slate-600 mb-4">Funds securely locked in Pi Mainnet smart contract escrow vault.</p>
+            <button onclick="closeEscrowModal()" class="w-full bg-slate-900 text-white py-2 rounded-lg text-xs font-semibold">Close</button>
+        </div>
+    </div>
+
+    <div id="analyticsModal" class="fixed inset-0 bg-slate-900/50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 text-center">
+            <h3 class="font-bold text-slate-900 text-base mb-2">Market Analytics</h3>
+            <p class="text-xs text-slate-600 mb-4">Total Liquidity: 128,450 Pi (~$40.3M USD)</p>
+            <button onclick="closeAnalyticsModal()" class="w-full bg-slate-900 text-white py-2 rounded-lg text-xs font-semibold">Close</button>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-4 py-2 rounded-xl text-xs z-50 transform translate-y-20 opacity-0 transition-all duration-300">
+        <span id="toastMsg">Success</span>
+    </div>
+
+    <!-- Script -->
     <script>
-        const onIncompletePaymentFound = function(payment) {
-            console.log("Incomplete payment found:", payment);
-        };
+        const PI_TO_USD = 314.15;
+        let assets = [
+            { id: 1, title: "Haussmann Luxury Penthouse", category: "Real Estate", city: "Paris", country: "France", pricePi: 4500, image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80", desc: "Prime 3-bedroom historic apartment.", seller: "Abao1985" },
+            { id: 2, title: "Imperial Ming Dynasty Vase", category: "Antique Ceramics", city: "London", country: "UK", pricePi: 1850, image: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80", desc: "Museum-grade 15th-century ceramic.", seller: "Abao1985" },
+            { id: 3, title: "Mekong Delta Eco-Resort Estate", category: "Real Estate", city: "Can Tho", country: "Vietnam", pricePi: 1200, image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80", desc: "Sprawling riverfront property in Can Tho.", seller: "Abao1985" },
+            { id: 4, title: "Tokyo Traditional Machiya", category: "Real Estate", city: "Tokyo", country: "Japan", pricePi: 3100, image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80", desc: "Restored 19th-century Gion townhouse.", seller: "Abao1985" }
+        ];
 
-        document.addEventListener("DOMContentLoaded", async function() {
-            try {
-                await Pi.init({ version: "2.0" });
-                console.log("Pi SDK initialized.");
-            } catch (error) {
-                console.error("Pi SDK init error:", error);
-            }
-        });
+        let currentCategory = 'ALL';
+        let isWalletConnected = false;
 
-        async function loginPiUser() {
-            const statusEl = document.getElementById("login-status");
-            statusEl.innerText = "Connecting to Pi Wallet...";
-            try {
-                const authResult = await Pi.authenticate(["username"], onIncompletePaymentFound);
-                statusEl.innerText = "Verifying with App Studio...";
+        window.onload = function() { renderAssets(assets); };
 
-                const response = await fetch("https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com/pi/auth/v1/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ accessToken: authResult.accessToken })
-                });
+        function renderAssets(list) {
+            const grid = document.getElementById('assetsGrid');
+            const empty = document.getElementById('emptyState');
+            grid.innerHTML = '';
+            if(list.length === 0) { empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
 
-                if (!response.ok) throw new Error("Server verification failed.");
-                const data = await response.json();
-
-                document.getElementById("username-display").innerText = "@" + data.user.username;
-                document.getElementById("login-overlay").style.display = "none";
-            } catch (error) {
-                console.error(error);
-                statusEl.style.color = "#ef4444";
-                statusEl.innerText = "Authentication failed. Please retry.";
-            }
-        }
-
-        function filterItems(category, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
+            list.forEach(a => {
+                const price = `${a.pricePi.toLocaleString()} π`;
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition flex flex-col";
+                card.innerHTML = `
+                    <div class="relative h-44 bg-slate-100"><img src="${a.image}" class="w-full h-full object-cover">
+                    <span class="absolute top-2 left-2 bg-white/90 px-2 py-0.5 rounded-full text-[10px] font-semibold text-slate-800">${a.city}</span></div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div><h4 class="font-bold text-slate-900 text-xs mb-1">${a.title}</h4><p class="text-[11px] text-slate-500 line-clamp-2">${a.desc}</p></div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-sm font-extrabold text-pi-700">${price}</span>
+                            <button onclick="openDetailModal(${a.id})" class="bg-pi-50 text-pi-700 hover:bg-pi-600 hover:text-white px-3 py-1.5 rounded-lg text-[11px] font-semibold transition">View</button>
+                        </div>
+                    </div>`;
+                grid.appendChild(card);
             });
         }
 
-        function inspectAsset(name) {
-            alert("Secure Escrow Smart Contract initiated for: " + name + ". Proceed with Pi Wallet confirmation.");
+        function filterAssets() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const reg = document.getElementById('regionFilter').value;
+            let filtered = assets.filter(a => (a.title.toLowerCase().includes(q) || a.city.toLowerCase().includes(q)) && (reg === 'ALL' || a.city === reg) && (currentCategory === 'ALL' || a.category === currentCategory));
+            renderAssets(filtered);
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.className = "cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200");
+            document.getElementById(`cat_${cat}`).className = "cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-pi-600 text-white shadow-xs";
+            filterAssets();
+        }
+
+        function resetFilter() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('regionFilter').value = 'ALL';
+            currentCategory = 'ALL';
+            renderAssets(assets);
+        }
+
+        function sortAssets() {
+            const s = document.getElementById('sortBy').value;
+            let sorted = [...assets];
+            if(s === 'price-asc') sorted.sort((a,b)=>a.pricePi-b.pricePi);
+            else if(s === 'price-desc') sorted.sort((a,b)=>b.pricePi-a.pricePi);
+            renderAssets(sorted);
+        }
+
+        function toggleWalletConnection() {
+            isWalletConnected = !isWalletConnected;
+            const btnText = document.getElementById('walletBtnText');
+            const btn = document.getElementById('connectWalletBtn');
+            if(isWalletConnected) {
+                btnText.innerText = "Abao1985";
+                btn.className = "bg-emerald-600 text-white font-semibold px-3 py-1.5 rounded-lg text-xs shadow-sm flex items-center gap-1.5";
+                showToast("Wallet Connected: @Abao1985");
+            } else {
+                btnText.innerText = "Connect Pi";
+                btn.className = "bg-pi-600 hover:bg-pi-700 text-white font-semibold px-3 py-1.5 rounded-lg text-xs shadow-sm flex items-center gap-1.5";
+                showToast("Wallet Disconnected");
+            }
+        }
+
+        function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+        function openAddAssetModal() { document.getElementById('addAssetModal').classList.remove('hidden'); }
+        function closeAddAssetModal() { document.getElementById('addAssetModal').classList.add('hidden'); }
+        function openEscrowModal() { document.getElementById('escrowModal').classList.remove('hidden'); }
+        function closeEscrowModal() { document.getElementById('escrowModal').classList.add('hidden'); }
+        function openAnalyticsModal() { document.getElementById('analyticsModal').classList.remove('hidden'); }
+        function closeAnalyticsModal() { document.getElementById('analyticsModal').classList.add('hidden'); }
+
+        function openDetailModal(id) {
+            const a = assets.find(item => item.id === id);
+            if(!a) return;
+            document.getElementById('modalContentBody').innerHTML = `
+                <div class="relative h-48 rounded-xl overflow-hidden mb-4"><img src="${a.image}" class="w-full h-full object-cover"></div>
+                <h3 class="font-bold text-slate-900 text-base mb-1">${a.title}</h3>
+                <p class="text-xs text-slate-600 mb-4">${a.desc}</p>
+                <div class="p-3 bg-slate-50 rounded-xl mb-4 flex justify-between items-center text-xs">
+                    <span>Price: <strong class="text-pi-700">${a.pricePi.toLocaleString()} π</strong></span>
+                    <span>Seller: <strong>${a.seller}</strong></span>
+                </div>
+                <button onclick="closeDetailModal(); openEscrowModal();" class="w-full bg-pi-600 text-white font-semibold py-2.5 rounded-xl text-xs">Lock Escrow & Buy</button>`;
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+        function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+        function submitNewAsset(e) {
+            e.preventDefault();
+            const newA = {
+                id: assets.length + 1,
+                title: document.getElementById('newTitle').value,
+                category: document.getElementById('newCategory').value,
+                city: document.getElementById('newCity').value,
+                country: "International",
+                pricePi: parseFloat(document.getElementById('newPricePi').value),
+                image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+                desc: document.getElementById('newDesc').value,
+                seller: "Abao1985"
+            };
+            assets.unshift(newA);
+            renderAssets(assets);
+            closeAddAssetModal();
+            document.getElementById('newAssetForm').reset();
+            showToast("Asset Listed Successfully!");
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            t.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
     </script>
 </body>
