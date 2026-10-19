@@ -1,124 +1,51 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://sdk.minepi.com; connect-src 'self' https://socialchain.app https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com; style-src 'self' 'unsafe-inline';">
-    <title>Pi Land & Property - Nền tảng Bất động sản Pi Network</title>
-    <!-- Tải Pi SDK chuẩn theo tài liệu -->
+    <title>Pi Land & Property</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #5c2d91;
-            font-size: 24px;
-        }
-        p {
-            color: #666;
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        .btn-auth {
-            background-color: #5c2d91;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            font-weight: bold;
-        }
-        .btn-auth:hover {
-            background-color: #4a2375;
-        }
-        #status {
-            margin-top: 20px;
-            font-weight: bold;
-            font-size: 14px;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f7f7f7; }
+        .box { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        button { background: #5c2d91; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; margin-top: 20px; }
+        #status { margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Pi Land & Property</h1>
-        <p>Nền tảng đăng tin và giao dịch bất động sản phi tập trung trên mạng lưới Pi Network.</p>
-        
-        <button class="btn-auth" onclick="authenticatePiUser()">Đăng nhập với Pi Network</button>
-        <div id="status">Đang chờ khởi tạo Pi SDK...</div>
+    <div class="box">
+        <h2>Pi Land & Property</h2>
+        <p>Hệ thống Bất động sản Phi tập trung</p>
+        <button onclick="loginPi()">Đăng nhập Pi Network</button>
+        <div id="status">Đang khởi tạo SDK...</div>
     </div>
-
     <script>
-        // Xử lý khi thanh toán không hoàn thành (bắt buộc theo SDK)
-        const onIncompletePaymentFound = function(payment) {
-            console.log("Tìm thấy giao dịch chưa hoàn thành:", payment);
-        };
-
-        // Khởi tạo Pi SDK version 2.0 (Không truyền sandbox)
+        const onIncompletePaymentFound = function(payment) {};
         document.addEventListener("DOMContentLoaded", async function() {
             try {
                 await Pi.init({ version: "2.0" });
-                document.getElementById("status").innerText = "Pi SDK đã sẵn sàng. Vui lòng bấm đăng nhập.";
-            } catch (error) {
-                console.error("Lỗi khởi tạo Pi SDK:", error);
-                document.getElementById("status").innerText = "Không thể khởi tạo Pi SDK.";
+                document.getElementById("status").innerText = "Sẵn sàng đăng nhập.";
+            } catch (e) {
+                document.getElementById("status").innerText = "Lỗi khởi tạo SDK.";
             }
         });
-
-        // Hàm thực hiện xác thực người dùng qua Pi SDK và trao đổi token với App Studio
-        async function authenticatePiUser() {
-            const statusEl = document.getElementById("status");
-            statusEl.innerText = "Đang kết nối ví Pi...";
-
+        async function loginPi() {
             try {
-                // Bước 1: Gọi Pi.authenticate để lấy accessToken
-                const authResult = await Pi.authenticate(["username"], onIncompletePaymentFound);
-                const accessToken = authResult.accessToken;
-
-                statusEl.innerText = "Đang xác thực với máy chủ App Studio...";
-
-                // Bước 2: Gửi accessToken tới App Studio Backend để lấy session chính thức
-                const response = await fetch("https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com/pi/auth/v1/login", {
+                document.getElementById("status").innerText = "Đang xác thực...";
+                const auth = await Pi.authenticate(["username"], onIncompletePaymentFound);
+                const res = await fetch("https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com/pi/auth/v1/login", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ accessToken: accessToken })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ accessToken: auth.accessToken })
                 });
-
-                if (!response.ok) {
-                    throw new Error("Xác thực thất bại từ App Studio server.");
-                }
-
-                const data = await response.json();
-                
-                // Lưu sessionToken và thông tin định danh chuẩn từ App Studio trả về
-                window.piSessionToken = data.sessionToken;
-                window.piUser = data.user;
-
-                statusEl.style.color = "green";
-                statusEl.innerText = "Đăng nhập thành công! Chào mừng: " + data.user.username;
-
-            } catch (error) {
-                console.error("Lỗi đăng nhập:", error);
-                statusEl.style.color = "red";
-                statusEl.innerText = "Đăng nhập thất bại. Vui lòng thử lại.";
+                if (!res.ok) throw new Error();
+                const data = await res.json();
+                document.getElementById("status").style.color = "green";
+                document.getElementById("status").innerText = "Đăng nhập thành công: " + data.user.username;
+            } catch (e) {
+                document.getElementById("status").style.color = "red";
+                document.getElementById("status").innerText = "Đăng nhập thất bại.";
             }
         }
     </script>
