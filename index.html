@@ -1,52 +1,377 @@
  <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://sdk.minepi.com; connect-src 'self' https://socialchain.app https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com; style-src 'self' 'unsafe-inline';">
-    <title>Pi Land & Property</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://sdk.minepi.com; connect-src 'self' https://socialchain.app https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <title>Pi Global Land, Property & Antiques | Decentralized Marketplace</title>
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f7f7f7; }
-        .box { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        button { background: #5c2d91; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; margin-top: 20px; }
-        #status { margin-top: 15px; font-weight: bold; }
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --accent: #10b981;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; padding-bottom: 50px; }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 25px 20px;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .logo-area h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; }
+        .logo-area p { font-size: 12px; opacity: 0.85; }
+
+        .auth-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .main-container { max-width: 1200px; margin: 25px auto; padding: 0 20px; }
+
+        /* Ticker Bar */
+        .ticker-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: var(--shadow);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .ticker-item { text-align: center; }
+        .ticker-item span { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .ticker-item b { font-size: 15px; color: var(--primary); }
+
+        /* Filter Tabs */
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .filter-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Grid Layout */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 20px 30px -10px rgba(0,0,0,0.08); }
+        .card-img {
+            height: 180px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            position: relative;
+        }
+        .tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
+        .card-location { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 4px; }
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+        .price { font-size: 16px; font-weight: 700; color: var(--primary); }
+        .btn-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-action:hover { background: var(--primary-hover); }
+
+        /* Login Overlay / Screen */
+        #login-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .login-card {
+            background: var(--bg-card);
+            padding: 35px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .login-card h2 { font-size: 24px; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+        .login-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 25px; }
+        .btn-login {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-login:hover { transform: translateY(-2px); }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2>Pi Land & Property</h2>
-        <p>Hệ thống Bất động sản Phi tập trung</p>
-        <button onclick="loginPi()">Đăng nhập Pi Network</button>
-        <div id="status">Đang khởi tạo SDK...</div>
+
+    <!-- Màn hình đăng nhập bắt buộc qua Pi Auth -->
+    <div id="login-overlay">
+        <div class="login-card">
+            <h2>Pi Global Network</h2>
+            <p>Connect your Pi Wallet to access global real estate, premium antiquities & verified escrow smart contracts.</p>
+            <button class="btn-login" onclick="loginPiUser()">Sign In with Pi Network</button>
+            <div id="login-status" style="margin-top: 15px; font-size: 13px; font-weight: 600; color: var(--text-muted);">Ready to connect</div>
+        </div>
     </div>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-area">
+                <h1>🌐 Pi Global Marketplace</h1>
+                <p>Decentralized Worldwide Real Estate & Antiques</p>
+            </div>
+            <div class="auth-badge" id="user-badge">
+                <span>🟢 Connected:</span> <b id="username-display">Guest</b>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Ticker thống kê toàn cầu -->
+        <div class="ticker-bar">
+            <div class="ticker-item">
+                <span>Global Listings</span>
+                <b>1,482 Assets</b>
+            </div>
+            <div class="ticker-item">
+                <span>Total Volume</span>
+                <b>184,500 Pi</b>
+            </div>
+            <div class="ticker-item">
+                <span>Escrow Security</span>
+                <b>100% On-Chain</b>
+            </div>
+            <div class="ticker-item">
+                <span>Network Status</span>
+                <b style="color: var(--accent);">Mainnet Live</b>
+            </div>
+        </div>
+
+        <!-- Bộ lọc danh mục -->
+        <div class="filter-section">
+            <button class="filter-btn active" onclick="filterItems('all', this)">🌍 All Global Assets</button>
+            <button class="filter-btn" onclick="filterItems('property', this)">🏢 Real Estate & Lands</button>
+            <button class="filter-btn" onclick="filterItems('antique', this)">🏺 Antique & Artifacts</button>
+            <button class="filter-btn" onclick="filterItems('luxury', this)">💎 Luxury Estates</button>
+        </div>
+
+        <!-- Danh sách tài sản toàn cầu -->
+        <div class="grid-layout" id="asset-grid">
+            <!-- Item 1 -->
+            <div class="card" data-category="property">
+                <div class="card-img">
+                    <span class="tag">Real Estate</span>
+                    🏢
+                </div>
+                <div class="card-body">
+                    <div class="card-title">Alpine Luxury Chalet</div>
+                    <div class="card-location">📍 Zurich, Switzerland</div>
+                    <div class="card-footer">
+                        <div class="price">3,500 Pi</div>
+                        <button class="btn-action" onclick="inspectAsset('Alpine Luxury Chalet')">Acquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="card" data-category="antique">
+                <div class="card-img">
+                    <span class="tag">Antique</span>
+                    🏺
+                </div>
+                <div class="card-body">
+                    <div class="card-title">Ming Dynasty Ceramic Vase</div>
+                    <div class="card-location">📍 Beijing, China</div>
+                    <div class="card-footer">
+                        <div class="price">1,200 Pi</div>
+                        <button class="btn-action" onclick="inspectAsset('Ming Dynasty Ceramic Vase')">Acquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="card" data-category="luxury">
+                <div class="card-img">
+                    <span class="tag">Luxury</span>
+                    🏝️
+                </div>
+                <div class="card-body">
+                    <div class="card-title">Private Island Villa</div>
+                    <div class="card-location">📍 Maldives, Indian Ocean</div>
+                    <div class="card-footer">
+                        <div class="price">8,900 Pi</div>
+                        <button class="btn-action" onclick="inspectAsset('Private Island Villa')">Acquire</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="card" data-category="property">
+                <div class="card-img">
+                    <span class="tag">Real Estate</span>
+                    🏡
+                </div>
+                <div class="card-body">
+                    <div class="card-title">Kyoto Traditional Machiya</div>
+                    <div class="card-location">📍 Kyoto, Japan</div>
+                    <div class="card-footer">
+                        <div class="price">2,400 Pi</div>
+                        <button class="btn-action" onclick="inspectAsset('Kyoto Traditional Machiya')">Acquire</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const onIncompletePaymentFound = function(payment) {};
+        const onIncompletePaymentFound = function(payment) {
+            console.log("Incomplete payment found:", payment);
+        };
+
         document.addEventListener("DOMContentLoaded", async function() {
             try {
                 await Pi.init({ version: "2.0" });
-                document.getElementById("status").innerText = "Sẵn sàng đăng nhập.";
-            } catch (e) {
-                document.getElementById("status").innerText = "Lỗi khởi tạo SDK.";
+                console.log("Pi SDK initialized.");
+            } catch (error) {
+                console.error("Pi SDK init error:", error);
             }
         });
-        async function loginPi() {
+
+        async function loginPiUser() {
+            const statusEl = document.getElementById("login-status");
+            statusEl.innerText = "Connecting to Pi Wallet...";
             try {
-                document.getElementById("status").innerText = "Đang xác thực...";
-                const auth = await Pi.authenticate(["username"], onIncompletePaymentFound);
-                const res = await fetch("https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com/pi/auth/v1/login", {
+                const authResult = await Pi.authenticate(["username"], onIncompletePaymentFound);
+                statusEl.innerText = "Verifying with App Studio...";
+
+                const response = await fetch("https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com/pi/auth/v1/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ accessToken: auth.accessToken })
+                    body: JSON.stringify({ accessToken: authResult.accessToken })
                 });
-                if (!res.ok) throw new Error();
-                const data = await res.json();
-                document.getElementById("status").style.color = "green";
-                document.getElementById("status").innerText = "Đăng nhập thành công: " + data.user.username;
-            } catch (e) {
-                document.getElementById("status").style.color = "red";
-                document.getElementById("status").innerText = "Đăng nhập thất bại.";
+
+                if (!response.ok) throw new Error("Server verification failed.");
+                const data = await response.json();
+
+                document.getElementById("username-display").innerText = "@" + data.user.username;
+                document.getElementById("login-overlay").style.display = "none";
+            } catch (error) {
+                console.error(error);
+                statusEl.style.color = "#ef4444";
+                statusEl.innerText = "Authentication failed. Please retry.";
             }
+        }
+
+        function filterItems(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function inspectAsset(name) {
+            alert("Secure Escrow Smart Contract initiated for: " + name + ". Proceed with Pi Wallet confirmation.");
         }
     </script>
 </body>
