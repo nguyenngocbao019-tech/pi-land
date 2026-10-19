@@ -3,24 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pi Land & Property</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://sdk.minepi.com; connect-src 'self' https://socialchain.app https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com; style-src 'self' 'unsafe-inline';">
+    <title>Pi Land & Property - Nền tảng Bất động sản Pi Network</title>
+    <!-- Tải Pi SDK chuẩn theo tài liệu -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
-        header { text-align: center; padding: 20px; background: #673ab7; color: white; border-radius: 8px; }
-        h1 { margin: 0; font-size: 24px; }
-        .card { background: white; padding: 15px; margin-top: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .price { color: #e91e63; font-weight: bold; font-size: 18px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #5c2d91;
+            font-size: 24px;
+        }
+        p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .btn-auth {
+            background-color: #5c2d91;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .btn-auth:hover {
+            background-color: #4a2375;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🏛️ Pi Land & Property</h1>
-        <p>Sàn Giao Dịch Bất Động Sản Pi Network</p>
-    </header>
-    <div class="card">
-        <h3>🏡 Biệt thự cao cấp Cần Thơ</h3>
-        <p>Diện tích: 200m² | Pháp lý đầy đủ</p>
-        <p class="price">Giá: 3,500 Pi</p>
+
+    <div class="container">
+        <h1>Pi Land & Property</h1>
+        <p>Nền tảng đăng tin và giao dịch bất động sản phi tập trung trên mạng lưới Pi Network.</p>
+        
+        <button class="btn-auth" onclick="authenticatePiUser()">Đăng nhập với Pi Network</button>
+        <div id="status">Đang chờ khởi tạo Pi SDK...</div>
     </div>
+
+    <script>
+        // Xử lý khi thanh toán không hoàn thành (bắt buộc theo SDK)
+        const onIncompletePaymentFound = function(payment) {
+            console.log("Tìm thấy giao dịch chưa hoàn thành:", payment);
+        };
+
+        // Khởi tạo Pi SDK version 2.0 (Không truyền sandbox)
+        document.addEventListener("DOMContentLoaded", async function() {
+            try {
+                await Pi.init({ version: "2.0" });
+                document.getElementById("status").innerText = "Pi SDK đã sẵn sàng. Vui lòng bấm đăng nhập.";
+            } catch (error) {
+                console.error("Lỗi khởi tạo Pi SDK:", error);
+                document.getElementById("status").innerText = "Không thể khởi tạo Pi SDK.";
+            }
+        });
+
+        // Hàm thực hiện xác thực người dùng qua Pi SDK và trao đổi token với App Studio
+        async function authenticatePiUser() {
+            const statusEl = document.getElementById("status");
+            statusEl.innerText = "Đang kết nối ví Pi...";
+
+            try {
+                // Bước 1: Gọi Pi.authenticate để lấy accessToken
+                const authResult = await Pi.authenticate(["username"], onIncompletePaymentFound);
+                const accessToken = authResult.accessToken;
+
+                statusEl.innerText = "Đang xác thực với máy chủ App Studio...";
+
+                // Bước 2: Gửi accessToken tới App Studio Backend để lấy session chính thức
+                const response = await fetch("https://backend.appstudio-u7cm9zhmha0ruwv8.piappengine.com/pi/auth/v1/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ accessToken: accessToken })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Xác thực thất bại từ App Studio server.");
+                }
+
+                const data = await response.json();
+                
+                // Lưu sessionToken và thông tin định danh chuẩn từ App Studio trả về
+                window.piSessionToken = data.sessionToken;
+                window.piUser = data.user;
+
+                statusEl.style.color = "green";
+                statusEl.innerText = "Đăng nhập thành công! Chào mừng: " + data.user.username;
+
+            } catch (error) {
+                console.error("Lỗi đăng nhập:", error);
+                statusEl.style.color = "red";
+                statusEl.innerText = "Đăng nhập thất bại. Vui lòng thử lại.";
+            }
+        }
+    </script>
 </body>
 </html>
