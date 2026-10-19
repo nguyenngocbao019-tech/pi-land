@@ -38,7 +38,6 @@
     <!-- Main Header -->
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
         <div class="max-w-7xl mx-auto px-3 h-16 flex items-center justify-between gap-2">
-            <!-- Brand Logo -->
             <div class="flex items-center gap-2 cursor-pointer overflow-hidden" onclick="resetFilter()">
                 <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pi-600 to-indigo-500 flex items-center justify-center text-white shrink-0 shadow-sm">
                     <i class="fa-solid fa-cubes text-sm"></i>
@@ -49,7 +48,6 @@
                 </div>
             </div>
 
-            <!-- Wallet & Menu Actions -->
             <div class="flex items-center gap-2 shrink-0">
                 <button id="connectWalletBtn" onclick="toggleWalletConnection()" class="bg-pi-600 hover:bg-pi-700 text-white font-semibold px-3 py-1.5 rounded-lg text-xs shadow-sm flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-wallet"></i>
@@ -108,12 +106,30 @@
                 </button>
             </div>
 
-            <!-- Categories -->
-            <div class="flex flex-wrap justify-center gap-1.5 mt-4">
-                <button onclick="setCategory('ALL')" id="cat_ALL" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-pi-600 text-white shadow-xs">All</button>
-                <button onclick="setCategory('Real Estate')" id="cat_Real Estate" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200">Real Estate</button>
-                <button onclick="setCategory('Antique Ceramics')" id="cat_Antique Ceramics" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200">Ceramics</button>
-                <button onclick="setCategory('Jade')" id="cat_Jade" class="cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200">Jade</button>
+            <!-- Nested Folder Categories System -->
+            <div class="mt-6 max-w-xl mx-auto">
+                <div class="flex items-center justify-between bg-white border border-slate-200 rounded-xl p-2.5 shadow-xs cursor-pointer" onclick="toggleFolderMenu()">
+                    <span class="text-xs font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-folder-tree text-pi-600"></i> <span id="folderLabel">📂 Thư Mục Danh Mục (Bấm để bung/thu gọn)</span>
+                    </span>
+                    <i id="folderArrow" class="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform"></i>
+                </div>
+
+                <!-- Sub-folders Container (Collapsible) -->
+                <div id="folderSubMenu" class="hidden mt-2 bg-white border border-slate-200 rounded-xl p-3 shadow-md grid grid-cols-2 gap-2 text-left">
+                    <button onclick="setCategory('ALL')" class="sub-cat-btn p-2 rounded-lg text-xs font-medium bg-pi-50 text-pi-700 hover:bg-pi-100 transition flex items-center gap-2">
+                        <i class="fa-solid fa-folder-open"></i> Tất cả thư mục
+                    </button>
+                    <button onclick="setCategory('Real Estate')" class="sub-cat-btn p-2 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 transition flex items-center gap-2">
+                        <i class="fa-solid fa-building text-pi-500"></i> Bất động sản
+                    </button>
+                    <button onclick="setCategory('Antique Ceramics')" class="sub-cat-btn p-2 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 transition flex items-center gap-2">
+                        <i class="fa-solid fa-vase text-amber-500"></i> Gốm sứ cổ
+                    </button>
+                    <button onclick="setCategory('Jade')" class="sub-cat-btn p-2 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 transition flex items-center gap-2">
+                        <i class="fa-solid fa-gem text-emerald-500"></i> Ngọc hoàng gia
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -121,7 +137,7 @@
     <!-- Marketplace Grid -->
     <main id="marketplace" class="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="font-bold text-slate-900 text-base">Verified Assets</h3>
+            <h3 class="font-bold text-slate-900 text-base" id="currentFolderTitle">Verified Assets (Tất cả)</h3>
             <select id="sortBy" onchange="sortAssets()" class="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs">
                 <option value="newest">Newest</option>
                 <option value="price-asc">Price: Low to High</option>
@@ -201,6 +217,13 @@
 
         window.onload = function() { renderAssets(assets); };
 
+        function toggleFolderMenu() {
+            const menu = document.getElementById('folderSubMenu');
+            const arrow = document.getElementById('folderArrow');
+            menu.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
         function renderAssets(list) {
             const grid = document.getElementById('assetsGrid');
             const empty = document.getElementById('emptyState');
@@ -235,8 +258,8 @@
 
         function setCategory(cat) {
             currentCategory = cat;
-            document.querySelectorAll('.cat-btn').forEach(b => b.className = "cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-white text-slate-600 border border-slate-200");
-            document.getElementById(`cat_${cat}`).className = "cat-btn px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-pi-600 text-white shadow-xs";
+            document.getElementById('currentFolderTitle').innerText = `Verified Assets (${cat === 'ALL' ? 'Tất cả' : cat})`;
+            toggleFolderMenu();
             filterAssets();
         }
 
@@ -244,6 +267,7 @@
             document.getElementById('searchInput').value = '';
             document.getElementById('regionFilter').value = 'ALL';
             currentCategory = 'ALL';
+            document.getElementById('currentFolderTitle').innerText = `Verified Assets (Tất cả)`;
             renderAssets(assets);
         }
 
