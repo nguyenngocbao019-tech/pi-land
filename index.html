@@ -1,4 +1,184 @@
-{
-  "language": "HTML",
-  "query": "Tạo giao diện web Sàn Giao Dịch Kỹ Thuật Số Toàn Cầu (Global DEX) mô phỏng chính xác bố cục ứng dụng Sidra DEX từ hình ảnh đính kèm nhưng với giao diện nền sáng rực rỡ (Light Mode) và phối màu sắc sinh động:\n\n1. Header Topbar:\n- Thương hiệu: MẠNG LƯỚI GIAO DỊCH KỸ THUẬT SỐ TOÀN CẦU (GLOBAL DIGITAL DEX).\n- Thông tin tài khoản kết nối ví Pi: @Abao1985 (Đã KYC Mainnet, Quỹ bảo chứng 500,000 Pi).\n- Các nút hành động rực rỡ màu sắc: Swap Token (Màu Tím), Quỹ Reserve (Màu Vàng Gold), Niêm Yết Tài Sản RWA Toàn Cầu (Màu Xanh Lục Bảo).\n\n2. Khung Tỷ Giá Lớn Đầu Trang (Thẻ Vàng Kim Bảo Pro - 1 SDA = $409.17 USD):\n- Bố cục y hệt hình chụp: Giá lớn $409.17 USD, trạng thái 'waiting for price history', dropdown Base pair: SDA / PI / USD.\n- Đoạn thông tin mô tả Live Pool sUSDT.\n\n3. Thanh Quét Tiến Trình Scanning Token:\n- 'Scanning 40 / 89' (45%) với thanh progress bar rực rỡ và nút 'Stop scan' viền đỏ hồng sáng.\n\n4. Ô Tìm Kiếm Token & Dàn Nút Lọc Đủ Màu Sắc:\n- Ô search 'Search token, e.g. PI, BTC, FREET...'.\n- Nút 'All' (Màu Vàng Cam rực rỡ), 'Gainers' (Màu Xanh Lục Bảo), 'Losers' (Màu Đỏ Hồng), '★ Yêu thích' (Màu Tím Thạch Anh), 'Global RWA' (Màu Xanh Dương Hoàng Gia).\n\n5. Danh Sách Token Niêm Yết Đa Dạng (Có Logo Tròn & Giá Trị Realtime):\n- 1. REGS / SDA (REGs Global) - 2.5103 SDA ($1,006.67)\n- 2. GLNs / SDA (Global Logistics Network) - 1.9997 SDA ($801.93)\n- 3. FREET / SDA (Freelancium) - 1.599 SDA ($641.22)\n- 4. AIR / SDA (AirLand) - 1.5272 SDA ($612.44)\n- 5. WSDA / SDA (Wrapped SDA) - 1 SDA ($409.17)\n- 6. PI / USD (Pi Network Global) - $314,159 USD (+12.5%)\n- 7. BTC / USD (Bitcoin Global) - $68,450 USD (+3.2%)\n- 8. ETH / USD (Ethereum Global) - $3,520 USD (+2.1%)\n- 9. TKC / USD (Tikcoin Global) - $0.85 USD (+5.4%)\n- 10. G$ / USD (GoodDollar Global) - $0.0021 USD (+1.1%)\n\n6. Bảng Điều Khiển Tài Sản Thực Toàn Cầu (Global RWA Marketplace):\n- Phân loại danh mục chuẩn quốc tế: BĐS Đô Thị Toàn Cầu (Global Real Estate), Cổ Vật Gốm Sứ Quốc Tế (Global Antique Ceramics), Kim Bảo & Ngọc Quý Toàn Cầu (Global Gems & Jewels).\n\n7. Cài đặt hiệu ứng tương tác JavaScript: Click chọn cặp giao dịch, bấm nút lọc danh mục, mở modal Swap/Ký quỹ/Đăng tin."
-}
+<!DOCTYPE html>
+<html lang="vi" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Land & Property - QFS Real Estate Exchange</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 pb-12">
+
+    <!-- TOP HEADER BAR -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-xs">
+        <div class="max-w-xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center font-extrabold text-lg shadow-sm">
+                    <i class="fa-solid fa-building-circle-check"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-xs uppercase text-slate-900 leading-tight">PI LAND & PROPERTY</h1>
+                    <p class="text-[10px] text-blue-600 font-bold">QFS Real Estate & Global Escrow</p>
+                </div>
+            </div>
+            
+            <button onclick="openModal('walletModal')" class="bg-indigo-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs flex items-center gap-1.5 hover:bg-indigo-700 transition">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Ví QFS Land</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-xl mx-auto p-4 space-y-4">
+
+        <!-- CARD LAND & STAKING BANNER (NỀN XANH DƯƠNG QUYỀN LỰC QFS) -->
+        <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900 text-white rounded-3xl p-5 shadow-lg relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
+            
+            <div class="flex justify-between items-start mb-1">
+                <span class="text-xs font-bold text-blue-200">ACTIVELY STAKED VAULT</span>
+                <span class="text-[10px] bg-amber-400 text-slate-900 px-2 py-0.5 rounded-full font-extrabold">QFS VERIFIED</span>
+            </div>
+
+            <div class="text-3xl font-black font-mono tracking-tight text-white mb-1">500,000.00 Pi</div>
+            <p class="text-[11px] text-slate-300 font-medium mb-3">Quỹ bảo chứng BĐS & Tài sản số hoá toàn cầu</p>
+
+            <div class="grid grid-cols-2 gap-2 border-t border-slate-700/60 pt-3">
+                <button onclick="showToast('Đang mở cổng Stake Pi Boost...')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-2 rounded-xl text-xs transition shadow-sm">
+                    <i class="fa-solid fa-bolt mr-1"></i> Stake to Boost
+                </button>
+                <button onclick="openModal('walletModal')" class="bg-white/10 hover:bg-white/20 text-white font-bold py-2 rounded-xl text-xs transition border border-white/20">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> Kiểm tra Ví QFS
+                </button>
+            </div>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
+            <input type="text" placeholder="Tìm kiếm BĐS, Đất thổ cư, Biệt thự toàn cầu..." class="w-full bg-white border border-slate-200 rounded-2xl pl-9 pr-4 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs">
+        </div>
+
+        <!-- VIBRANT COLOR CATEGORY BUTTONS (NÚT BẤM RỰC RỠ) -->
+        <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-extrabold whitespace-nowrap">
+            <button onclick="filterLand('ALL')" class="bg-blue-600 text-white px-4 py-2 rounded-xl shadow-xs">Tất Cả</button>
+            <button onclick="filterLand('BĐS Đô Thị')" class="bg-emerald-600 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-city mr-1"></i> BĐS Đô Thị</button>
+            <button onclick="filterLand('Đất Nền')" class="bg-amber-500 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-map-location-dot mr-1"></i> Đất Nền Dự Án</button>
+            <button onclick="filterLand('Cổ Vật')" class="bg-purple-600 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-gem mr-1"></i> Bảo Vật & Ngọc</button>
+            <button onclick="filterLand('Nông Nghiệp')" class="bg-rose-600 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-wheat-awn mr-1"></i> Trang Trại RWA</button>
+        </div>
+
+        <!-- LISTING PROPERTY CARDS (DANH SÁCH BĐS & TÀI SẢN TOÀN CẦU) -->
+        <div id="landGrid" class="space-y-3">
+            <!-- Property Item 1 -->
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs hover:shadow-md transition">
+                <div class="flex gap-3">
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" class="w-24 h-24 object-cover rounded-xl shrink-0">
+                    <div class="flex flex-col justify-between flex-1">
+                        <div>
+                            <span class="text-[9px] bg-blue-100 text-blue-800 font-extrabold px-2 py-0.5 rounded-full">BĐS Đô Thị</span>
+                            <h3 class="font-extrabold text-xs text-slate-900 mt-1 line-clamp-1">Khu Đô Thị Mặt Tiền Sông Toàn Cầu</h3>
+                            <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5">Sổ hồng vĩnh viễn, hạ tầng chuẩn QFS, hỗ trợ cọc bằng Pi.</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-2 pt-1 border-t border-slate-100">
+                            <span class="text-emerald-700 font-black text-sm font-mono">10.00 Pi</span>
+                            <button onclick="showToast('Đã gửi yêu cầu Escrow BĐS!')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg">Ký Quỹ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Item 2 -->
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs hover:shadow-md transition">
+                <div class="flex gap-3">
+                    <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" class="w-24 h-24 object-cover rounded-xl shrink-0">
+                    <div class="flex flex-col justify-between flex-1">
+                        <div>
+                            <span class="text-[9px] bg-purple-100 text-purple-800 font-extrabold px-2 py-0.5 rounded-full">Bảo Vật & Ngọc</span>
+                            <h3 class="font-extrabold text-xs text-slate-900 mt-1 line-clamp-1">Bình Gốm Sứ Cổ Triều Đại Hoàng Gia</h3>
+                            <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5">Cổ vật sưu tầm nguyên bản, kiểm định chứng nhận quốc tế.</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-2 pt-1 border-t border-slate-100">
+                            <span class="text-emerald-700 font-black text-sm font-mono">180.00 Pi</span>
+                            <button onclick="showToast('Đã gửi yêu cầu Escrow Cổ Vật!')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg">Ký Quỹ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Property Item 3 -->
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs hover:shadow-md transition">
+                <div class="flex gap-3">
+                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=300&q=80" class="w-24 h-24 object-cover rounded-xl shrink-0">
+                    <div class="flex flex-col justify-between flex-1">
+                        <div>
+                            <span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-2 py-0.5 rounded-full">Đất Nền</span>
+                            <h3 class="font-extrabold text-xs text-slate-900 mt-1 line-clamp-1">Mặt Ngọc Phỉ Thúy & Thiên Châu Tây Tạng</h3>
+                            <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5">Bảo vật phong thủy quý hiếm kèm mã định danh QFS.</p>
+                        </div>
+                        <div class="flex justify-between items-center mt-2 pt-1 border-t border-slate-100">
+                            <span class="text-emerald-700 font-black text-sm font-mono">320.00 Pi</span>
+                            <button onclick="showToast('Đã gửi yêu cầu Escrow!')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg">Ký Quỹ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- WALLET MODAL QFS -->
+    <div id="walletModal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 relative shadow-2xl text-xs space-y-4">
+            <button onclick="closeModal('walletModal')" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
+            
+            <div class="flex items-center gap-3 border-b pb-3">
+                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-black flex items-center justify-center text-sm border border-blue-300">
+                    BP
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm">Bảo Pi (@Abao1985)</h3>
+                    <span class="bg-blue-100 text-blue-800 text-[9px] px-2 py-0.5 rounded-full font-bold">✓ QFS LAND VERIFIED</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2 font-mono">
+                <div class="text-[10px] text-slate-400 font-sans font-bold">ĐỊA CHỈ VÍ QFS LAND:</div>
+                <div class="text-[11px] font-bold text-slate-800 break-all">0xa6Bb6...97ED1</div>
+                <div class="text-[10px] text-indigo-600 font-sans font-bold pt-1 border-t border-slate-200 flex justify-between">
+                    <span>Số Dư Khả Dụng:</span>
+                    <strong>10,000.00 Pi</strong>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 font-bold">
+                <button onclick="showToast('Đang mở cổng Nạp QFS...')" class="bg-blue-600 text-white py-2.5 rounded-xl">NẠP PI</button>
+                <button onclick="showToast('Đang kết nối cổng Rút...')" class="bg-slate-900 text-white py-2.5 rounded-xl">RÚT VỀ VÍ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-4 py-3 rounded-2xl text-xs z-50 transform translate-y-20 opacity-0 transition-all duration-300 font-bold shadow-2xl">
+        <span id="toastMsg">Thành công</span>
+    </div>
+
+    <script>
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            t.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
+        function filterLand(cat) { showToast('Đã lọc danh mục: ' + cat); }
+    </script>
+</body>
+</html>
