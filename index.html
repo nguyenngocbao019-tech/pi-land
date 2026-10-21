@@ -1,184 +1,428 @@
 <!DOCTYPE html>
-<html lang="vi" class="light">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pi Land & Property - QFS Real Estate Exchange</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decentralized Exchange (DEX)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { background-color: #0b0e14; color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
+    .modal-backdrop { background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(6px); }
+    .glass-card { background: rgba(22, 27, 38, 0.9); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-input { background: rgba(13, 17, 23, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
 </head>
-<body class="min-h-screen bg-slate-50 pb-12">
+<body class="min-h-screen flex flex-col justify-between items-center p-4">
 
-    <!-- TOP HEADER BAR -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-xs">
-        <div class="max-w-xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-700 text-white flex items-center justify-center font-extrabold text-lg shadow-sm">
-                    <i class="fa-solid fa-building-circle-check"></i>
-                </div>
-                <div>
-                    <h1 class="font-extrabold text-xs uppercase text-slate-900 leading-tight">PI LAND & PROPERTY</h1>
-                    <p class="text-[10px] text-blue-600 font-bold">QFS Real Estate & Global Escrow</p>
-                </div>
-            </div>
-            
-            <button onclick="openModal('walletModal')" class="bg-indigo-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-xs flex items-center gap-1.5 hover:bg-indigo-700 transition">
-                <i class="fa-solid fa-wallet"></i>
-                <span>Ví QFS Land</span>
-            </button>
-        </div>
-    </header>
-
-    <main class="max-w-xl mx-auto p-4 space-y-4">
-
-        <!-- CARD LAND & STAKING BANNER (NỀN XANH DƯƠNG QUYỀN LỰC QFS) -->
-        <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-900 text-white rounded-3xl p-5 shadow-lg relative overflow-hidden">
-            <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
-            
-            <div class="flex justify-between items-start mb-1">
-                <span class="text-xs font-bold text-blue-200">ACTIVELY STAKED VAULT</span>
-                <span class="text-[10px] bg-amber-400 text-slate-900 px-2 py-0.5 rounded-full font-extrabold">QFS VERIFIED</span>
-            </div>
-
-            <div class="text-3xl font-black font-mono tracking-tight text-white mb-1">500,000.00 Pi</div>
-            <p class="text-[11px] text-slate-300 font-medium mb-3">Quỹ bảo chứng BĐS & Tài sản số hoá toàn cầu</p>
-
-            <div class="grid grid-cols-2 gap-2 border-t border-slate-700/60 pt-3">
-                <button onclick="showToast('Đang mở cổng Stake Pi Boost...')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-2 rounded-xl text-xs transition shadow-sm">
-                    <i class="fa-solid fa-bolt mr-1"></i> Stake to Boost
-                </button>
-                <button onclick="openModal('walletModal')" class="bg-white/10 hover:bg-white/20 text-white font-bold py-2 rounded-xl text-xs transition border border-white/20">
-                    <i class="fa-solid fa-shield-halved mr-1"></i> Kiểm tra Ví QFS
-                </button>
-            </div>
-        </div>
-
-        <!-- SEARCH BAR -->
-        <div class="relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
-            <input type="text" placeholder="Tìm kiếm BĐS, Đất thổ cư, Biệt thự toàn cầu..." class="w-full bg-white border border-slate-200 rounded-2xl pl-9 pr-4 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs">
-        </div>
-
-        <!-- VIBRANT COLOR CATEGORY BUTTONS (NÚT BẤM RỰC RỠ) -->
-        <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-extrabold whitespace-nowrap">
-            <button onclick="filterLand('ALL')" class="bg-blue-600 text-white px-4 py-2 rounded-xl shadow-xs">Tất Cả</button>
-            <button onclick="filterLand('BĐS Đô Thị')" class="bg-emerald-600 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-city mr-1"></i> BĐS Đô Thị</button>
-            <button onclick="filterLand('Đất Nền')" class="bg-amber-500 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-map-location-dot mr-1"></i> Đất Nền Dự Án</button>
-            <button onclick="filterLand('Cổ Vật')" class="bg-purple-600 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-gem mr-1"></i> Bảo Vật & Ngọc</button>
-            <button onclick="filterLand('Nông Nghiệp')" class="bg-rose-600 text-white px-4 py-2 rounded-xl shadow-xs"><i class="fa-solid fa-wheat-awn mr-1"></i> Trang Trại RWA</button>
-        </div>
-
-        <!-- LISTING PROPERTY CARDS (DANH SÁCH BĐS & TÀI SẢN TOÀN CẦU) -->
-        <div id="landGrid" class="space-y-3">
-            <!-- Property Item 1 -->
-            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs hover:shadow-md transition">
-                <div class="flex gap-3">
-                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" class="w-24 h-24 object-cover rounded-xl shrink-0">
-                    <div class="flex flex-col justify-between flex-1">
-                        <div>
-                            <span class="text-[9px] bg-blue-100 text-blue-800 font-extrabold px-2 py-0.5 rounded-full">BĐS Đô Thị</span>
-                            <h3 class="font-extrabold text-xs text-slate-900 mt-1 line-clamp-1">Khu Đô Thị Mặt Tiền Sông Toàn Cầu</h3>
-                            <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5">Sổ hồng vĩnh viễn, hạ tầng chuẩn QFS, hỗ trợ cọc bằng Pi.</p>
-                        </div>
-                        <div class="flex justify-between items-center mt-2 pt-1 border-t border-slate-100">
-                            <span class="text-emerald-700 font-black text-sm font-mono">10.00 Pi</span>
-                            <button onclick="showToast('Đã gửi yêu cầu Escrow BĐS!')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg">Ký Quỹ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Property Item 2 -->
-            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs hover:shadow-md transition">
-                <div class="flex gap-3">
-                    <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" class="w-24 h-24 object-cover rounded-xl shrink-0">
-                    <div class="flex flex-col justify-between flex-1">
-                        <div>
-                            <span class="text-[9px] bg-purple-100 text-purple-800 font-extrabold px-2 py-0.5 rounded-full">Bảo Vật & Ngọc</span>
-                            <h3 class="font-extrabold text-xs text-slate-900 mt-1 line-clamp-1">Bình Gốm Sứ Cổ Triều Đại Hoàng Gia</h3>
-                            <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5">Cổ vật sưu tầm nguyên bản, kiểm định chứng nhận quốc tế.</p>
-                        </div>
-                        <div class="flex justify-between items-center mt-2 pt-1 border-t border-slate-100">
-                            <span class="text-emerald-700 font-black text-sm font-mono">180.00 Pi</span>
-                            <button onclick="showToast('Đã gửi yêu cầu Escrow Cổ Vật!')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg">Ký Quỹ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Property Item 3 -->
-            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs hover:shadow-md transition">
-                <div class="flex gap-3">
-                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=300&q=80" class="w-24 h-24 object-cover rounded-xl shrink-0">
-                    <div class="flex flex-col justify-between flex-1">
-                        <div>
-                            <span class="text-[9px] bg-amber-100 text-amber-800 font-extrabold px-2 py-0.5 rounded-full">Đất Nền</span>
-                            <h3 class="font-extrabold text-xs text-slate-900 mt-1 line-clamp-1">Mặt Ngọc Phỉ Thúy & Thiên Châu Tây Tạng</h3>
-                            <p class="text-[10px] text-slate-500 line-clamp-2 mt-0.5">Bảo vật phong thủy quý hiếm kèm mã định danh QFS.</p>
-                        </div>
-                        <div class="flex justify-between items-center mt-2 pt-1 border-t border-slate-100">
-                            <span class="text-emerald-700 font-black text-sm font-mono">320.00 Pi</span>
-                            <button onclick="showToast('Đã gửi yêu cầu Escrow!')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold px-3 py-1 rounded-lg">Ký Quỹ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- WALLET MODAL QFS -->
-    <div id="walletModal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-3xl max-w-sm w-full p-5 relative shadow-2xl text-xs space-y-4">
-            <button onclick="closeModal('walletModal')" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark text-lg"></i></button>
-            
-            <div class="flex items-center gap-3 border-b pb-3">
-                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-700 font-black flex items-center justify-center text-sm border border-blue-300">
-                    BP
-                </div>
-                <div>
-                    <h3 class="font-extrabold text-slate-900 text-sm">Bảo Pi (@Abao1985)</h3>
-                    <span class="bg-blue-100 text-blue-800 text-[9px] px-2 py-0.5 rounded-full font-bold">✓ QFS LAND VERIFIED</span>
-                </div>
-            </div>
-
-            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2 font-mono">
-                <div class="text-[10px] text-slate-400 font-sans font-bold">ĐỊA CHỈ VÍ QFS LAND:</div>
-                <div class="text-[11px] font-bold text-slate-800 break-all">0xa6Bb6...97ED1</div>
-                <div class="text-[10px] text-indigo-600 font-sans font-bold pt-1 border-t border-slate-200 flex justify-between">
-                    <span>Số Dư Khả Dụng:</span>
-                    <strong>10,000.00 Pi</strong>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2 font-bold">
-                <button onclick="showToast('Đang mở cổng Nạp QFS...')" class="bg-blue-600 text-white py-2.5 rounded-xl">NẠP PI</button>
-                <button onclick="showToast('Đang kết nối cổng Rút...')" class="bg-slate-900 text-white py-2.5 rounded-xl">RÚT VỀ VÍ</button>
-            </div>
-        </div>
+  <!-- 1. HEADER / THANH ĐIỀU HƯỚNG -->
+  <header class="w-full max-w-6xl flex justify-between items-center py-3 px-6 glass-card rounded-2xl mb-6 shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">⚡</div>
+      <span class="font-extrabold text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">DEX SWAP</span>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-4 py-3 rounded-2xl text-xs z-50 transform translate-y-20 opacity-0 transition-all duration-300 font-bold shadow-2xl">
-        <span id="toastMsg">Thành công</span>
+    <!-- Tabs chuyển đổi -->
+    <div class="flex space-x-2 bg-slate-900/80 p-1.5 rounded-xl border border-white/5">
+      <button onclick="switchTab('swap')" id="tab-swap" class="px-5 py-2 rounded-lg font-semibold text-sm transition bg-blue-600 text-white shadow">Swap</button>
+      <button onclick="switchTab('pool')" id="tab-pool" class="px-5 py-2 rounded-lg font-semibold text-sm transition text-gray-400 hover:text-white">Pool (Thanh khoản)</button>
     </div>
 
-    <script>
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
-            t.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => t.classList.add('translate-y-20', 'opacity-0'), 3000);
-        }
-        function filterLand(cat) { showToast('Đã lọc danh mục: ' + cat); }
-    </script>
+    <!-- Nút chọn mạng & Connect Wallet -->
+    <div class="flex items-center space-x-3">
+      <button onclick="openModal('network-modal')" class="hidden sm:flex items-center space-x-2 px-3 py-2 glass-input rounded-xl hover:border-blue-500 transition">
+        <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+        <span id="current-network-name" class="text-xs font-semibold">BNB Chain</span>
+        <i class="fa-solid font-xs fa-chevron-down text-gray-400 text-xs"></i>
+      </button>
+
+      <button id="btn-connect-wallet" onclick="openModal('wallet-modal')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 px-5 py-2.5 rounded-xl font-bold text-sm shadow-md transition flex items-center space-x-2">
+        <i class="fa-solid fa-wallet"></i>
+        <span id="wallet-btn-text">Connect Wallet</span>
+      </button>
+
+      <button onclick="openModal('settings-modal')" class="p-2.5 glass-input rounded-xl hover:border-blue-500 text-gray-300 transition">
+        <i class="fa-solid fa-gear"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="w-full max-w-md my-auto">
+    
+    <!-- KHUNG TAB 1: SWAP HOÁN ĐỔI -->
+    <div id="section-swap" class="glass-card rounded-3xl p-5 shadow-2xl relative">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-bold text-lg text-gray-200">Hoán đổi Token</h2>
+        <div class="flex items-center space-x-2">
+          <button onclick="openModal('chart-modal')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 text-blue-400 hover:bg-slate-700 transition flex items-center space-x-1">
+            <i class="fa-solid fa-chart-line"></i> <span>Biểu đồ</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Token Đưa vào (Pay) -->
+      <div class="glass-input p-4 rounded-2xl mb-2 hover:border-slate-600 transition">
+        <div class="flex justify-between text-xs text-gray-400 mb-2">
+          <span>Bạn gửi</span>
+          <span>Số dư: <span id="pay-balance">1.4500</span></span>
+        </div>
+        <div class="flex items-center justify-between space-x-2">
+          <input type="number" id="pay-amount" placeholder="0.0" oninput="calculateSwap()" class="bg-transparent text-2xl font-bold w-full outline-none text-white">
+          <button onclick="openModal('token-modal-pay')" class="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl transition border border-white/10 shrink-0">
+            <span id="pay-token-symbol" class="font-bold text-sm">BNB</span>
+            <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Nút Đảo Chiều Swap -->
+      <div class="flex justify-center -my-3 relative z-10">
+        <button onclick="swapTokensDirection()" class="bg-slate-800 hover:bg-blue-600 text-gray-300 hover:text-white p-2.5 rounded-xl border border-slate-700 transition shadow-lg">
+          <i class="fa-solid fa-arrow-down-up"></i>
+        </button>
+      </div>
+
+      <!-- Token Nhận về (Receive) -->
+      <div class="glass-input p-4 rounded-2xl mt-2 mb-4 hover:border-slate-600 transition">
+        <div class="flex justify-between text-xs text-gray-400 mb-2">
+          <span>Bạn nhận (ước tính)</span>
+          <span>Số dư: <span id="receive-balance">0.00</span></span>
+        </div>
+        <div class="flex items-center justify-between space-x-2">
+          <input type="number" id="receive-amount" placeholder="0.0" readonly class="bg-transparent text-2xl font-bold w-full outline-none text-gray-300">
+          <button onclick="openModal('token-modal-receive')" class="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-xl transition border border-white/10 shrink-0">
+            <span id="receive-token-symbol" class="font-bold text-sm">USDT</span>
+            <i class="fa-solid fa-chevron-down text-xs text-gray-400"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chi tiết tỷ giá / Phí -->
+      <div class="text-xs text-gray-400 space-y-1 px-2 mb-5">
+        <div class="flex justify-between">
+          <span>Tỷ giá:</span>
+          <span id="exchange-rate" class="text-gray-200">1 BNB ≈ 600 USDT</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Tác động giá (Price Impact):</span>
+          <span class="text-green-400">< 0.01%</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Phí mạng ước tính:</span>
+          <span class="text-gray-300">~$0.15</span>
+        </div>
+      </div>
+
+      <!-- Nút bấm chính Thực hiện Swap -->
+      <button onclick="openModal('confirm-swap-modal')" class="w-full py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-bold text-lg text-white shadow-lg transition">
+        Xác nhận Hoán đổi (Swap)
+      </button>
+    </div>
+
+    <!-- KHUNG TAB 2: POOL (THANH KHOẢN) -->
+    <div id="section-pool" class="glass-card rounded-3xl p-5 shadow-2xl hidden">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-bold text-lg text-gray-200">Hồ thanh khoản (Liquidity Pools)</h2>
+        <button onclick="openModal('add-liquidity-modal')" class="bg-blue-600 hover:bg-blue-500 text-xs px-3 py-2 rounded-xl font-bold text-white transition">
+          + Thêm Thanh Khoản
+        </button>
+      </div>
+
+      <div class="glass-input p-4 rounded-2xl text-center py-8 text-gray-400">
+        <i class="fa-solid fa-droplet text-3xl mb-2 text-blue-400"></i>
+        <p class="text-sm">Chưa có vị thế thanh khoản nào.</p>
+        <p class="text-xs mt-1 text-gray-500">Thêm thanh khoản để nhận phí giao dịch 0.25%.</p>
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- ==================== HỆ THỐNG CÁC CỬA SỔ POP-UP (MODALS) ==================== -->
+
+  <!-- 1. CỬA SỔ KẾT NỐI VÍ (Connect Wallet Modal) -->
+  <div id="wallet-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm rounded-3xl p-6 relative animate-fade-in">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="font-bold text-lg">Kết nối Ví</h3>
+        <button onclick="closeModal('wallet-modal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="space-y-2.5">
+        <button onclick="connectWallet('MetaMask')" class="w-full flex items-center justify-between p-3.5 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="font-semibold text-sm">MetaMask</span>
+          <span class="text-xl">🦊</span>
+        </button>
+        <button onclick="connectWallet('Bitget Wallet')" class="w-full flex items-center justify-between p-3.5 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="font-semibold text-sm">Bitget Wallet</span>
+          <span class="text-xl">💙</span>
+        </button>
+        <button onclick="connectWallet('OneKey Wallet')" class="w-full flex items-center justify-between p-3.5 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="font-semibold text-sm">OneKey Wallet</span>
+          <span class="text-xl">🔑</span>
+        </button>
+        <button onclick="connectWallet('Pi Wallet')" class="w-full flex items-center justify-between p-3.5 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="font-semibold text-sm">Pi Browser / Wallet</span>
+          <span class="text-xl">🟣</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CỬA SỔ ĐỔI MẠNG LƯỚI (Network Selector Modal) -->
+  <div id="network-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="font-bold text-lg">Chọn Mạng Lưới</h3>
+        <button onclick="closeModal('network-modal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="space-y-2">
+        <button onclick="selectNetwork('BNB Chain')" class="w-full flex items-center space-x-3 p-3 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+          <span class="font-semibold text-sm">BNB Smart Chain</span>
+        </button>
+        <button onclick="selectNetwork('Sidra Chain')" class="w-full flex items-center space-x-3 p-3 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+          <span class="font-semibold text-sm">Sidra Chain</span>
+        </button>
+        <button onclick="selectNetwork('Pi Mainnet')" class="w-full flex items-center space-x-3 p-3 glass-input rounded-2xl hover:border-blue-500 transition">
+          <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+          <span class="font-semibold text-sm">Pi Network Mainnet</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CỬA SỔ CHỌN TOKEN + DÁN CONTRACT (Token Selector Modal) -->
+  <div id="token-modal-pay" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-md rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg">Chọn Token Gửi</h3>
+        <button onclick="closeModal('token-modal-pay')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <input type="text" placeholder="Tìm tên hoặc dán Địa chỉ Hợp đồng (Contract 0x...)" class="w-full p-3 mb-4 glass-input rounded-xl text-sm outline-none focus:border-blue-500">
+      <div class="space-y-2 max-h-60 overflow-y-auto">
+        <div onclick="selectPayToken('BNB')" class="flex justify-between items-center p-3 hover:bg-slate-800/80 rounded-xl cursor-pointer">
+          <div class="flex items-center space-x-3"><span class="font-bold">BNB</span><span class="text-xs text-gray-400">BNB Token</span></div>
+          <span class="text-xs text-gray-400">1.4500</span>
+        </div>
+        <div onclick="selectPayToken('USDT')" class="flex justify-between items-center p-3 hover:bg-slate-800/80 rounded-xl cursor-pointer">
+          <div class="flex items-center space-x-3"><span class="font-bold">USDT</span><span class="text-xs text-gray-400">Tether USD</span></div>
+          <span class="text-xs text-gray-400">250.00</span>
+        </div>
+        <div onclick="selectPayToken('SDA')" class="flex justify-between items-center p-3 hover:bg-slate-800/80 rounded-xl cursor-pointer">
+          <div class="flex items-center space-x-3"><span class="font-bold">SDA</span><span class="text-xs text-gray-400">Sidra Coin</span></div>
+          <span class="text-xs text-gray-400">30.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="token-modal-receive" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-md rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg">Chọn Token Nhận</h3>
+        <button onclick="closeModal('token-modal-receive')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <input type="text" placeholder="Tìm tên hoặc dán Địa chỉ Hợp đồng (Contract 0x...)" class="w-full p-3 mb-4 glass-input rounded-xl text-sm outline-none focus:border-blue-500">
+      <div class="space-y-2 max-h-60 overflow-y-auto">
+        <div onclick="selectReceiveToken('USDT')" class="flex justify-between items-center p-3 hover:bg-slate-800/80 rounded-xl cursor-pointer">
+          <div class="flex items-center space-x-3"><span class="font-bold">USDT</span><span class="text-xs text-gray-400">Tether USD</span></div>
+          <span class="text-xs text-gray-400">250.00</span>
+        </div>
+        <div onclick="selectReceiveToken('BNB')" class="flex justify-between items-center p-3 hover:bg-slate-800/80 rounded-xl cursor-pointer">
+          <div class="flex items-center space-x-3"><span class="font-bold">BNB</span><span class="text-xs text-gray-400">BNB Token</span></div>
+          <span class="text-xs text-gray-400">1.4500</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CỬA SỔ CÀI ĐẶT SLIPPAGE & DEADLINE (Settings Modal) -->
+  <div id="settings-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="font-bold text-lg">Cài Đặt Giao Dịch</h3>
+        <button onclick="closeModal('settings-modal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="mb-4">
+        <label class="text-xs text-gray-400 block mb-2">Độ trượt giá cho phép (Slippage Tolerance)</label>
+        <div class="flex space-x-2">
+          <button class="px-3 py-1.5 glass-input rounded-lg text-xs font-bold hover:border-blue-500">0.1%</button>
+          <button class="px-3 py-1.5 bg-blue-600 rounded-lg text-xs font-bold">0.5%</button>
+          <button class="px-3 py-1.5 glass-input rounded-lg text-xs font-bold hover:border-blue-500">1.0%</button>
+          <input type="number" placeholder="Custom" class="w-20 px-2 py-1.5 glass-input rounded-lg text-xs text-center outline-none">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-gray-400 block mb-2">Thời gian hủy giao dịch (Deadline)</label>
+        <div class="flex items-center space-x-2">
+          <input type="number" value="20" class="w-20 p-2 glass-input rounded-lg text-xs text-center outline-none">
+          <span class="text-xs text-gray-400">phút</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CỬA SỔ XÁC NHẬN HOÁN ĐỔI (Confirm Swap Modal) -->
+  <div id="confirm-swap-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-md rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg">Xác nhận Giao dịch</h3>
+        <button onclick="closeModal('confirm-swap-modal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="glass-input p-4 rounded-2xl mb-4 space-y-3">
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-400">Bạn gửi:</span>
+          <span class="font-bold text-white" id="confirm-pay-text">1.0 BNB</span>
+        </div>
+        <div class="text-center text-blue-400"><i class="fa-solid fa-arrow-down"></i></div>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-400">Bạn nhận ước tính:</span>
+          <span class="font-bold text-green-400" id="confirm-receive-text">600.0 USDT</span>
+        </div>
+      </div>
+      <button onclick="executeSwap()" class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 rounded-xl font-bold text-white shadow-lg transition">
+        Chấp nhận & Ký Duyệt Ví
+      </button>
+    </div>
+  </div>
+
+  <!-- 6. CỬA SỔ TRẠNG THÁI GIAO DỊCH (Pending & Success Modal) -->
+  <div id="status-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-sm rounded-3xl p-6 text-center relative">
+      <div id="status-loading" class="py-6">
+        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <h4 class="font-bold text-base mb-1">Đang chờ xác thực trên Ví...</h4>
+        <p class="text-xs text-gray-400">Vui lòng mở ứng dụng Ví để ký chấp nhận giao dịch.</p>
+      </div>
+      <div id="status-success" class="py-6 hidden">
+        <div class="w-12 h-12 bg-green-500/20 text-green-400 text-2xl flex items-center justify-center rounded-full mx-auto mb-4">✓</div>
+        <h4 class="font-bold text-base mb-1">Giao dịch Hoàn tất!</h4>
+        <p class="text-xs text-gray-400 mb-4">Mã giao dịch đã được ghi nhận trên Blockchain.</p>
+        <button onclick="closeModal('status-modal')" class="px-6 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-white">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. CỬA SỔ BIỂU ĐỒ NẾN TRADINGVIEW (Chart Modal) -->
+  <div id="chart-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-3xl rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg">Biểu Đồ Tỷ Giá Realtime (BNB/USDT)</h3>
+        <button onclick="closeModal('chart-modal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="w-full h-80 bg-slate-900 rounded-2xl flex items-center justify-center border border-white/5 text-gray-500 text-sm">
+        [ Khung kết nối TradingView Realtime Chart ]
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. CỬA SỔ THÊM THANH KHOẢN (Add Liquidity Modal) -->
+  <div id="add-liquidity-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-md rounded-3xl p-6 relative">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg">Thêm Thanh Khoản Pool</h3>
+        <button onclick="closeModal('add-liquidity-modal')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="space-y-3 mb-4">
+        <input type="number" placeholder="Số lượng BNB" class="w-full p-3 glass-input rounded-xl text-sm outline-none">
+        <input type="number" placeholder="Số lượng USDT" class="w-full p-3 glass-input rounded-xl text-sm outline-none">
+      </div>
+      <button onclick="closeModal('add-liquidity-modal'); alert('Đã thêm thanh khoản thành công!')" class="w-full py-3.5 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-white">Cung Cấp Thanh Khoản</button>
+    </div>
+  </div>
+
+
+  <!-- ==================== LOGIC JAVASCRIPT ĐIỀU KHIỂN ==================== -->
+  <script>
+    let isConnected = false;
+    let payToken = "BNB";
+    let receiveToken = "USDT";
+    let tokenRates = { "BNB": 600, "USDT": 1, "SDA": 2.5 };
+
+    // Bật/Tắt Cửa sổ Modal
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // Chuyển Tab Swap / Pool
+    function switchTab(tab) {
+      if(tab === 'swap') {
+        document.getElementById('section-swap').classList.remove('hidden');
+        document.getElementById('section-pool').classList.add('hidden');
+        document.getElementById('tab-swap').className = "px-5 py-2 rounded-lg font-semibold text-sm transition bg-blue-600 text-white shadow";
+        document.getElementById('tab-pool').className = "px-5 py-2 rounded-lg font-semibold text-sm transition text-gray-400 hover:text-white";
+      } else {
+        document.getElementById('section-swap').classList.add('hidden');
+        document.getElementById('section-pool').classList.remove('hidden');
+        document.getElementById('tab-pool').className = "px-5 py-2 rounded-lg font-semibold text-sm transition bg-blue-600 text-white shadow";
+        document.getElementById('tab-swap').className = "px-5 py-2 rounded-lg font-semibold text-sm transition text-gray-400 hover:text-white";
+      }
+    }
+
+    // Kết nối ví
+    function connectWallet(walletName) {
+      isConnected = true;
+      document.getElementById('wallet-btn-text').innerText = "0xa6Bb...97ED1";
+      document.getElementById('btn-connect-wallet').className = "bg-slate-800 text-green-400 border border-green-500/30 px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center space-x-2";
+      closeModal('wallet-modal');
+    }
+
+    // Chọn Mạng
+    function selectNetwork(name) {
+      document.getElementById('current-network-name').innerText = name;
+      closeModal('network-modal');
+    }
+
+    // Chọn Token
+    function selectPayToken(symbol) {
+      payToken = symbol;
+      document.getElementById('pay-token-symbol').innerText = symbol;
+      closeModal('token-modal-pay');
+      calculateSwap();
+    }
+    function selectReceiveToken(symbol) {
+      receiveToken = symbol;
+      document.getElementById('receive-token-symbol').innerText = symbol;
+      closeModal('token-modal-receive');
+      calculateSwap();
+    }
+
+    // Tính toán lượng token hoán đổi
+    function calculateSwap() {
+      let amount = parseFloat(document.getElementById('pay-amount').value) || 0;
+      let rate = tokenRates[payToken] / tokenRates[receiveToken];
+      let result = (amount * rate).toFixed(4);
+      document.getElementById('receive-amount').value = result > 0 ? result : '';
+      document.getElementById('exchange-rate').innerText = `1 ${payToken} ≈ ${rate.toFixed(2)} ${receiveToken}`;
+    }
+
+    // Đảo chiều token
+    function swapTokensDirection() {
+      let temp = payToken;
+      payToken = receiveToken;
+      receiveToken = temp;
+      document.getElementById('pay-token-symbol').innerText = payToken;
+      document.getElementById('receive-token-symbol').innerText = receiveToken;
+      calculateSwap();
+    }
+
+    // Thực thi Giao dịch Swap
+    function executeSwap() {
+      closeModal('confirm-swap-modal');
+      openModal('status-modal');
+      document.getElementById('status-loading').classList.remove('hidden');
+      document.getElementById('status-success').classList.add('hidden');
+
+      setTimeout(() => {
+        document.getElementById('status-loading').classList.add('hidden');
+        document.getElementById('status-success').classList.remove('hidden');
+      }, 2500);
+    }
+  </script>
 </body>
 </html>
