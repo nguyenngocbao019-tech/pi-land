@@ -1,519 +1,500 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sidra DEX Swap Interface</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     * {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
     }
+
     body {
-      background-color: #0d0e12;
-      color: #e2e8f0;
-      overflow-x: hidden;
-    }
-    
-    /* Background grid & globe effect */
-    .bg-canvas {
-      background: 
-        radial-gradient(circle at 50% 20%, rgba(212, 160, 23, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(180, 130, 20, 0.08) 0%, transparent 50%),
-        #0b0c10;
-    }
-    
-    /* Metallic Panel Styling */
-    .metallic-card {
-      background: linear-gradient(145deg, #23262d, #14161b);
-      box-shadow: 
-        inset 1px 1px 1px rgba(255, 255, 255, 0.15),
-        inset -1px -1px 2px rgba(0, 0, 0, 0.8),
-        0 12px 30px rgba(0, 0, 0, 0.7);
-      border: 1px solid #323741;
-      border-radius: 24px;
-    }
-    
-    .input-box {
-      background: linear-gradient(180deg, #121418 0%, #171920 100%);
-      border: 1px solid #282c36;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-      border-radius: 16px;
-    }
-    
-    .input-box-gold {
-      background: linear-gradient(180deg, #14151a 0%, #191b22 100%);
-      border: 1px solid #383c48;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-      border-radius: 16px;
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #08090c;
+      color: #f5f5f5;
     }
 
-    /* Aperture Shutter Swap Button */
-    .shutter-btn {
-      width: 48px;
-      height: 48px;
+    .swap-container {
+      width: 100%;
+      max-width: 460px;
+      margin: 30px auto;
+      padding: 24px;
+      border: 1px solid #57462a;
+      border-radius: 28px;
+      background:
+        radial-gradient(
+          circle at top,
+          rgba(196, 151, 72, 0.15),
+          transparent 45%
+        ),
+        linear-gradient(145deg, #171719, #09090b);
+      box-shadow: 0 0 35px rgba(196, 151, 72, 0.08);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+
+    .brand {
+      color: #e6c27a;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .wallet-button,
+    .action-button {
+      border: 1px solid #8d713e;
+      border-radius: 14px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #c9a35d, #81602d);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .section-title {
+      margin: 0 0 15px;
+      font-size: 25px;
+    }
+
+    .description {
+      color: #a5a5a5;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .price-card {
+      margin: 22px 0;
+      padding: 17px;
+      border: 1px solid #39332a;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .price-label {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .price {
+      margin-top: 8px;
+      color: #e8c77f;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .token-box {
+      margin-top: 14px;
+      padding: 17px;
+      border: 1px solid #373737;
+      border-radius: 18px;
+      background: #111214;
+    }
+
+    .token-label {
+      margin-bottom: 12px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .token-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .token-select {
+      min-width: 105px;
+      padding: 11px;
+      border: 1px solid #6f5934;
+      border-radius: 12px;
+      background: #24211c;
+      color: #f4d69b;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .token-amount {
+      width: 100%;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: white;
+      text-align: right;
+      font-size: 23px;
+    }
+
+    .token-amount::placeholder {
+      color: #777;
+    }
+
+    .switch-row {
+      display: flex;
+      justify-content: center;
+      margin: 12px 0;
+    }
+
+    .switch-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid #6f5934;
       border-radius: 50%;
-      background: radial-gradient(circle, #2c303b 0%, #13151a 100%);
-      border: 2px solid #4a5060;
-      box-shadow: 
-        0 0 12px rgba(0,0,0,0.8),
-        inset 0 1px 2px rgba(255,255,255,0.2);
-    }
-    .shutter-inner {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: repeating-conic-gradient(#1e2129 0deg 30deg, #14161c 30deg 60deg);
-      border: 1px solid #333845;
+      background: #201b13;
+      color: #e8c77f;
+      font-size: 23px;
+      cursor: pointer;
     }
 
-    /* Gold Badge Glow */
-    .gacp-badge {
-      background: linear-gradient(135deg, #c59b27 0%, #684a0d 100%);
-      border: 1.5px solid #ffd700;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.35);
+    .main-button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 17px;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(100deg, #d5b16c, #9b7437);
+      color: #17120a;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    /* Primary Action Button */
-    .action-btn {
-      background: linear-gradient(180deg, #2b2f3a 0%, #1a1d24 100%);
-      border: 1px solid #3d4352;
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0,0,0,0.5);
-      color: #8b94a5;
+    .main-button:hover,
+    .wallet-button:hover,
+    .action-button:hover {
+      filter: brightness(1.12);
     }
 
-    /* Tab active state */
-    .tab-active {
-      background: linear-gradient(180deg, #3a3f4e 0%, #222630 100%);
-      color: #ffffff;
-      border: 1px solid #525a6e;
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    .footer-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
     }
 
-    /* Glass Effect Header Pill */
-    .url-bar {
-      background: rgba(35, 38, 46, 0.75);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    .footer-actions button {
+      flex: 1;
+      padding: 12px 6px;
+      border: 1px solid #39342b;
+      border-radius: 12px;
+      background: #171719;
+      color: #d9c18f;
+      cursor: pointer;
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 4px;
+    .notice {
+      margin-top: 18px;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.6;
+      text-align: center;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #2d323e;
-      border-radius: 4px;
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.78);
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      width: 100%;
+      max-width: 360px;
+      padding: 25px;
+      border: 1px solid #8d713e;
+      border-radius: 22px;
+      background: #151515;
+      text-align: center;
+    }
+
+    .modal-content h3 {
+      color: #e8c77f;
+    }
+
+    .modal-content p {
+      color: #bbb;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .close-button {
+      margin-top: 12px;
+      padding: 10px 20px;
+      border: 1px solid #66512f;
+      border-radius: 10px;
+      background: #27221a;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 10px;
+      }
+
+      .swap-container {
+        padding: 16px;
+      }
+
+      .brand {
+        font-size: 18px;
+      }
+
+      .token-select {
+        min-width: 90px;
+      }
     }
   </style>
 </head>
-<body class="bg-canvas min-h-screen flex justify-center items-start sm:items-center p-0 sm:p-4">
 
-  <!-- Mobile Wrapper Simulation -->
-  <div class="w-full max-w-md min-h-screen sm:min-h-[844px] flex flex-col justify-between relative overflow-hidden pb-6">
+<body>
 
-    <!-- Header Navigation -->
-    <header class="w-full px-4 pt-3 pb-2 flex flex-col gap-3 z-10">
-      <!-- Browser Top Bar -->
-      <div class="flex items-center justify-between">
-        <div class="w-12"></div>
-        <div class="url-bar px-4 py-1.5 rounded-full flex items-center gap-2 text-xs text-gray-300 font-medium cursor-pointer">
-          <span>https://dex....</span>
-          <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-        </div>
-        <div class="flex items-center gap-2 text-gray-400">
-          <button class="hover:text-white"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 10a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
-          <button class="hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/></svg></button>
-          <button class="hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
-        </div>
-      </div>
-
-      <!-- App Header Bar -->
-      <div class="flex items-center justify-between pt-1">
-        <!-- Logo Sidra Gold -->
-        <div class="flex items-center gap-2 cursor-pointer" onclick="openModal('walletModal')">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center p-0.5 bg-gradient-to-br from-yellow-500 to-yellow-800 shadow-lg">
-            <div class="w-full h-full rounded-full bg-black flex items-center justify-center text-yellow-500 font-bold text-lg">
-              <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z"/></svg>
-            </div>
-          </div>
-          <!-- Network Switcher Badge -->
-          <div class="url-bar px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs text-gray-200">
-            <span class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_#f97316]"></span>
-            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-          </div>
-        </div>
-
-        <!-- Header Actions (Eth, Search, Wallet) -->
-        <div class="flex items-center gap-2">
-          <button onclick="openModal('tokenModal')" class="url-bar p-2 rounded-full text-gray-300 hover:text-white">
-            <svg class="w-4 h-4" viewBox="0 0 32 32" fill="currentColor"><path d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#3C3C3D"/><path d="M16.0001 4V12.8702L23.4939 16.206L16.0001 4Z" fill="#E0E0E0"/><path d="M16 4L8.50391 16.206L16 12.8702V4Z" fill="#A4A4A4"/><path d="M16.0001 20.3168V27.9946L23.5016 17.5615L16.0001 20.3168Z" fill="#E0E0E0"/><path d="M16 27.9946V20.3161L8.50391 17.5615L16 27.9946Z" fill="#A4A4A4"/></svg>
-          </button>
-          <button onclick="openModal('tokenModal')" class="url-bar p-2 rounded-full text-gray-300 hover:text-white">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-          </button>
-          <!-- Wallet Button with Indicator -->
-          <button onclick="openModal('walletModal')" class="url-bar p-2 rounded-full text-yellow-400 hover:text-yellow-300 relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-            <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-          </button>
-        </div>
-      </div>
+  <main class="swap-container">
+    <header class="header">
+      <div class="brand">SIDRA DEX</div>
+      <button class="wallet-button" id="walletButton">
+        Connect Wallet
+      </button>
     </header>
 
-    <!-- Main DEX Card -->
-    <main class="px-4 py-2 z-10 my-auto">
-      <div class="metallic-card p-4 relative">
-        
-        <!-- Swap / Buy Tabs & Settings -->
-        <div class="flex items-center justify-between mb-4">
-          <div class="bg-[#121419] p-1 rounded-xl flex items-center border border-[#232733]">
-            <button class="px-5 py-1.5 rounded-lg text-sm font-semibold tab-active transition">Swap</button>
-            <button class="px-5 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition">Buy</button>
-          </div>
-          <button onclick="openModal('settingsModal')" class="p-2 text-gray-400 hover:text-white transition">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-          </button>
-        </div>
+    <h1 class="section-title">Swap Tokens</h1>
 
-        <!-- Input Section 1: You Pay -->
-        <div class="input-box p-4 relative mb-2">
-          <div class="text-xs font-medium text-gray-400 mb-1">You pay</div>
-          <div class="flex items-center justify-between">
-            <input type="number" id="payInput" placeholder="0" value="0" class="bg-transparent text-3xl text-white font-semibold outline-none w-1/2">
-            
-            <!-- Token Selector SDA -->
-            <button onclick="openModal('tokenModal', 'pay')" class="bg-[#1e222a] border border-[#323745] px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-[#282d38] transition">
-              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-600 to-yellow-400 flex items-center justify-center text-black font-bold text-xs shadow-md">
-                <svg class="w-3.5 h-3.5 text-black" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z"/></svg>
-              </div>
-              <span id="payTokenSymbol" class="font-bold text-white text-sm">SDA</span>
-              <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-          </div>
-          <div class="flex items-center justify-end gap-1.5 mt-2 text-xs text-gray-400">
-            <span>Balance: <span id="sdaBalance">0.512</span></span>
-            <button onclick="setMaxPay()" class="bg-[#291f0d] text-yellow-500 font-bold px-1.5 py-0.5 rounded border border-yellow-700/50 text-[10px] hover:bg-yellow-900/40">MAX</button>
-          </div>
-        </div>
+    <p class="description">
+      Exchange SDA, GACP and USDT in a modern,
+      dark metallic interface.
+    </p>
 
-        <!-- Center Shutter Swap Icon -->
-        <div class="relative w-full flex justify-center -my-5 z-20">
-          <button onclick="swapTokens()" class="shutter-btn flex items-center justify-center hover:scale-105 transition transform active:scale-95">
-            <div class="shutter-inner flex items-center justify-center">
-              <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-            </div>
-          </button>
-        </div>
+    <section class="price-card">
+      <div class="price-label">Displayed Market Value</div>
+      <div class="price">$75,590</div>
+    </section>
 
-        <!-- Input Section 2: You Receive -->
-        <div class="input-box-gold p-4 relative pt-5 mt-2">
-          <div class="text-xs font-medium text-gray-400 mb-1">You receive</div>
-          <div class="flex items-center justify-between">
-            <input type="number" id="receiveInput" placeholder="0" value="0" readonly class="bg-transparent text-3xl text-white font-semibold outline-none w-1/2">
-            
-            <!-- Token Selector GACP Gold Badge -->
-            <button onclick="openModal('tokenModal', 'receive')" class="gacp-badge px-3 py-1.5 rounded-full flex items-center gap-2 transition hover:brightness-110">
-              <div class="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold text-[10px] border border-yellow-200">
-                GACP
-              </div>
-              <span id="receiveTokenSymbol" class="font-bold text-white text-sm tracking-wide">GACP</span>
-              <svg class="w-3.5 h-3.5 text-yellow-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </button>
-          </div>
-          <div class="flex items-center justify-end gap-1 mt-2 text-xs text-gray-400">
-            <span>Balance: <span id="gacpBalance">1,421.38</span></span>
-          </div>
-        </div>
+    <section class="token-box">
+      <div class="token-label">You pay</div>
+      <div class="token-row">
+        <select class="token-select" id="fromToken">
+          <option value="SDA">SDA</option>
+          <option value="GACP">GACP</option>
+          <option value="USDT">USDT</option>
+        </select>
 
-        <!-- Enter Amount / Swap Submit Button -->
-        <button id="actionBtn" onclick="executeSwap()" class="w-full mt-4 py-4 rounded-xl action-btn font-semibold text-gray-300 text-base hover:text-white hover:border-gray-400 active:scale-[0.99] transition">
-          Enter an amount
-        </button>
-
+        <input
+          class="token-amount"
+          id="fromAmount"
+          type="number"
+          min="0"
+          placeholder="0.00"
+          inputmode="decimal"
+        >
       </div>
-    </main>
+    </section>
 
-    <!-- Bottom Decorative Candlestick Chart -->
-    <div class="px-6 py-2 opacity-40 z-0">
-      <div class="flex items-end justify-between h-20 border-b border-r border-gray-700/50 pl-2 pb-1 relative">
-        <svg class="absolute inset-0 w-full h-full text-yellow-500/30" fill="none" stroke="currentColor" viewBox="0 0 300 80">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M 0 60 L 50 50 L 90 65 L 140 30 L 190 45 L 240 15 L 300 25" />
-        </svg>
-        <div class="w-1.5 h-8 bg-yellow-500/40 relative"><div class="absolute -top-2 left-0.5 w-0.5 h-12 bg-yellow-400/60"></div></div>
-        <div class="w-1.5 h-12 bg-yellow-500/60 relative"><div class="absolute -top-1 left-0.5 w-0.5 h-14 bg-yellow-400/80"></div></div>
-        <div class="w-1.5 h-6 bg-red-500/40 relative"><div class="absolute -top-2 left-0.5 w-0.5 h-10 bg-red-400/60"></div></div>
-        <div class="w-1.5 h-14 bg-yellow-500/80 relative"><div class="absolute -top-3 left-0.5 w-0.5 h-18 bg-yellow-300"></div></div>
-        <div class="w-1.5 h-10 bg-yellow-500/50 relative"><div class="absolute -top-1 left-0.5 w-0.5 h-12 bg-yellow-400/60"></div></div>
-      </div>
+    <div class="switch-row">
+      <button
+        class="switch-button"
+        id="switchButton"
+        aria-label="Switch tokens"
+      >↕</button>
     </div>
 
-    <!-- Bottom Navigation Bar -->
-    <footer class="px-4 z-10">
-      <div class="bg-[#14161d]/90 backdrop-blur-md p-1.5 rounded-full border border-[#2a2f3d] flex items-center justify-between">
-        <button class="flex-1 py-2 rounded-full text-xs font-semibold text-white bg-[#252a36] shadow">Swap</button>
-        <button class="flex-1 py-2 text-xs font-medium text-gray-400 hover:text-gray-200">Explore</button>
-        <button class="flex-1 py-2 text-xs font-medium text-gray-400 hover:text-gray-200">Pools</button>
-        <button class="px-3 text-gray-400 hover:text-white"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 10a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
-      </div>
-    </footer>
+    <section class="token-box">
+      <div class="token-label">You receive</div>
+      <div class="token-row">
+        <select class="token-select" id="toToken">
+          <option value="USDT">USDT</option>
+          <option value="SDA">SDA</option>
+          <option value="GACP">GACP</option>
+        </select>
 
-  </div>
-
-  <!-- MODAL 1: SELECT TOKEN (Mở khi bấm chọn Coin) -->
-  <div id="tokenModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-[#171920] border border-[#2e3442] w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl animate-in slide-in-from-bottom duration-200">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-white">Select a Token</h3>
-        <button onclick="closeModal('tokenModal')" class="text-gray-400 hover:text-white p-1">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
+        <input
+          class="token-amount"
+          id="toAmount"
+          type="text"
+          placeholder="0.00"
+          readonly
+        >
       </div>
+    </section>
 
-      <!-- Search Input -->
-      <div class="relative mb-4">
-        <input type="text" id="tokenSearchInput" oninput="filterTokens()" placeholder="Search name or paste address" class="w-full bg-[#0f1115] border border-[#2a2e3a] rounded-xl px-10 py-3 text-sm text-white focus:outline-none focus:border-yellow-500">
-        <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-      </div>
+    <button class="main-button" id="swapButton">
+      Review Swap
+    </button>
 
-      <!-- Token List -->
-      <div id="tokenList" class="max-h-80 overflow-y-auto space-y-1">
-        <!-- Tokens rendered dynamically -->
-      </div>
+    <div class="footer-actions">
+      <button data-modal="buy">Buy</button>
+      <button data-modal="explore">Explore</button>
+      <button data-modal="pools">Pools</button>
+      <button data-modal="settings">Settings</button>
+    </div>
+
+    <p class="notice">
+      Demo interface only. Prices and token conversions are
+      not connected to a live market. No real swap is executed.
+    </p>
+  </main>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Information</h3>
+      <p id="modalMessage"></p>
+      <button class="close-button" id="closeModal">
+        Close
+      </button>
     </div>
   </div>
 
-  <!-- MODAL 2: WALLET ($27,500.00 Balance) -->
-  <div id="walletModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-    <div class="bg-[#171920] border border-[#2e3442] w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-2">
-          <div class="w-3 h-3 rounded-full bg-green-500"></div>
-          <span class="text-sm font-semibold text-gray-300">Bảo Pi Wallet</span>
-        </div>
-        <button onclick="closeModal('walletModal')" class="text-gray-400 hover:text-white">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-
-      <!-- Wallet Balance Box -->
-      <div class="bg-gradient-to-br from-[#232733] to-[#12141a] p-5 rounded-2xl border border-[#353b4d] mb-4 relative">
-        <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
-          <span>Total Balance (Real-time)</span>
-          <button onclick="toggleBalanceVisibility()" class="text-yellow-500 hover:underline">
-            <span id="hideToggleText">Hide</span>
-          </button>
-        </div>
-        
-        <div class="text-3xl font-bold text-white tracking-tight flex items-center gap-2">
-          <span id="walletBalanceDisplay">$27,500.00</span>
-          <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-normal">+2.4%</span>
-        </div>
-        
-        <div class="text-xs text-gray-400 mt-2 flex items-center gap-1">
-          <svg class="w-3 h-3 text-yellow-500 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          Live Feed Updated: <span id="liveTime">Just now</span>
-        </div>
-      </div>
-
-      <div class="space-y-2 mb-4">
-        <div class="flex justify-between items-center p-3 bg-[#111318] rounded-xl border border-[#232734]">
-          <span class="text-sm font-medium text-gray-300">SDA Balance</span>
-          <span class="text-sm font-bold text-yellow-500">0.512 SDA</span>
-        </div>
-        <div class="flex justify-between items-center p-3 bg-[#111318] rounded-xl border border-[#232734]">
-          <span class="text-sm font-medium text-gray-300">GACP Balance</span>
-          <span class="text-sm font-bold text-yellow-400">1,421.38 GACP</span>
-        </div>
-      </div>
-
-      <button onclick="closeModal('walletModal')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-bold rounded-xl shadow-lg">Close Wallet</button>
-    </div>
-  </div>
-
-  <!-- MODAL 3: SETTINGS -->
-  <div id="settingsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-    <div class="bg-[#171920] border border-[#2e3442] w-full max-w-sm rounded-2xl p-5 shadow-2xl">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-base font-bold text-white">Swap Settings</h3>
-        <button onclick="closeModal('settingsModal')" class="text-gray-400 hover:text-white">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-      </div>
-
-      <div class="mb-4">
-        <label class="text-xs text-gray-400 block mb-2">Slippage Tolerance</label>
-        <div class="grid grid-cols-4 gap-2">
-          <button class="py-1.5 bg-[#232733] border border-yellow-500 text-yellow-400 rounded-lg text-xs font-bold">0.1%</button>
-          <button class="py-1.5 bg-[#111318] border border-[#282d3c] text-gray-300 rounded-lg text-xs">0.5%</button>
-          <button class="py-1.5 bg-[#111318] border border-[#282d3c] text-gray-300 rounded-lg text-xs">1.0%</button>
-          <button class="py-1.5 bg-[#111318] border border-[#282d3c] text-gray-300 rounded-lg text-xs">Auto</button>
-        </div>
-      </div>
-
-      <button onclick="closeModal('settingsModal')" class="w-full py-2.5 bg-[#232733] hover:bg-[#2c3242] text-white font-semibold rounded-xl text-sm transition">Save Settings</button>
-    </div>
-  </div>
-
-  <!-- JavaScript Logics -->
   <script>
-    // List of Market Coins
-    const tokens = [
-      { symbol: 'SDA', name: 'Sidra Digital Asset', balance: '0.512', price: 12.50, isGold: true },
-      { symbol: 'GACP', name: 'GLN Agri Chain Token', balance: '1,421.38', price: 1.85, isGacp: true },
-      { symbol: 'BTC', name: 'Bitcoin', balance: '0.042', price: 68500.00 },
-      { symbol: 'ETH', name: 'Ethereum', balance: '1.250', price: 3500.00 },
-      { symbol: 'BNB', name: 'Binance Coin', balance: '4.500', price: 580.00 },
-      { symbol: 'SOL', name: 'Solana', balance: '18.20', price: 145.00 },
-      { symbol: 'USDT', name: 'Tether USD', balance: '520.00', price: 1.00 },
-      { symbol: 'USDC', name: 'USD Coin', balance: '310.00', price: 1.00 },
-      { symbol: 'PI', name: 'Pi Network', balance: '250.00', price: 38.20 }
-    ];
+    const fromToken = document.getElementById("fromToken");
+    const toToken = document.getElementById("toToken");
+    const fromAmount = document.getElementById("fromAmount");
+    const toAmount = document.getElementById("toAmount");
 
-    let activeSelectingField = 'pay';
-    let isBalanceHidden = false;
-    let baseWalletBalance = 27500.00;
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMessage = document.getElementById("modalMessage");
 
-    // Render Token List in Modal
-    function renderTokens(filter = '') {
-      const listEl = document.getElementById('tokenList');
-      listEl.innerHTML = '';
-      
-      const filtered = tokens.filter(t => 
-        t.symbol.toLowerCase().includes(filter.toLowerCase()) || 
-        t.name.toLowerCase().includes(filter.toLowerCase())
-      );
+    function showModal(title, message) {
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      modal.classList.add("show");
+    }
 
-      filtered.forEach(token => {
-        const item = document.createElement('div');
-        item.className = "flex items-center justify-between p-3 rounded-xl hover:bg-[#232733] cursor-pointer transition border border-transparent hover:border-[#323848]";
-        item.onclick = () => selectToken(token);
-        
-        item.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full ${token.isGacp ? 'bg-yellow-500 text-black font-bold' : 'bg-[#292e3b] text-yellow-400'} flex items-center justify-center font-bold text-xs border border-yellow-500/30">
-              ${token.symbol.substring(0, 4)}
-            </div>
-            <div>
-              <div class="font-bold text-white text-sm">${token.symbol}</div>
-              <div class="text-xs text-gray-400">${token.name}</div>
-            </div>
-          </div>
-          <div class="text-right">
-            <div class="text-sm font-semibold text-gray-200">${token.balance}</div>
-            <div class="text-xs text-gray-400">$${token.price.toLocaleString()}</div>
-          </div>
-        `;
-        listEl.appendChild(item);
+    function closeModal() {
+      modal.classList.remove("show");
+    }
+
+    document.getElementById("closeModal")
+      .addEventListener("click", closeModal);
+
+    modal.addEventListener("click", function(event) {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.getElementById("switchButton")
+      .addEventListener("click", function() {
+        const oldFrom = fromToken.value;
+        fromToken.value = toToken.value;
+        toToken.value = oldFrom;
+
+        fromAmount.value = "";
+        toAmount.value = "";
       });
-    }
 
-    function filterTokens() {
-      const query = document.getElementById('tokenSearchInput').value;
-      renderTokens(query);
-    }
+    fromAmount.addEventListener("input", function() {
+      const amount = Number(fromAmount.value);
 
-    function openModal(id, targetField = 'pay') {
-      activeSelectingField = targetField;
-      if (id === 'tokenModal') renderTokens();
-      document.getElementById(id).classList.remove('hidden');
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-
-    function selectToken(token) {
-      if (activeSelectingField === 'pay') {
-        document.getElementById('payTokenSymbol').innerText = token.symbol;
-        document.getElementById('sdaBalance').innerText = token.balance;
-      } else {
-        document.getElementById('receiveTokenSymbol').innerText = token.symbol;
-        document.getElementById('gacpBalance').innerText = token.balance;
-      }
-      closeModal('tokenModal');
-      calculateSwap();
-    }
-
-    function setMaxPay() {
-      const bal = document.getElementById('sdaBalance').innerText.replace(',', '');
-      document.getElementById('payInput').value = bal;
-      calculateSwap();
-    }
-
-    // Input Swap Logic
-    document.getElementById('payInput').addEventListener('input', calculateSwap);
-
-    function calculateSwap() {
-      const val = parseFloat(document.getElementById('payInput').value) || 0;
-      const btn = document.getElementById('actionBtn');
-      
-      if (val > 0) {
-        // Simulated conversion rate: 1 SDA = ~2776.13 GACP
-        const converted = (val * 2776.1328).toFixed(2);
-        document.getElementById('receiveInput').value = converted;
-        btn.innerText = 'Swap Now';
-        btn.classList.add('bg-gradient-to-r', 'from-yellow-600', 'to-yellow-500', 'text-black', 'font-bold');
-        btn.classList.remove('action-btn', 'text-gray-300');
-      } else {
-        document.getElementById('receiveInput').value = '0';
-        btn.innerText = 'Enter an amount';
-        btn.classList.remove('bg-gradient-to-r', 'from-yellow-600', 'to-yellow-500', 'text-black', 'font-bold');
-        btn.classList.add('action-btn', 'text-gray-300');
-      }
-    }
-
-    function swapTokens() {
-      const paySymbol = document.getElementById('payTokenSymbol').innerText;
-      const receiveSymbol = document.getElementById('receiveTokenSymbol').innerText;
-      const payBal = document.getElementById('sdaBalance').innerText;
-      const receiveBal = document.getElementById('gacpBalance').innerText;
-
-      document.getElementById('payTokenSymbol').innerText = receiveSymbol;
-      document.getElementById('receiveTokenSymbol').innerText = paySymbol;
-      document.getElementById('sdaBalance').innerText = receiveBal;
-      document.getElementById('gacpBalance').innerText = payBal;
-
-      calculateSwap();
-    }
-
-    function executeSwap() {
-      const val = parseFloat(document.getElementById('payInput').value) || 0;
-      if (val <= 0) return;
-      alert(`Swap request of ${val} ${document.getElementById('payTokenSymbol').innerText} submitted successfully!`);
-    }
-
-    // Wallet Visibility Toggle & Real-Time Simulation
-    function toggleBalanceVisibility() {
-      isBalanceHidden = !isBalanceHidden;
-      const displayEl = document.getElementById('walletBalanceDisplay');
-      const toggleTxt = document.getElementById('hideToggleText');
-
-      if (isBalanceHidden) {
-        displayEl.innerText = '****';
-        toggleTxt.innerText = 'Show';
-      } else {
-        displayEl.innerText = `$${baseWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-        toggleTxt.innerText = 'Hide';
-      }
-    }
-
-    // Real-Time Ticker Update for $27,500
-    setInterval(() => {
-      // Fluctuate cents slightly
-      const delta = (Math.random() * 0.8 - 0.4);
-      baseWalletBalance += delta;
-      
-      if (!isBalanceHidden) {
-        document.getElementById('walletBalanceDisplay').innerText = `$${baseWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      if (!Number.isFinite(amount) || amount < 0) {
+        toAmount.value = "";
+        return;
       }
 
-      const now = new Date();
-      document.getElementById('liveTime').innerText = now.toLocaleTimeString();
-    }, 2500);
+      // Demo only: 1:1 conversion, not a real market quote.
+      toAmount.value = amount > 0
+        ? amount.toLocaleString("en-US", {
+            maximumFractionDigits: 6
+          })
+        : "";
+    });
+
+    document.getElementById("walletButton")
+      .addEventListener("click", async function() {
+        if (!window.ethereum) {
+          showModal(
+            "Wallet not detected",
+            "Please open this page in a compatible wallet browser, or install a supported Web3 wallet."
+          );
+          return;
+        }
+
+        try {
+          const accounts = await window.ethereum
+            .request({ method: "eth_requestAccounts" });
+
+          if (accounts && accounts.length > 0) {
+            this.textContent =
+              accounts[0].slice(0, 6) + "..." +
+              accounts[0].slice(-4);
+
+            showModal(
+              "Wallet Connected",
+              "Wallet address: " + accounts[0]
+            );
+          }
+        } catch (error) {
+          showModal(
+            "Connection cancelled",
+            error.message || "The wallet connection was not completed."
+          );
+        }
+      });
+
+    document.getElementById("swapButton")
+      .addEventListener("click", function() {
+        const amount = Number(fromAmount.value);
+
+        if (!fromAmount.value || amount <= 0) {
+          showModal(
+            "Enter an amount",
+            "Please enter a token amount greater than zero."
+          );
+          return;
+        }
+
+        if (fromToken.value === toToken.value) {
+          showModal(
+            "Choose different tokens",
+            "The tokens you pay and receive must be different."
+          );
+          return;
+        }
+
+        showModal(
+          "Demo Swap Preview",
+          "You pay " + amount + " " + fromToken.value +
+          " and receive an illustrative " + toAmount.value +
+          " " + toToken.value +
+          ". This is a preview only. No transaction was sent."
+        );
+      });
+
+    document.querySelectorAll("[data-modal]")
+      .forEach(function(button) {
+        button.addEventListener("click", function() {
+          const section = this.dataset.modal;
+
+          const messages = {
+            buy: "Buy section demo. Connect a supported service to enable real purchases.",
+            explore: "Explore section demo. Add verified token and market data to show live listings.",
+            pools: "Pools section demo. Connect a supported liquidity protocol to display real pools.",
+            settings: "Demo settings: the interface currently uses illustrative values and does not execute trades."
+          };
+
+          showModal(
+            section.charAt(0).toUpperCase() + section.slice(1),
+            messages[section]
+          );
+        });
+      });
   </script>
+
 </body>
 </html>
