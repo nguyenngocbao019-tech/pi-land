@@ -1,373 +1,775 @@
 
-<div class="sidra-wallet">
-  <header class="sidra-header">
-    <div class="sidra-logo">S</div>
-    <strong>SIDRA DEX</strong>
-    <button id="connectWallet">Connect Wallet</button>
-  </header>
-
-  <section class="sidra-card">
-    <div class="sidra-tabs">
-      <button class="active">Swap</button>
-      <button id="buyButton">Buy</button>
-      <button id="settingsButton">⚙</button>
-    </div>
-
-    <div class="sidra-token">
-      <label for="payAmount">You pay</label>
-      <div class="sidra-row">
-        <input id="payAmount" type="number" min="0"
-          placeholder="0" />
-        <select id="payToken">
-          <option>SDA</option>
-          <option>GACP</option>
-          <option>USDT</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="sidra-switch">
-      <button id="reverseTokens">↓</button>
-    </div>
-
-    <div class="sidra-token">
-      <label for="receiveAmount">You receive</label>
-      <div class="sidra-row">
-        <input id="receiveAmount" placeholder="0" readonly />
-        <select id="receiveToken">
-          <option>GACP</option>
-          <option>SDA</option>
-          <option>USDT</option>
-        </select>
-      </div>
-    </div>
-
-    <button class="sidra-submit" id="swapButton">
-      Enter an amount
-    </button>
-  </section>
-
-  <nav class="sidra-nav">
-    <button>Swap</button>
-    <button>Explore</button>
-    <button>Pools</button>
-    <button>•••</button>
-  </nav>
-
-  <div class="sidra-modal" id="sidraModal">
-    <div class="sidra-modal-content">
-      <h3 id="modalTitle">SIDRA DEX</h3>
-      <p id="modalMessage"></p>
-      <button id="closeModal">Close</button>
-    </div>
-  </div>
-</div>
-
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEX Crypto Wallet</title>
 <style>
-.sidra-wallet {
-  position:relative;
-  box-sizing:border-box;
-  min-height:750px;
-  padding:22px 14px 100px;
-  overflow:hidden;
+:root{
+  --bg:#08090b;
+  --panel:#17191d;
+  --gold:#d8a34b;
+  --gold-light:#ffe2a0;
+  --text:#eff0f3;
+  --muted:#a5a7ae;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(ellipse at 85% 10%,#71502555,transparent 28%),
-    radial-gradient(ellipse at 10% 85%,#76501f44,transparent 25%),
-    linear-gradient(145deg,#202126,#050608 70%);
-  color:#f5f5f5;
-  font-family:Arial,sans-serif;
+    radial-gradient(ellipse at 85% 12%,#5b4726 0,transparent 24%),
+    radial-gradient(ellipse at 7% 72%,#59401e 0,transparent 24%),
+    linear-gradient(150deg,#17191e,#08090b 48%,#12100d 75%,#07080a);
+  background-attachment:fixed;
 }
-.sidra-wallet * { box-sizing:border-box; }
-.sidra-wallet button,
-.sidra-wallet select { cursor:pointer; }
-.sidra-wallet button {
-  color:#eee;
+button,input,select{font:inherit}
+button{cursor:pointer;color:inherit}
+.app{
+  position:relative;
+  width:min(100%,520px);
+  min-height:100vh;
+  margin:auto;
+  padding:0 13px 105px;
+  overflow:hidden;
 }
-.sidra-header {
+.app:before{
+  content:"";
+  position:fixed;
+  z-index:-1;
+  pointer-events:none;
+  inset:0;
+  opacity:.25;
+  background-image:
+    radial-gradient(circle at 82% 14%,#ffd078 0 2px,transparent 4px),
+    radial-gradient(circle at 12% 73%,#ffd078 0 2px,transparent 4px),
+    linear-gradient(30deg,transparent 49.7%,#a77c37 50%,transparent 50.3%),
+    linear-gradient(150deg,transparent 49.7%,#a77c37 50%,transparent 50.3%);
+  background-size:90px 90px,110px 110px,85px 85px,85px 85px;
+}
+.browser{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:0 -13px 18px;
+  padding:13px 10px;
+  background:linear-gradient(#292b30,#151619);
+  border-bottom:1px solid #4d4f54;
+}
+.url{
+  width:62%;
+  min-width:0;
+  padding:13px;
+  text-align:center;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  border:1px solid #6b6d72;
+  border-radius:30px;
+  color:#e3e4e7;
+  background:linear-gradient(#55575d,#292b30);
+  box-shadow:inset 0 1px 2px #ffffff30;
+}
+.browser-controls{
+  white-space:nowrap;
+  border:1px solid #55575c;
+  border-radius:30px;
+  padding:12px;
+  color:#dedfe2;
+}
+.topbar{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  margin-bottom:65px;
+  gap:8px;
+  margin:16px 2px 23px;
 }
-.sidra-logo {
+.brand{display:flex;align-items:center;gap:10px}
+.brand-logo{
+  width:60px;
+  height:60px;
   display:grid;
   place-items:center;
-  width:48px;
-  height:48px;
-  border:2px solid #d6a64d;
-  transform:rotate(45deg);
-  color:#ffcf77;
-  font-size:28px;
+  color:#ffe5a2;
+  font-size:34px;
   font-weight:bold;
+  background:linear-gradient(145deg,#ffe8aa,#855a20 50%,#f7ca70);
+  clip-path:polygon(50% 0,63% 13%,83% 10%,87% 30%,100% 50%,87% 65%,90% 86%,66% 87%,50% 100%,35% 87%,13% 90%,12% 67%,0 50%,13% 33%,10% 13%,34% 14%);
+  filter:drop-shadow(0 0 7px #d59b3d);
 }
-.sidra-header strong {
-  color:#edc578;
-  letter-spacing:2px;
-  font-size:15px;
+.brand-logo:before{content:"$"}
+.network-select,.round-icon{
+  border:1px solid #55575e;
+  background:linear-gradient(145deg,#303238,#15161a);
+  box-shadow:inset 0 1px 2px #ffffff24,0 3px 9px #0008;
 }
-#connectWallet {
+.network-select{
+  border-radius:25px;
   padding:12px 14px;
-  border:1px solid #d1a34f;
-  border-radius:20px;
-  background:linear-gradient(135deg,#a98240,#282016);
-  font-size:12px;
-  font-weight:bold;
+  color:#f4c35d;
 }
-.sidra-card {
-  position:relative;
-  padding:12px;
-  border:3px solid #929499;
-  border-radius:30px;
-  background:linear-gradient(135deg,#5c5e63,#1a1b1f 30%,#33353a);
-  box-shadow:0 0 0 4px #090a0c,0 0 24px #d4a24c22;
+.top-icons{display:flex;gap:7px}
+.round-icon{
+  width:45px;
+  height:45px;
+  border-radius:16px;
+  display:grid;
+  place-items:center;
+  font-size:23px;
 }
-.sidra-tabs {
+.connection{
   display:flex;
-  gap:4px;
-  margin-bottom:18px;
-  padding:4px;
-  border:1px solid #686a70;
-  border-radius:18px;
-  background:#101115;
+  justify-content:flex-end;
+  align-items:center;
+  gap:5px;
+  color:#bfc1c7;
+  font-size:10px;
+  margin-top:7px;
 }
-.sidra-tabs button {
+.dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:#2bd48c;
+  box-shadow:0 0 7px #2bd48c;
+}
+.swap-card{
+  border:3px solid #777a7f;
+  border-radius:30px;
+  padding:9px;
+  background:linear-gradient(135deg,#a1a3a7,#282a2e 15%,#111216 43%,#55585d 67%,#111216);
+  box-shadow:0 0 0 1px #d8d9dc66,inset 0 0 0 2px #050506,0 15px 35px #000a;
+}
+.swap-head{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:4px 5px 15px;
+}
+.tabs{
+  display:flex;
   flex:1;
-  padding:13px 5px;
-  border:0;
-  border-radius:13px;
-  background:transparent;
-  color:#aaa;
-  font-size:16px;
+  max-width:320px;
+  border:2px solid #606268;
+  border-radius:24px;
+  padding:4px;
+  background:#111216;
 }
-.sidra-tabs .active {
-  background:linear-gradient(#77797e,#292a2f);
+.tabs button{
+  flex:1;
+  border:0;
+  border-radius:18px;
+  padding:12px 8px;
+  background:transparent;
+  color:#a9abb1;
+  font-size:17px;
+}
+.tabs button.active{
+  background:linear-gradient(#777a80,#303238);
+  box-shadow:inset 0 1px #ffffff66,0 2px 6px #000b;
   color:white;
 }
-.sidra-tabs #settingsButton { flex:0.5; }
-.sidra-token {
-  padding:23px 14px;
-  border:1px solid #595b60;
-  border-radius:23px;
-  background:linear-gradient(145deg,#191a1e,#08090b);
-  box-shadow:inset 0 2px 8px #000;
+.settings{
+  width:51px;height:51px;
+  border-radius:17px;
+  background:#101114;
+  border:1px solid #55575e;
+  font-size:25px;
 }
-.sidra-token label {
-  display:block;
-  margin-bottom:15px;
-  color:#b3b4ba;
-  font-size:16px;
+.token-box{
+  position:relative;
+  border:2px solid #62656a;
+  border-radius:27px;
+  background:radial-gradient(ellipse at 90% 20%,#1b1c20,#0a0b0e 72%);
+  padding:21px 16px 17px;
+  margin-bottom:10px;
+  min-height:158px;
+  box-shadow:inset 0 2px 6px #000,0 1px 0 #ffffff12;
 }
-.sidra-row {
+.token-label{font-size:14px;color:#b5b7be;margin-bottom:12px}
+.token-row{display:flex;justify-content:space-between;align-items:center;gap:7px}
+.amount{
+  min-width:0;
+  width:42%;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:#f1f1f4;
+  font-size:39px;
+  padding:0;
+}
+.amount::placeholder{color:#e1e1e4}
+.token-picker{
   display:flex;
   align-items:center;
   gap:8px;
-}
-.sidra-row input {
-  width:45%;
-  min-width:0;
-  padding:0;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:white;
-  font-size:42px;
-}
-.sidra-row select {
-  width:55%;
-  min-width:0;
-  padding:12px 4px;
-  border:1px solid #56575c;
+  border:1px solid #4b4d52;
+  background:#111216;
   border-radius:28px;
-  background:#18191d;
-  color:white;
-  font-size:17px;
+  padding:7px 9px;
+  max-width:60%;
+  font-weight:bold;
+  font-size:18px;
+  white-space:nowrap;
+}
+.coin-logo{
+  width:38px;height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  font-size:23px;
+  color:#ffe2a0;
+  background:radial-gradient(circle,#b37b27,#17110a 68%);
+  border:2px solid #e0b765;
+  box-shadow:0 0 12px #c88e39a0;
+}
+.token-meta{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:7px;
+  color:#a9abb1;
+  font-size:12px;
+  margin-top:10px;
+}
+.max{
+  border:1px solid #bd862f;
+  background:#281b0b;
+  color:#ffc35e;
+  border-radius:8px;
+  padding:5px 8px;
   font-weight:bold;
 }
-.sidra-switch {
+.swap-direction{
   position:relative;
   z-index:2;
-  height:0;
-  margin:0 4px;
-  border-top:4px solid #76787d;
-}
-.sidra-switch button {
-  position:relative;
-  display:block;
-  width:68px;
-  height:68px;
-  margin:-36px auto 0;
-  border:5px solid #85878b;
-  border-radius:50%;
-  background:radial-gradient(circle,#5d5e62,#151619 70%);
-  color:#ffe1a0;
-  font-size:32px;
-  box-shadow:0 0 0 4px #151619,0 0 20px #d8a94e66;
-}
-.sidra-token:nth-of-type(3) {
-  padding-top:38px;
-}
-.sidra-token:nth-of-type(3) select {
-  border-color:#e5b85c;
-  box-shadow:0 0 13px #d9a74655;
-}
-.sidra-submit {
-  width:100%;
-  margin-top:14px;
-  padding:20px 8px;
-  border:2px solid #898b90;
-  border-radius:22px;
-  background:linear-gradient(#4a4c51,#17181b);
-  color:#e5e5e8;
-  font-size:20px;
-  font-weight:bold;
-}
-.sidra-nav {
-  position:absolute;
-  bottom:15px;
-  left:12px;
-  right:12px;
   display:flex;
+  justify-content:center;
+  height:0;
+}
+.swap-direction button{
+  transform:translateY(-50%);
+  width:72px;height:72px;
+  border-radius:50%;
+  border:5px solid #6f7277;
+  background:radial-gradient(circle,#594321,#151619 55%,#4b4e52);
+  box-shadow:0 0 0 3px #17181b,0 0 18px #d29b3c55,inset 0 0 8px #000;
+  color:#ffe0a0;
+  font-size:30px;
+}
+.submit-swap{
+  width:100%;
+  border:2px solid #777a80;
+  border-radius:22px;
+  padding:19px 10px;
+  margin-top:5px;
+  background:linear-gradient(120deg,#55585d,#232529 50%,#383a3e);
+  box-shadow:inset 0 1px 3px #ffffff65,0 0 0 2px #111;
+  color:#e0e1e5;
+  font-size:19px;
+  font-weight:bold;
+  text-shadow:0 1px 3px #000;
+}
+.section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:25px 5px 10px;
+}
+.section-heading h3{font-size:16px;margin:0}
+.refresh{
+  border:1px solid #55575d;
+  background:#1a1b1f;
+  color:#e5bd70;
+  border-radius:10px;
+  padding:8px 11px;
+}
+.panel{
+  border:1px solid #44464b;
+  border-radius:18px;
+  background:linear-gradient(145deg,#1b1c20,#0e0f12);
+  padding:8px 14px;
+}
+.coin{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:13px 0;
+  border-bottom:1px solid #ffffff12;
+}
+.coin:last-child{border:0}
+.icon{
+  width:40px;height:40px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  font-weight:bold;
+  flex-shrink:0;
+}
+.info{flex:1}
+.name{font-weight:bold;font-size:14px}
+.muted{color:#a3a5ac;font-size:12px;margin-top:5px}
+.price{text-align:right;font-weight:bold;font-size:14px}
+.up{color:#4dd3a0;font-size:12px;margin-top:5px}
+.down{color:#ff7883;font-size:12px;margin-top:5px}
+.note{color:#a3a5ac;font-size:11px;line-height:1.5}
+.nav{
+  position:fixed;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(min(100%,520px) - 24px);
+  display:flex;
+  justify-content:space-around;
   gap:3px;
-  padding:6px;
-  border:2px solid #55575c;
+  border:2px solid #4c4e54;
   border-radius:40px;
-  background:linear-gradient(#303136,#101115);
+  background:linear-gradient(#24262b,#111216);
+  padding:7px;
+  box-shadow:0 5px 20px #000c,inset 0 1px #ffffff1f;
+  z-index:4;
 }
-.sidra-nav button {
+.nav button{
   flex:1;
-  min-width:0;
-  padding:12px 2px;
   border:0;
-  border-radius:30px;
+  border-radius:28px;
   background:transparent;
-  color:#b8b8bd;
-  font-size:13px;
+  color:#a4a6ad;
+  padding:9px 3px;
+  font-size:12px;
 }
-.sidra-nav button:first-child {
-  border:1px solid #696b70;
-  background:#191a1e;
-  color:white;
+.nav button span{display:block;font-size:20px;margin-bottom:4px}
+.nav button.active{
+  border:1px solid #d2a351;
+  background:linear-gradient(#2b2418,#171512);
+  color:#ffdc91;
+  box-shadow:0 0 12px #d8a04b45;
 }
-.sidra-modal {
+.overlay{
   display:none;
   position:fixed;
   inset:0;
-  z-index:9999;
-  align-items:center;
+  background:#000b;
+  z-index:8;
+  align-items:flex-end;
   justify-content:center;
-  padding:20px;
-  background:#000c;
 }
-.sidra-modal.show { display:flex; }
-.sidra-modal-content {
+.overlay.show{display:flex}
+.modal{
   width:100%;
-  max-width:340px;
-  padding:25px;
-  border:1px solid #d8ad5d;
-  border-radius:22px;
-  background:#17181c;
-  text-align:center;
+  max-width:520px;
+  background:linear-gradient(145deg,#292b30,#101114);
+  border:2px solid #65676d;
+  border-bottom:0;
+  border-radius:25px 25px 0 0;
+  padding:22px 19px 30px;
+  color:var(--text);
+  box-shadow:0 -10px 40px #000a;
 }
-.sidra-modal-content h3 { color:#f0cb80; }
-.sidra-modal-content p { overflow-wrap:anywhere; }
-.sidra-modal-content button {
-  padding:10px 22px;
-  border:1px solid #c9a054;
+.modal-head{display:flex;align-items:center;justify-content:space-between}
+.close{
+  background:#24262b;
+  color:#eee;
+  border:1px solid #55575c;
+  border-radius:10px;
+  padding:9px 13px;
+}
+label{display:block;color:#b5b7bd;font-size:13px;margin-top:13px}
+.modal input,.modal select{
+  width:100%;
+  background:#0e0f12;
+  color:#eee;
+  border:1px solid #55575c;
+  border-radius:11px;
+  padding:13px;
+  margin-top:7px;
+}
+.primary{
+  width:100%;
+  padding:15px;
+  border:1px solid #d7a650;
   border-radius:12px;
-  background:#302516;
+  background:linear-gradient(#6d5124,#30220e);
+  color:#ffe1a0;
+  font-weight:bold;
+  margin-top:18px;
 }
-@media(max-width:380px) {
-  .sidra-wallet { padding-left:8px; padding-right:8px; }
-  .sidra-card { padding:8px; }
-  .sidra-row input { font-size:34px; }
-  .sidra-row select { font-size:14px; }
+.toast{
+  display:none;
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#27292e;
+  border:1px solid #a47a38;
+  color:#fff0cc;
+  padding:13px 17px;
+  border-radius:12px;
+  z-index:10;
+  max-width:90%;
+  font-size:13px;
+}
+@media(max-width:360px){
+  .app{padding-left:9px;padding-right:9px}
+  .token-box{padding:18px 11px}
+  .token-picker{font-size:15px;gap:5px}
+  .coin-logo{width:31px;height:31px}
+  .amount{font-size:33px}
+  .browser-controls{padding:10px}
+  .nav button{font-size:10px}
 }
 </style>
+</head>
+<body>
+<div class="app">
+
+  <div class="browser">
+    <div class="url">🔒 https://dex...　⌄</div>
+    <div class="browser-controls">•••　│　—　│　×</div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <button class="network-select" onclick="openModal('Chọn mạng')">✹　⌄</button>
+    </div>
+    <div>
+      <div class="top-icons">
+        <button class="round-icon" onclick="toast('Ethereum')">♦</button>
+        <button class="round-icon" onclick="openModal('Tìm kiếm coin')">⌕</button>
+        <button class="round-icon" onclick="openModal('Cài đặt')">✺</button>
+      </div>
+      <div id="connection" class="connection"><span class="dot"></span> Checking...</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="swap-card" id="swap">
+      <div class="swap-head">
+        <div class="tabs">
+          <button id="swapTab" class="active" onclick="setTab('Swap')">Swap</button>
+          <button id="buyTab" onclick="setTab('Buy')">Buy</button>
+        </div>
+        <button class="settings" onclick="openModal('Cài đặt')">⚙</button>
+      </div>
+
+      <div class="token-box">
+        <div class="token-label">You pay</div>
+        <div class="token-row">
+          <input class="amount" id="payAmount" type="number" min="0" placeholder="0" oninput="calculateReceive()">
+          <button class="token-picker" onclick="openTokenPicker('pay')">
+            <span class="coin-logo" id="payLogo">$</span>
+            <span id="paySymbol">SDA</span>⌄
+          </button>
+        </div>
+        <div class="token-meta">
+          Balance: <span id="payBalance">0.512</span>
+          <button class="max" onclick="setMax()">MAX</button>
+        </div>
+      </div>
+
+      <div class="swap-direction">
+        <button onclick="reverseTokens()" aria-label="Đổi chiều token">↕</button>
+      </div>
+
+      <div class="token-box">
+        <div class="token-label">You receive</div>
+        <div class="token-row">
+          <input class="amount" id="receiveAmount" type="number" min="0" placeholder="0" readonly>
+          <button class="token-picker" onclick="openTokenPicker('receive')">
+            <span class="coin-logo" id="receiveLogo">G</span>
+            <span id="receiveSymbol">GACP</span>⌄
+          </button>
+        </div>
+        <div class="token-meta">Balance: <span id="receiveBalance">1,421.38</span></div>
+      </div>
+
+      <button class="submit-swap" id="submitSwap" onclick="submitSwap()">Enter an amount</button>
+    </section>
+
+    <div class="section-heading">
+      <h3>Portfolio</h3>
+      <button class="refresh" onclick="loadPrices()">↻ Refresh</button>
+    </div>
+    <div class="panel" id="portfolio"></div>
+
+    <div class="section-heading" id="marketTitle">
+      <h3>Market</h3><span class="muted">Live prices</span>
+    </div>
+    <div class="panel" id="market"></div>
+    <p class="note" id="status">Giá coin ban đầu là số liệu minh họa. Swap là mô phỏng giao diện.</p>
+  </main>
+</div>
+
+<nav class="nav">
+  <button class="active" onclick="go('swap',this)"><span>⇄</span>Swap</button>
+  <button onclick="go('marketTitle',this)"><span>◈</span>Explore</button>
+  <button onclick="openModal('Pools')"><span>▤</span>Pools</button>
+  <button onclick="openModal('More')"><span>•••</span>More</button>
+</nav>
+
+<div class="overlay" id="overlay" onclick="backdropClose(event)">
+  <section class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle" style="margin:0">Chức năng</h3>
+      <button class="close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
 
 <script>
-(function() {
-  const root = document.querySelector(".sidra-wallet");
-  if (!root || root.dataset.initialized) return;
-  root.dataset.initialized = "true";
+const coins=[
+ {name:"Bitcoin",symbol:"BTC",icon:"₿",color:"#f7931a",price:67420,change:2.4,amount:.25},
+ {name:"Ethereum",symbol:"ETH",icon:"◆",color:"#8998ff",price:3520,change:1.8,amount:2.4},
+ {name:"Tether",symbol:"USDT",icon:"₮",color:"#26a17b",price:1,change:.1,amount:850}
+];
 
-  const $ = id => root.querySelector("#" + id);
-  const modal = $("sidraModal");
+const tokenData={
+ SDA:{name:"SDA",icon:"$",color:"#d7a64f",balance:0.512,price:1},
+ GACP:{name:"GACP",icon:"G",color:"#e9bd62",balance:1421.38,price:.5},
+ BTC:{name:"Bitcoin",icon:"₿",color:"#f7931a",balance:.25,price:67420},
+ ETH:{name:"Ethereum",icon:"◆",color:"#8998ff",balance:2.4,price:3520},
+ USDT:{name:"Tether",icon:"₮",color:"#26a17b",balance:850,price:1}
+};
 
-  function show(title, text) {
-    $("modalTitle").textContent = title;
-    $("modalMessage").textContent = text;
-    modal.classList.add("show");
-  }
+let payToken="SDA";
+let receiveToken="GACP";
+let activeTab="Swap";
 
-  $("closeModal").onclick = () => modal.classList.remove("show");
+function money(n){
+ return n.toLocaleString("en-US",{
+  style:"currency",currency:"USD",maximumFractionDigits:2
+ });
+}
 
-  $("reverseTokens").onclick = () => {
-    const a = $("payToken");
-    const b = $("receiveToken");
-    const temp = a.value;
-    a.value = b.value;
-    b.value = temp;
-    $("receiveAmount").value = "";
-  };
-
-  $("payAmount").oninput = () => {
-    const amount = Number($("payAmount").value);
-    $("receiveAmount").value =
-      amount > 0 ? String(amount) : "";
-    $("swapButton").textContent =
-      amount > 0 ? "Review Swap" : "Enter an amount";
-  };
-
-  $("connectWallet").onclick = async () => {
-    if (!window.ethereum) {
-      show("Wallet not detected",
-        "Open this page in a compatible wallet browser to connect.");
-      return;
-    }
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts"
-      });
-      if (accounts && accounts.length) {
-        $("connectWallet").textContent =
-          accounts[0].slice(0, 6) + "..." +
-          accounts[0].slice(-4);
-        show("Wallet connected",
-          "Wallet address: " + accounts[0]);
-      }
-    } catch (e) {
-      show("Connection cancelled",
-        e.message || "Wallet connection was not completed.");
-    }
-  };
-
-  $("swapButton").onclick = () => {
-    const amount = Number($("payAmount").value);
-    if (!amount || amount <= 0) {
-      show("Enter an amount", "Please enter a token amount.");
-    } else if ($("payToken").value === $("receiveToken").value) {
-      show("Choose different tokens",
-        "Select two different tokens to continue.");
-    } else {
-      show("Demo preview",
-        "Illustrative preview only. No real swap transaction was sent.");
-    }
-  };
-
-  $("buyButton").onclick = () =>
-    show("Buy", "Token purchasing is not connected in this demo.");
-
-  $("settingsButton").onclick = () =>
-    show("Settings", "Demo settings.");
-
-  root.querySelectorAll(".sidra-nav button").forEach(button => {
-    button.onclick = () => {
-      if (button.textContent.trim() !== "Swap") {
-        show(button.textContent.trim(),
-          "This section is a visual demo and is not connected to a live service.");
-      }
-    };
+function updateClock(){
+ const d=new Date();
+ const el=document.getElementById("clock");
+ if(el){
+  el.textContent=d.toLocaleTimeString("vi-VN",{
+   timeZone:"Asia/Ho_Chi_Minh",hour12:false
   });
-})();
+ }
+}
+
+function updateConnection(){
+ const el=document.getElementById("connection");
+ el.innerHTML=navigator.onLine
+  ?'<span class="dot"></span> Connected'
+  :'<span class="dot" style="background:#e34d59"></span> Disconnected';
+}
+
+function renderCoin(c,portfolio=false){
+ return `<div class="coin">
+  <div class="icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+  <div class="info">
+   <div class="name">${c.name}</div>
+   <div class="muted">${portfolio?c.amount+" "+c.symbol:c.symbol}</div>
+  </div>
+  <div class="price">
+   ${money(portfolio?c.amount*c.price:c.price)}
+   <div class="${c.change<0?"down":"up"}">${c.change>=0?"+":""}${Number(c.change).toFixed(2)}%</div>
+  </div>
+ </div>`;
+}
+
+function render(){
+ document.getElementById("portfolio").innerHTML=coins.map(c=>renderCoin(c,true)).join("");
+ document.getElementById("market").innerHTML=coins.map(c=>renderCoin(c)).join("");
+}
+
+function updateTokenUI(){
+ const p=tokenData[payToken],r=tokenData[receiveToken];
+ document.getElementById("paySymbol").textContent=payToken;
+ document.getElementById("payLogo").textContent=p.icon;
+ document.getElementById("payLogo").style.color=p.color;
+ document.getElementById("receiveSymbol").textContent=receiveToken;
+ document.getElementById("receiveLogo").textContent=r.icon;
+ document.getElementById("receiveLogo").style.color=r.color;
+ document.getElementById("payBalance").textContent=p.balance.toLocaleString("en-US");
+ document.getElementById("receiveBalance").textContent=r.balance.toLocaleString("en-US");
+ calculateReceive();
+}
+
+function calculateReceive(){
+ const amount=Number(document.getElementById("payAmount").value||0);
+ const p=tokenData[payToken],r=tokenData[receiveToken];
+ document.getElementById("receiveAmount").value=
+  amount>0?(amount*p.price/r.price).toFixed(6):"";
+ document.getElementById("submitSwap").textContent=
+  amount>0?(activeTab==="Buy"?"Preview Buy":"Preview Swap")
+  :(activeTab==="Buy"?"Enter purchase amount":"Enter an amount");
+}
+
+function setMax(){
+ document.getElementById("payAmount").value=tokenData[payToken].balance;
+ calculateReceive();
+}
+
+function reverseTokens(){
+ const temp=payToken;
+ payToken=receiveToken;
+ receiveToken=temp;
+ updateTokenUI();
+}
+
+function setTab(tab){
+ activeTab=tab;
+ document.getElementById("swapTab").classList.toggle("active",tab==="Swap");
+ document.getElementById("buyTab").classList.toggle("active",tab==="Buy");
+ calculateReceive();
+}
+
+function openTokenPicker(which){
+ const choices=Object.keys(tokenData).map(s=>
+  `<option value="${s}">${s} — ${tokenData[s].name}</option>`
+ ).join("");
+
+ document.getElementById("modalTitle").textContent="Select token";
+ document.getElementById("modalBody").innerHTML=`
+  <label>Choose token</label>
+  <select id="tokenChoice">${choices}</select>
+  <button class="primary" onclick="chooseToken('${which}')">Select token</button>`;
+ document.getElementById("tokenChoice").value=which==="pay"?payToken:receiveToken;
+ document.getElementById("overlay").classList.add("show");
+}
+
+function chooseToken(which){
+ const value=document.getElementById("tokenChoice").value;
+ if(which==="pay")payToken=value;
+ else receiveToken=value;
+ updateTokenUI();
+ closeModal();
+}
+
+function submitSwap(){
+ const amount=Number(document.getElementById("payAmount").value||0);
+ if(amount<=0){
+  toast("Enter an amount first");
+  return;
+ }
+ if(payToken===receiveToken){
+  toast("Hãy chọn hai token khác nhau");
+  return;
+ }
+
+ openModal(activeTab==="Buy"?"Buy preview":"Swap preview");
+ document.getElementById("modalBody").innerHTML=`
+  <p>Bạn nhập <b>${amount} ${payToken}</b></p>
+  <p>Dự kiến nhận <b>${document.getElementById("receiveAmount").value} ${receiveToken}</b></p>
+  <p class="note">Đây chỉ là bản demo giao diện, không gửi giao dịch lên blockchain và không trừ số dư thật.</p>
+  <button class="primary" onclick="closeModal();toast('Bản demo: giao dịch chưa được thực hiện')">Tôi đã hiểu</button>`;
+}
+
+function openModal(title){
+ document.getElementById("modalTitle").textContent=title;
+ const body=document.getElementById("modalBody");
+
+ if(title==="Cài đặt"){
+  body.innerHTML=`
+   <p>DEX Wallet · UI demo</p>
+   <p class="note">Chưa kết nối ví hoặc blockchain thật.</p>
+   <label>Slippage tolerance</label>
+   <select><option>0.5%</option><option>1.0%</option><option>3.0%</option></select>`;
+ }else if(title==="More"){
+  body.innerHTML=`
+   <button class="primary" onclick="openModal('Cài đặt')">Settings</button>
+   <button class="primary" onclick="toast('Chức năng demo')">Help</button>`;
+ }else if(title==="Pools"){
+  body.innerHTML=`
+   <p>Liquidity pools</p>
+   <p class="note">Thông tin pool sẽ hiển thị khi kết nối nguồn dữ liệu phù hợp.</p>`;
+ }else if(title==="Tìm kiếm coin"){
+  body.innerHTML=`
+   <label>Search token</label>
+   <input id="searchToken" placeholder="BTC, ETH, SDA..." oninput="searchTokens(this.value)">
+   <div id="searchResults"></div>`;
+ }else if(title==="Chọn mạng"){
+  body.innerHTML=`
+   <label>Network</label>
+   <select id="networkChoice">
+    <option>Ethereum (demo)</option>
+    <option>BNB Chain (demo)</option>
+    <option>Polygon (demo)</option>
+   </select>
+   <p class="note">Lựa chọn mạng chỉ thay đổi giao diện, chưa kết nối blockchain.</p>
+   <button class="primary" onclick="toast('Mạng demo được chọn');closeModal()">Confirm</button>`;
+ }else{
+  body.innerHTML=`
+   <p class="note">Đây là giao diện minh họa, chưa thực hiện chuyển tiền thật.</p>
+   <button class="primary" onclick="closeModal()">Đóng</button>`;
+ }
+ document.getElementById("overlay").classList.add("show");
+}
+
+function searchTokens(query){
+ const q=query.toUpperCase();
+ const matches=Object.keys(tokenData).filter(s=>
+  s.includes(q)||tokenData[s].name.toUpperCase().includes(q)
+ );
+ document.getElementById("searchResults").innerHTML=
+  matches.map(s=>`<button class="primary" onclick="payToken='${s}';updateTokenUI();closeModal()">${s} — ${tokenData[s].name}</button>`).join("")
+  ||'<p class="note">Không tìm thấy token</p>';
+}
+
+function closeModal(){
+ document.getElementById("overlay").classList.remove("show");
+}
+
+function backdropClose(e){
+ if(e.target.id==="overlay")closeModal();
+}
+
+function toast(msg){
+ const el=document.getElementById("toast");
+ el.textContent=msg;
+ el.style.display="block";
+ setTimeout(()=>el.style.display="none",2500);
+}
+
+function go(where,btn){
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+ btn.classList.add("active");
+ document.getElementById(where).scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+async function loadPrices(){
+ const status=document.getElementById("status");
+ status.textContent="Loading live prices...";
+ try{
+  const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true");
+  if(!r.ok)throw Error("network");
+  const data=await r.json();
+  const ids={BTC:"bitcoin",ETH:"ethereum",USDT:"tether"};
+  coins.forEach(c=>{
+   const x=data[ids[c.symbol]];
+   if(x){
+    c.price=x.usd;
+    c.change=x.usd_24h_change||0;
+    tokenData[c.symbol].price=x.usd;
+   }
+  });
+  render();
+  status.textContent="Prices updated from CoinGecko.";
+ }catch(e){
+  status.textContent="Không tải được giá trực tuyến. Dữ liệu đang hiển thị có thể là số minh họa.";
+ }
+}
+
+updateConnection();
+render();
+updateTokenUI();
+setInterval(updateClock,1000);
+updateClock();
+window.addEventListener("online",updateConnection);
+window.addEventListener("offline",updateConnection);
 </script>
+</body>
+</html>
