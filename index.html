@@ -1,505 +1,519 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảo Pi Wallet - Ngân Hàng Số</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        navy: {
-                            900: '#0a1128',
-                            800: '#101f42',
-                            700: '#1c2d5a',
-                            600: '#253d78',
-                        },
-                        accent: {
-                            cyan: '#00f2fe',
-                            blue: '#4facfe',
-                            gold: '#f6d365',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background: radial-gradient(circle at top right, #101f42, #0a1128, #050814);
-            color: #f3f4f6;
-            min-height: 100vh;
-        }
-        .glass-panel {
-            background: rgba(16, 31, 66, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .glass-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-        .glow-cyan {
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.25);
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a1128;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1c2d5a;
-            border-radius: 4px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sidra DEX Swap Interface</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #0d0e12;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    
+    /* Background grid & globe effect */
+    .bg-canvas {
+      background: 
+        radial-gradient(circle at 50% 20%, rgba(212, 160, 23, 0.12) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(180, 130, 20, 0.08) 0%, transparent 50%),
+        #0b0c10;
+    }
+    
+    /* Metallic Panel Styling */
+    .metallic-card {
+      background: linear-gradient(145deg, #23262d, #14161b);
+      box-shadow: 
+        inset 1px 1px 1px rgba(255, 255, 255, 0.15),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.8),
+        0 12px 30px rgba(0, 0, 0, 0.7);
+      border: 1px solid #323741;
+      border-radius: 24px;
+    }
+    
+    .input-box {
+      background: linear-gradient(180deg, #121418 0%, #171920 100%);
+      border: 1px solid #282c36;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+      border-radius: 16px;
+    }
+    
+    .input-box-gold {
+      background: linear-gradient(180deg, #14151a 0%, #191b22 100%);
+      border: 1px solid #383c48;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+      border-radius: 16px;
+    }
+
+    /* Aperture Shutter Swap Button */
+    .shutter-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2c303b 0%, #13151a 100%);
+      border: 2px solid #4a5060;
+      box-shadow: 
+        0 0 12px rgba(0,0,0,0.8),
+        inset 0 1px 2px rgba(255,255,255,0.2);
+    }
+    .shutter-inner {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: repeating-conic-gradient(#1e2129 0deg 30deg, #14161c 30deg 60deg);
+      border: 1px solid #333845;
+    }
+
+    /* Gold Badge Glow */
+    .gacp-badge {
+      background: linear-gradient(135deg, #c59b27 0%, #684a0d 100%);
+      border: 1.5px solid #ffd700;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.35);
+    }
+
+    /* Primary Action Button */
+    .action-btn {
+      background: linear-gradient(180deg, #2b2f3a 0%, #1a1d24 100%);
+      border: 1px solid #3d4352;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 10px rgba(0,0,0,0.5);
+      color: #8b94a5;
+    }
+
+    /* Tab active state */
+    .tab-active {
+      background: linear-gradient(180deg, #3a3f4e 0%, #222630 100%);
+      color: #ffffff;
+      border: 1px solid #525a6e;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+
+    /* Glass Effect Header Pill */
+    .url-bar {
+      background: rgba(35, 38, 46, 0.75);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2d323e;
+      border-radius: 4px;
+    }
+  </style>
 </head>
-<body class="font-sans pb-10">
+<body class="bg-canvas min-h-screen flex justify-center items-start sm:items-center p-0 sm:p-4">
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 z-40 glass-panel border-b border-white/10 px-4 lg:px-8 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <!-- Brand Logo -->
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-500/30">
-                    <i class="fa-solid me-0 fa-building-columns"></i>
-                </div>
-                <div>
-                    <h1 class="font-extrabold text-lg tracking-wide bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                        BẢO PI WALLET
-                    </h1>
-                    <p class="text-[10px] text-gray-400 uppercase tracking-widest">Ngân Hàng Số Web3</p>
-                </div>
-            </div>
+  <!-- Mobile Wrapper Simulation -->
+  <div class="w-full max-w-md min-h-screen sm:min-h-[844px] flex flex-col justify-between relative overflow-hidden pb-6">
 
-            <!-- Wallet Connect Button -->
-            <button id="connectWalletBtn" onclick="toggleWalletConnect()" class="flex items-center space-x-2 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-white/10 transition-all text-sm font-medium text-gray-300">
-                <span id="walletStatusDot" class="w-2.5 h-2.5 rounded-full bg-gray-500"></span>
-                <i class="fa-solid fa-wallet text-gray-400" id="walletIcon"></i>
-                <span id="walletBtnText">Kết nối ví</span>
-            </button>
+    <!-- Header Navigation -->
+    <header class="w-full px-4 pt-3 pb-2 flex flex-col gap-3 z-10">
+      <!-- Browser Top Bar -->
+      <div class="flex items-center justify-between">
+        <div class="w-12"></div>
+        <div class="url-bar px-4 py-1.5 rounded-full flex items-center gap-2 text-xs text-gray-300 font-medium cursor-pointer">
+          <span>https://dex....</span>
+          <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </div>
+        <div class="flex items-center gap-2 text-gray-400">
+          <button class="hover:text-white"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 10a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+          <button class="hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/></svg></button>
+          <button class="hover:text-white"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>
+      </div>
+
+      <!-- App Header Bar -->
+      <div class="flex items-center justify-between pt-1">
+        <!-- Logo Sidra Gold -->
+        <div class="flex items-center gap-2 cursor-pointer" onclick="openModal('walletModal')">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center p-0.5 bg-gradient-to-br from-yellow-500 to-yellow-800 shadow-lg">
+            <div class="w-full h-full rounded-full bg-black flex items-center justify-center text-yellow-500 font-bold text-lg">
+              <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z"/></svg>
+            </div>
+          </div>
+          <!-- Network Switcher Badge -->
+          <div class="url-bar px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs text-gray-200">
+            <span class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_6px_#f97316]"></span>
+            <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Header Actions (Eth, Search, Wallet) -->
+        <div class="flex items-center gap-2">
+          <button onclick="openModal('tokenModal')" class="url-bar p-2 rounded-full text-gray-300 hover:text-white">
+            <svg class="w-4 h-4" viewBox="0 0 32 32" fill="currentColor"><path d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32Z" fill="#3C3C3D"/><path d="M16.0001 4V12.8702L23.4939 16.206L16.0001 4Z" fill="#E0E0E0"/><path d="M16 4L8.50391 16.206L16 12.8702V4Z" fill="#A4A4A4"/><path d="M16.0001 20.3168V27.9946L23.5016 17.5615L16.0001 20.3168Z" fill="#E0E0E0"/><path d="M16 27.9946V20.3161L8.50391 17.5615L16 27.9946Z" fill="#A4A4A4"/></svg>
+          </button>
+          <button onclick="openModal('tokenModal')" class="url-bar p-2 rounded-full text-gray-300 hover:text-white">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </button>
+          <!-- Wallet Button with Indicator -->
+          <button onclick="openModal('walletModal')" class="url-bar p-2 rounded-full text-yellow-400 hover:text-yellow-300 relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          </button>
+        </div>
+      </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="max-w-7xl mx-auto px-4 lg:px-8 pt-6 space-y-6">
-
-        <!-- Banner Chào mừng & Tổng Số Dư -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Thẻ Số Dư Chính -->
-            <div class="lg:col-span-2 glass-panel rounded-3xl p-6 relative overflow-hidden glow-cyan">
-                <!-- Background decorative elements -->
-                <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="absolute right-20 top-0 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <span class="text-xs uppercase tracking-wider text-cyan-400 font-semibold bg-cyan-950/60 border border-cyan-500/30 px-3 py-1 rounded-full">Tài Khoản Tổng Khả Dụng</span>
-                        <h2 class="text-gray-400 text-sm mt-2">Tổng số dư ước tính</h2>
-                    </div>
-                    <button onclick="toggleBalanceVisibility()" class="text-gray-400 hover:text-white p-2">
-                        <i id="eyeIcon" class="fa-solid fa-eye"></i>
-                    </button>
-                </div>
-
-                <!-- Số dư USDT -->
-                <div class="my-3">
-                    <div class="flex items-baseline space-x-2">
-                        <span id="mainBalance" class="text-4xl md:text-5xl font-extrabold text-white tracking-tight">75.892,00</span>
-                        <span class="text-xl md:text-2xl font-bold text-cyan-400">USDT</span>
-                    </div>
-                    <div class="flex items-center space-x-3 mt-2 text-sm text-gray-400">
-                        <span class="text-emerald-400 flex items-center font-medium">
-                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +2.45% (24h)
-                        </span>
-                        <span>≈ <span id="vndBalance">1.935.246.000</span> VND</span>
-                        <span>•</span>
-                        <span>≈ <span id="piBalance">2.448,12</span> π</span>
-                    </div>
-                </div>
-
-                <!-- Phím thao tác nhanh -->
-                <div class="grid grid-cols-4 gap-3 mt-6">
-                    <button onclick="openModal('modalTransfer')" class="glass-card hover:bg-white/10 p-3 rounded-2xl flex flex-col items-center justify-center transition-all group">
-                        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-paper-plane"></i>
-                        </div>
-                        <span class="text-xs text-gray-300 font-medium">Chuyển Tiền</span>
-                    </button>
-                    <button onclick="openModal('modalDeposit')" class="glass-card hover:bg-white/10 p-3 rounded-2xl flex flex-col items-center justify-center transition-all group">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-qrcode"></i>
-                        </div>
-                        <span class="text-xs text-gray-300 font-medium">Nạp Tiền</span>
-                    </button>
-                    <button onclick="openModal('modalWithdraw')" class="glass-card hover:bg-white/10 p-3 rounded-2xl flex flex-col items-center justify-center transition-all group">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                        </div>
-                        <span class="text-xs text-gray-300 font-medium">Rút Tiền</span>
-                    </button>
-                    <button onclick="openModal('modalSwap')" class="glass-card hover:bg-white/10 p-3 rounded-2xl flex flex-col items-center justify-center transition-all group">
-                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-repeat"></i>
-                        </div>
-                        <span class="text-xs text-gray-300 font-medium">Đổi Tiền</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Thẻ Ngân Hàng Số Platinum -->
-            <div class="glass-panel rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-blue-900/40 via-navy-800 to-indigo-950/60 border border-cyan-500/20">
-                <div class="flex justify-between items-center">
-                    <span class="text-xs font-semibold uppercase tracking-widest text-cyan-300">Thẻ Visa Đột Phá</span>
-                    <i class="fa-brands fa-cc-visa text-3xl text-white/80"></i>
-                </div>
-                
-                <div class="my-6">
-                    <p class="text-xs text-gray-400 uppercase">Chủ thẻ</p>
-                    <p class="text-lg font-bold text-white tracking-wider">BẢO PI MEMBER</p>
-                    <p class="text-sm text-cyan-300 font-mono tracking-widest mt-2">**** **** **** 8899</p>
-                </div>
-
-                <div class="flex justify-between items-center pt-2 border-t border-white/10 text-xs text-gray-400">
-                    <span>Hạn thẻ: 10/28</span>
-                    <span class="text-emerald-400 font-medium"><i class="fa-solid fa-circle-check"></i> Đã Kích Hoạt</span>
-                </div>
-            </div>
+    <!-- Main DEX Card -->
+    <main class="px-4 py-2 z-10 my-auto">
+      <div class="metallic-card p-4 relative">
+        
+        <!-- Swap / Buy Tabs & Settings -->
+        <div class="flex items-center justify-between mb-4">
+          <div class="bg-[#121419] p-1 rounded-xl flex items-center border border-[#232733]">
+            <button class="px-5 py-1.5 rounded-lg text-sm font-semibold tab-active transition">Swap</button>
+            <button class="px-5 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-gray-200 transition">Buy</button>
+          </div>
+          <button onclick="openModal('settingsModal')" class="p-2 text-gray-400 hover:text-white transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          </button>
         </div>
 
-        <!-- Tiện ích & Ứng dụng Bấm Được -->
-        <section>
-            <h3 class="text-lg font-bold text-white mb-4 flex items-center">
-                <i class="fa-solid fa-shapes text-cyan-400 mr-2"></i> Ứng Dụng & Dịch Vụ Ngân Hàng
-            </h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-                <button onclick="openModal('modalClock')" class="glass-panel p-4 rounded-2xl hover:border-cyan-500/50 transition-all flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-clock"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-gray-200">Giờ Thế Giới</span>
-                    <span class="text-[10px] text-gray-400 mt-1">Thời gian thực</span>
-                </button>
+        <!-- Input Section 1: You Pay -->
+        <div class="input-box p-4 relative mb-2">
+          <div class="text-xs font-medium text-gray-400 mb-1">You pay</div>
+          <div class="flex items-center justify-between">
+            <input type="number" id="payInput" placeholder="0" value="0" class="bg-transparent text-3xl text-white font-semibold outline-none w-1/2">
+            
+            <!-- Token Selector SDA -->
+            <button onclick="openModal('tokenModal', 'pay')" class="bg-[#1e222a] border border-[#323745] px-3 py-1.5 rounded-full flex items-center gap-2 hover:bg-[#282d38] transition">
+              <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-yellow-600 to-yellow-400 flex items-center justify-center text-black font-bold text-xs shadow-md">
+                <svg class="w-3.5 h-3.5 text-black" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15 8L21 9L16.5 14L18 20L12 17L6 20L7.5 14L3 9L9 8L12 2Z"/></svg>
+              </div>
+              <span id="payTokenSymbol" class="font-bold text-white text-sm">SDA</span>
+              <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+          </div>
+          <div class="flex items-center justify-end gap-1.5 mt-2 text-xs text-gray-400">
+            <span>Balance: <span id="sdaBalance">0.512</span></span>
+            <button onclick="setMaxPay()" class="bg-[#291f0d] text-yellow-500 font-bold px-1.5 py-0.5 rounded border border-yellow-700/50 text-[10px] hover:bg-yellow-900/40">MAX</button>
+          </div>
+        </div>
 
-                <button onclick="openModal('modalAnalytics')" class="glass-panel p-4 rounded-2xl hover:border-cyan-500/50 transition-all flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-gray-200">Biểu Đồ Giá</span>
-                    <span class="text-[10px] text-gray-400 mt-1">Cập nhật Live</span>
-                </button>
-
-                <button onclick="openModal('modalSavings')" class="glass-panel p-4 rounded-2xl hover:border-cyan-500/50 transition-all flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-piggy-bank"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-gray-200">Gửi Tiết Kiệm</span>
-                    <span class="text-[10px] text-gray-400 mt-1">Lãi suất 8.5%/năm</span>
-                </button>
-
-                <button onclick="openModal('modalHistory')" class="glass-panel p-4 rounded-2xl hover:border-cyan-500/50 transition-all flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-receipt"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-gray-200">Lịch Sử Giao Dịch</span>
-                    <span class="text-[10px] text-gray-400 mt-1">Chi tiết biến động</span>
-                </button>
-
-                <button onclick="openModal('modalSecurity')" class="glass-panel p-4 rounded-2xl hover:border-cyan-500/50 transition-all flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-gray-200">Bảo Mật Ví</span>
-                    <span class="text-[10px] text-gray-400 mt-1">Khóa & Mã PIN</span>
-                </button>
-
-                <button onclick="openModal('modalSupport')" class="glass-panel p-4 rounded-2xl hover:border-cyan-500/50 transition-all flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-headset"></i>
-                    </div>
-                    <span class="text-xs font-semibold text-gray-200">Hỗ Trợ 24/7</span>
-                    <span class="text-[10px] text-gray-400 mt-1">Trợ lý AI Bảo Pi</span>
-                </button>
+        <!-- Center Shutter Swap Icon -->
+        <div class="relative w-full flex justify-center -my-5 z-20">
+          <button onclick="swapTokens()" class="shutter-btn flex items-center justify-center hover:scale-105 transition transform active:scale-95">
+            <div class="shutter-inner flex items-center justify-center">
+              <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
-        </section>
+          </button>
+        </div>
 
-        <!-- Danh sách Các Đồng Tiền Quốc Tế -->
-        <section class="glass-panel rounded-3xl p-6">
-            <div class="flex justify-between items-center mb-6">
-                <div>
-                    <h3 class="text-lg font-bold text-white flex items-center">
-                        <i class="fa-solid fa-globe text-cyan-400 mr-2"></i> Ngoại Tệ & Tài Sản Crypto
-                    </h3>
-                    <p class="text-xs text-gray-400 mt-0.5">Tỷ giá cập nhật liên tục theo thời gian thực</p>
-                </div>
-                <span class="text-xs text-emerald-400 flex items-center bg-emerald-950/60 border border-emerald-500/30 px-3 py-1 rounded-full">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-ping"></span> Live Market
-                </span>
-            </div>
+        <!-- Input Section 2: You Receive -->
+        <div class="input-box-gold p-4 relative pt-5 mt-2">
+          <div class="text-xs font-medium text-gray-400 mb-1">You receive</div>
+          <div class="flex items-center justify-between">
+            <input type="number" id="receiveInput" placeholder="0" value="0" readonly class="bg-transparent text-3xl text-white font-semibold outline-none w-1/2">
+            
+            <!-- Token Selector GACP Gold Badge -->
+            <button onclick="openModal('tokenModal', 'receive')" class="gacp-badge px-3 py-1.5 rounded-full flex items-center gap-2 transition hover:brightness-110">
+              <div class="w-6 h-6 rounded-full bg-yellow-400 flex items-center justify-center text-black font-bold text-[10px] border border-yellow-200">
+                GACP
+              </div>
+              <span id="receiveTokenSymbol" class="font-bold text-white text-sm tracking-wide">GACP</span>
+              <svg class="w-3.5 h-3.5 text-yellow-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+          </div>
+          <div class="flex items-center justify-end gap-1 mt-2 text-xs text-gray-400">
+            <span>Balance: <span id="gacpBalance">1,421.38</span></span>
+          </div>
+        </div>
 
-            <!-- Table / Grid các đồng tiền -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="currencyGrid">
-                <!-- Javascript will populate currency cards here -->
-            </div>
-        </section>
+        <!-- Enter Amount / Swap Submit Button -->
+        <button id="actionBtn" onclick="executeSwap()" class="w-full mt-4 py-4 rounded-xl action-btn font-semibold text-gray-300 text-base hover:text-white hover:border-gray-400 active:scale-[0.99] transition">
+          Enter an amount
+        </button>
 
+      </div>
     </main>
 
-    <!-- Modal Cửa Sổ Mở Khi Bấm Các Nút -->
-    <div id="modalOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        
-        <!-- Modal Chuyển Tiền -->
-        <div id="modalTransfer" class="modal-box hidden glass-panel border border-cyan-500/30 rounded-3xl max-w-lg w-full p-6 relative">
-            <div class="flex justify-between items-center pb-4 border-b border-white/10">
-                <h3 class="text-lg font-bold text-white flex items-center">
-                    <i class="fa-solid fa-paper-plane text-cyan-400 mr-2"></i> Chuyển Tiền Nhanh
-                </h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <div class="space-y-4 my-4">
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">Địa chỉ người nhận / Số tài khoản</label>
-                    <input type="text" placeholder="Nhập địa chỉ ví 0x... hoặc SĐT" class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-400">
-                </div>
-                <div>
-                    <label class="block text-xs text-gray-400 mb-1">Số lượng USDT</label>
-                    <input type="number" placeholder="0.00" class="w-full bg-slate-900/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-cyan-400">
-                </div>
-            </div>
-            <button onclick="actionSuccess('Giao dịch chuyển tiền thành công!')" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold py-3 rounded-xl transition-all">
-                Xác Nhận Chuyển
-            </button>
-        </div>
-
-        <!-- Modal Đồng Hồ Quốc Tế (Realtime) -->
-        <div id="modalClock" class="modal-box hidden glass-panel border border-cyan-500/30 rounded-3xl max-w-lg w-full p-6 relative">
-            <div class="flex justify-between items-center pb-4 border-b border-white/10">
-                <h3 class="text-lg font-bold text-white flex items-center">
-                    <i class="fa-solid fa-clock text-cyan-400 mr-2"></i> Thời Gian Thực Các Thị Trường
-                </h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <div class="space-y-3 my-4">
-                <div class="flex justify-between items-center p-3 glass-card rounded-xl">
-                    <span class="text-sm font-medium">Việt Nam (VN)</span>
-                    <span id="timeVN" class="text-lg font-mono text-cyan-400 font-bold">00:00:00</span>
-                </div>
-                <div class="flex justify-between items-center p-3 glass-card rounded-xl">
-                    <span class="text-sm font-medium">Mỹ (New York - Wall St)</span>
-                    <span id="timeNY" class="text-lg font-mono text-cyan-400 font-bold">00:00:00</span>
-                </div>
-                <div class="flex justify-between items-center p-3 glass-card rounded-xl">
-                    <span class="text-sm font-medium">Anh (London)</span>
-                    <span id="timeLD" class="text-lg font-mono text-cyan-400 font-bold">00:00:00</span>
-                </div>
-                <div class="flex justify-between items-center p-3 glass-card rounded-xl">
-                    <span class="text-sm font-medium">Nhật Bản (Tokyo)</span>
-                    <span id="timeTK" class="text-lg font-mono text-cyan-400 font-bold">00:00:00</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Biểu Đồ Giá Live -->
-        <div id="modalAnalytics" class="modal-box hidden glass-panel border border-cyan-500/30 rounded-3xl max-w-xl w-full p-6 relative">
-            <div class="flex justify-between items-center pb-4 border-b border-white/10">
-                <h3 class="text-lg font-bold text-white flex items-center">
-                    <i class="fa-solid fa-chart-line text-emerald-400 mr-2"></i> Biểu Đồ Giá Thời Gian Thực
-                </h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            <div class="my-4 space-y-4">
-                <div class="flex justify-between text-sm">
-                    <span>Cặp giao dịch: <strong class="text-cyan-400">USDT / VND</strong></span>
-                    <span class="text-emerald-400">Tăng nhẹ +0.12%</span>
-                </div>
-                <!-- Simulated Live Chart Canvas / Visual -->
-                <div class="h-48 bg-slate-900/80 rounded-2xl p-4 flex items-end justify-between space-x-2 border border-white/5" id="liveChartBars">
-                    <!-- Bars inserted by JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Chung Cho Các Tính Năng Khác -->
-        <div id="modalGeneric" class="modal-box hidden glass-panel border border-cyan-500/30 rounded-3xl max-w-md w-full p-6 relative text-center">
-            <div class="w-16 h-16 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl mx-auto mb-4">
-                <i class="fa-solid fa-circle-info"></i>
-            </div>
-            <h3 id="genericTitle" class="text-lg font-bold text-white mb-2">Thông Báo</h3>
-            <p id="genericDesc" class="text-sm text-gray-300 mb-6">Tính năng đang hoạt động trong hệ thống Bảo Pi Wallet.</p>
-            <button onclick="closeModal()" class="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-bold py-2.5 rounded-xl transition-all">
-                Đóng
-            </button>
-        </div>
-
+    <!-- Bottom Decorative Candlestick Chart -->
+    <div class="px-6 py-2 opacity-40 z-0">
+      <div class="flex items-end justify-between h-20 border-b border-r border-gray-700/50 pl-2 pb-1 relative">
+        <svg class="absolute inset-0 w-full h-full text-yellow-500/30" fill="none" stroke="currentColor" viewBox="0 0 300 80">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M 0 60 L 50 50 L 90 65 L 140 30 L 190 45 L 240 15 L 300 25" />
+        </svg>
+        <div class="w-1.5 h-8 bg-yellow-500/40 relative"><div class="absolute -top-2 left-0.5 w-0.5 h-12 bg-yellow-400/60"></div></div>
+        <div class="w-1.5 h-12 bg-yellow-500/60 relative"><div class="absolute -top-1 left-0.5 w-0.5 h-14 bg-yellow-400/80"></div></div>
+        <div class="w-1.5 h-6 bg-red-500/40 relative"><div class="absolute -top-2 left-0.5 w-0.5 h-10 bg-red-400/60"></div></div>
+        <div class="w-1.5 h-14 bg-yellow-500/80 relative"><div class="absolute -top-3 left-0.5 w-0.5 h-18 bg-yellow-300"></div></div>
+        <div class="w-1.5 h-10 bg-yellow-500/50 relative"><div class="absolute -top-1 left-0.5 w-0.5 h-12 bg-yellow-400/60"></div></div>
+      </div>
     </div>
 
-    <!-- JavaScript Handling Realtime & Interactions -->
-    <script>
-        // Data Ngoại tệ & Crypto
-        const currencies = [
-            { code: 'USDT', name: 'Tether USD', rate: '1.00 USD', valueInVnd: 25500, balance: '75.892,00', icon: 'fa-dollar-sign', color: 'text-emerald-400' },
-            { code: 'PI', name: 'Pi Network Mainnet', rate: '31.00 USD', valueInVnd: 790500, balance: '2.448,12', icon: 'fa-brands fa-pi', color: 'text-amber-400' },
-            { code: 'USD', name: 'Đô La Mỹ', rate: '1.00 USD', valueInVnd: 25500, balance: '75.892,00', icon: 'fa-usdollar', color: 'text-blue-400' },
-            { code: 'EUR', name: 'Đồng Euro Châu Âu', rate: '1.08 USD', valueInVnd: 27540, balance: '70.270,37', icon: 'fa-euro-sign', color: 'text-indigo-400' },
-            { code: 'VND', name: 'Việt Nam Đồng', rate: '0.000039 USD', valueInVnd: 1, balance: '1.935.246.000', icon: 'fa-dong-sign', color: 'text-red-400' },
-            { code: 'JPY', name: 'Yên Nhật Bản', rate: '0.0066 USD', valueInVnd: 168.3, balance: '11.498.787', icon: 'fa-yen-sign', color: 'text-pink-400' },
-            { code: 'GBP', name: 'Bảng Anh', rate: '1.29 USD', valueInVnd: 32895, balance: '58.831,00', icon: 'fa-sterling-sign', color: 'text-teal-400' },
-            { code: 'KRW', name: 'Won Hàn Quốc', rate: '0.00073 USD', valueInVnd: 18.6, balance: '103.961.643', icon: 'fa-won-sign', color: 'text-purple-400' },
-        ];
+    <!-- Bottom Navigation Bar -->
+    <footer class="px-4 z-10">
+      <div class="bg-[#14161d]/90 backdrop-blur-md p-1.5 rounded-full border border-[#2a2f3d] flex items-center justify-between">
+        <button class="flex-1 py-2 rounded-full text-xs font-semibold text-white bg-[#252a36] shadow">Swap</button>
+        <button class="flex-1 py-2 text-xs font-medium text-gray-400 hover:text-gray-200">Explore</button>
+        <button class="flex-1 py-2 text-xs font-medium text-gray-400 hover:text-gray-200">Pools</button>
+        <button class="px-3 text-gray-400 hover:text-white"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 10a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4zm6 0a2 2 0 110-4 2 2 0 010 4z"/></svg></button>
+      </div>
+    </footer>
 
-        let isWalletConnected = false;
-        let isBalanceVisible = true;
+  </div>
 
-        // Render danh sách tiền
-        function renderCurrencies() {
-            const container = document.getElementById('currencyGrid');
-            container.innerHTML = currencies.map(c => `
-                <div onclick="openCurrencyDetail('${c.code}', '${c.name}', '${c.balance}')" class="glass-card p-4 rounded-2xl hover:border-cyan-500/40 transition-all cursor-pointer flex flex-col justify-between">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-bold ${c.color}">
-                                <i class="fa-solid ${c.icon}"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-white text-sm">${c.code}</h4>
-                                <p class="text-[10px] text-gray-400">${c.name}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-end">
-                        <div>
-                            <span class="text-[10px] text-gray-400">Số dư khả dụng</span>
-                            <p class="font-mono text-sm font-semibold text-cyan-300">${c.balance}</p>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
-                    </div>
-                </div>
-            `).join('');
-        }
+  <!-- MODAL 1: SELECT TOKEN (Mở khi bấm chọn Coin) -->
+  <div id="tokenModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-[#171920] border border-[#2e3442] w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl animate-in slide-in-from-bottom duration-200">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-bold text-white">Select a Token</h3>
+        <button onclick="closeModal('tokenModal')" class="text-gray-400 hover:text-white p-1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
 
-        // Bật / Tắt kết nối ví
-        function toggleWalletConnect() {
-            const btnText = document.getElementById('walletBtnText');
-            const statusDot = document.getElementById('walletStatusDot');
-            const icon = document.getElementById('walletIcon');
+      <!-- Search Input -->
+      <div class="relative mb-4">
+        <input type="text" id="tokenSearchInput" oninput="filterTokens()" placeholder="Search name or paste address" class="w-full bg-[#0f1115] border border-[#2a2e3a] rounded-xl px-10 py-3 text-sm text-white focus:outline-none focus:border-yellow-500">
+        <svg class="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </div>
 
-            isWalletConnected = !isWalletConnected;
+      <!-- Token List -->
+      <div id="tokenList" class="max-h-80 overflow-y-auto space-y-1">
+        <!-- Tokens rendered dynamically -->
+      </div>
+    </div>
+  </div>
 
-            if (isWalletConnected) {
-                btnText.innerText = "0xa6Bb...97ED";
-                statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse";
-                icon.className = "fa-solid fa-link text-emerald-400";
-                alert("Đã kết nối thành công với ví Bảo Pi!");
-            } else {
-                btnText.innerText = "Kết nối ví";
-                statusDot.className = "w-2.5 h-2.5 rounded-full bg-gray-500";
-                icon.className = "fa-solid fa-wallet text-gray-400";
-            }
-        }
+  <!-- MODAL 2: WALLET ($27,500.00 Balance) -->
+  <div id="walletModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-[#171920] border border-[#2e3442] w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          <span class="text-sm font-semibold text-gray-300">Bảo Pi Wallet</span>
+        </div>
+        <button onclick="closeModal('walletModal')" class="text-gray-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
 
-        // Bật/tắt ẩn số dư
-        function toggleBalanceVisibility() {
-            isBalanceVisible = !isBalanceVisible;
-            const mainBal = document.getElementById('mainBalance');
-            const vndBal = document.getElementById('vndBalance');
-            const piBal = document.getElementById('piBalance');
-            const eyeIcon = document.getElementById('eyeIcon');
+      <!-- Wallet Balance Box -->
+      <div class="bg-gradient-to-br from-[#232733] to-[#12141a] p-5 rounded-2xl border border-[#353b4d] mb-4 relative">
+        <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
+          <span>Total Balance (Real-time)</span>
+          <button onclick="toggleBalanceVisibility()" class="text-yellow-500 hover:underline">
+            <span id="hideToggleText">Hide</span>
+          </button>
+        </div>
+        
+        <div class="text-3xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span id="walletBalanceDisplay">$27,500.00</span>
+          <span class="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded font-normal">+2.4%</span>
+        </div>
+        
+        <div class="text-xs text-gray-400 mt-2 flex items-center gap-1">
+          <svg class="w-3 h-3 text-yellow-500 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Live Feed Updated: <span id="liveTime">Just now</span>
+        </div>
+      </div>
 
-            if (isBalanceVisible) {
-                mainBal.innerText = "75.892,00";
-                vndBal.innerText = "1.935.246.000";
-                piBal.innerText = "2.448,12";
-                eyeIcon.className = "fa-solid fa-eye";
-            } else {
-                mainBal.innerText = "******";
-                vndBal.innerText = "******";
-                piBal.innerText = "******";
-                eyeIcon.className = "fa-solid fa-eye-slash";
-            }
-        }
+      <div class="space-y-2 mb-4">
+        <div class="flex justify-between items-center p-3 bg-[#111318] rounded-xl border border-[#232734]">
+          <span class="text-sm font-medium text-gray-300">SDA Balance</span>
+          <span class="text-sm font-bold text-yellow-500">0.512 SDA</span>
+        </div>
+        <div class="flex justify-between items-center p-3 bg-[#111318] rounded-xl border border-[#232734]">
+          <span class="text-sm font-medium text-gray-300">GACP Balance</span>
+          <span class="text-sm font-bold text-yellow-400">1,421.38 GACP</span>
+        </div>
+      </div>
 
-        // Cập nhật đồng hồ thời gian thực
-        function updateClocks() {
-            const now = new Date();
-            
-            // Việt Nam (UTC+7)
-            document.getElementById('timeVN').innerText = now.toLocaleTimeString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
-            // New York (UTC-4/-5)
-            document.getElementById('timeNY').innerText = now.toLocaleTimeString('en-US', { timeZone: 'America/New_York' });
-            // London (UTC+0/+1)
-            document.getElementById('timeLD').innerText = now.toLocaleTimeString('en-GB', { timeZone: 'Europe/London' });
-            // Tokyo (UTC+9)
-            document.getElementById('timeTK').innerText = now.toLocaleTimeString('ja-JP', { timeZone: 'Asia/Tokyo' });
-        }
-        setInterval(updateClocks, 1000);
+      <button onclick="closeModal('walletModal')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-bold rounded-xl shadow-lg">Close Wallet</button>
+    </div>
+  </div>
 
-        // Tạo cột biểu đồ biến động thời gian thực
-        function renderLiveChart() {
-            const chartContainer = document.getElementById('liveChartBars');
-            chartContainer.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
-                const height = Math.floor(Math.random() * 70) + 20;
-                const isGreen = Math.random() > 0.3;
-                const bar = document.createElement('div');
-                bar.className = `flex-1 ${isGreen ? 'bg-emerald-500/80' : 'bg-rose-500/80'} rounded-t transition-all duration-500`;
-                bar.style.height = `${height}%`;
-                chartContainer.appendChild(bar);
-            }
-        }
-        setInterval(renderLiveChart, 2000);
+  <!-- MODAL 3: SETTINGS -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-[#171920] border border-[#2e3442] w-full max-w-sm rounded-2xl p-5 shadow-2xl">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-white">Swap Settings</h3>
+        <button onclick="closeModal('settingsModal')" class="text-gray-400 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
 
-        // Quản lý Mở/Đóng Modal
-        function openModal(modalId) {
-            document.getElementById('modalOverlay').classList.remove('hidden');
-            document.querySelectorAll('.modal-box').forEach(el => el.classList.add('hidden'));
-            
-            const target = document.getElementById(modalId);
-            if (target) {
-                target.classList.remove('hidden');
-            } else {
-                // Nếu chưa có modal riêng thì hiện generic
-                document.getElementById('genericTitle').innerText = "Dịch Vụ Ngân Hàng";
-                document.getElementById('genericDesc').innerText = "Cửa sổ thời gian thực đang chạy dữ liệu cho tính năng này.";
-                document.getElementById('modalGeneric').classList.remove('hidden');
-            }
-        }
+      <div class="mb-4">
+        <label class="text-xs text-gray-400 block mb-2">Slippage Tolerance</label>
+        <div class="grid grid-cols-4 gap-2">
+          <button class="py-1.5 bg-[#232733] border border-yellow-500 text-yellow-400 rounded-lg text-xs font-bold">0.1%</button>
+          <button class="py-1.5 bg-[#111318] border border-[#282d3c] text-gray-300 rounded-lg text-xs">0.5%</button>
+          <button class="py-1.5 bg-[#111318] border border-[#282d3c] text-gray-300 rounded-lg text-xs">1.0%</button>
+          <button class="py-1.5 bg-[#111318] border border-[#282d3c] text-gray-300 rounded-lg text-xs">Auto</button>
+        </div>
+      </div>
 
-        function openCurrencyDetail(code, name, balance) {
-            document.getElementById('modalOverlay').classList.remove('hidden');
-            document.querySelectorAll('.modal-box').forEach(el => el.classList.add('hidden'));
-            document.getElementById('genericTitle').innerText = `${name} (${code})`;
-            document.getElementById('genericDesc').innerText = `Số dư hiện tại: ${balance} ${code}. Tỷ giá đang được cập nhật thời gian thực từ thị trường quốc tế.`;
-            document.getElementById('modalGeneric').classList.remove('hidden');
-        }
+      <button onclick="closeModal('settingsModal')" class="w-full py-2.5 bg-[#232733] hover:bg-[#2c3242] text-white font-semibold rounded-xl text-sm transition">Save Settings</button>
+    </div>
+  </div>
 
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.add('hidden');
-        }
+  <!-- JavaScript Logics -->
+  <script>
+    // List of Market Coins
+    const tokens = [
+      { symbol: 'SDA', name: 'Sidra Digital Asset', balance: '0.512', price: 12.50, isGold: true },
+      { symbol: 'GACP', name: 'GLN Agri Chain Token', balance: '1,421.38', price: 1.85, isGacp: true },
+      { symbol: 'BTC', name: 'Bitcoin', balance: '0.042', price: 68500.00 },
+      { symbol: 'ETH', name: 'Ethereum', balance: '1.250', price: 3500.00 },
+      { symbol: 'BNB', name: 'Binance Coin', balance: '4.500', price: 580.00 },
+      { symbol: 'SOL', name: 'Solana', balance: '18.20', price: 145.00 },
+      { symbol: 'USDT', name: 'Tether USD', balance: '520.00', price: 1.00 },
+      { symbol: 'USDC', name: 'USD Coin', balance: '310.00', price: 1.00 },
+      { symbol: 'PI', name: 'Pi Network', balance: '250.00', price: 38.20 }
+    ];
 
-        function actionSuccess(msg) {
-            alert(msg);
-            closeModal();
-        }
+    let activeSelectingField = 'pay';
+    let isBalanceHidden = false;
+    let baseWalletBalance = 27500.00;
 
-        // Khởi chạy khi load trang
-        window.onload = function() {
-            renderCurrencies();
-            updateClocks();
-            renderLiveChart();
-        };
-    </script>
+    // Render Token List in Modal
+    function renderTokens(filter = '') {
+      const listEl = document.getElementById('tokenList');
+      listEl.innerHTML = '';
+      
+      const filtered = tokens.filter(t => 
+        t.symbol.toLowerCase().includes(filter.toLowerCase()) || 
+        t.name.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      filtered.forEach(token => {
+        const item = document.createElement('div');
+        item.className = "flex items-center justify-between p-3 rounded-xl hover:bg-[#232733] cursor-pointer transition border border-transparent hover:border-[#323848]";
+        item.onclick = () => selectToken(token);
+        
+        item.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full ${token.isGacp ? 'bg-yellow-500 text-black font-bold' : 'bg-[#292e3b] text-yellow-400'} flex items-center justify-center font-bold text-xs border border-yellow-500/30">
+              ${token.symbol.substring(0, 4)}
+            </div>
+            <div>
+              <div class="font-bold text-white text-sm">${token.symbol}</div>
+              <div class="text-xs text-gray-400">${token.name}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-sm font-semibold text-gray-200">${token.balance}</div>
+            <div class="text-xs text-gray-400">$${token.price.toLocaleString()}</div>
+          </div>
+        `;
+        listEl.appendChild(item);
+      });
+    }
+
+    function filterTokens() {
+      const query = document.getElementById('tokenSearchInput').value;
+      renderTokens(query);
+    }
+
+    function openModal(id, targetField = 'pay') {
+      activeSelectingField = targetField;
+      if (id === 'tokenModal') renderTokens();
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function selectToken(token) {
+      if (activeSelectingField === 'pay') {
+        document.getElementById('payTokenSymbol').innerText = token.symbol;
+        document.getElementById('sdaBalance').innerText = token.balance;
+      } else {
+        document.getElementById('receiveTokenSymbol').innerText = token.symbol;
+        document.getElementById('gacpBalance').innerText = token.balance;
+      }
+      closeModal('tokenModal');
+      calculateSwap();
+    }
+
+    function setMaxPay() {
+      const bal = document.getElementById('sdaBalance').innerText.replace(',', '');
+      document.getElementById('payInput').value = bal;
+      calculateSwap();
+    }
+
+    // Input Swap Logic
+    document.getElementById('payInput').addEventListener('input', calculateSwap);
+
+    function calculateSwap() {
+      const val = parseFloat(document.getElementById('payInput').value) || 0;
+      const btn = document.getElementById('actionBtn');
+      
+      if (val > 0) {
+        // Simulated conversion rate: 1 SDA = ~2776.13 GACP
+        const converted = (val * 2776.1328).toFixed(2);
+        document.getElementById('receiveInput').value = converted;
+        btn.innerText = 'Swap Now';
+        btn.classList.add('bg-gradient-to-r', 'from-yellow-600', 'to-yellow-500', 'text-black', 'font-bold');
+        btn.classList.remove('action-btn', 'text-gray-300');
+      } else {
+        document.getElementById('receiveInput').value = '0';
+        btn.innerText = 'Enter an amount';
+        btn.classList.remove('bg-gradient-to-r', 'from-yellow-600', 'to-yellow-500', 'text-black', 'font-bold');
+        btn.classList.add('action-btn', 'text-gray-300');
+      }
+    }
+
+    function swapTokens() {
+      const paySymbol = document.getElementById('payTokenSymbol').innerText;
+      const receiveSymbol = document.getElementById('receiveTokenSymbol').innerText;
+      const payBal = document.getElementById('sdaBalance').innerText;
+      const receiveBal = document.getElementById('gacpBalance').innerText;
+
+      document.getElementById('payTokenSymbol').innerText = receiveSymbol;
+      document.getElementById('receiveTokenSymbol').innerText = paySymbol;
+      document.getElementById('sdaBalance').innerText = receiveBal;
+      document.getElementById('gacpBalance').innerText = payBal;
+
+      calculateSwap();
+    }
+
+    function executeSwap() {
+      const val = parseFloat(document.getElementById('payInput').value) || 0;
+      if (val <= 0) return;
+      alert(`Swap request of ${val} ${document.getElementById('payTokenSymbol').innerText} submitted successfully!`);
+    }
+
+    // Wallet Visibility Toggle & Real-Time Simulation
+    function toggleBalanceVisibility() {
+      isBalanceHidden = !isBalanceHidden;
+      const displayEl = document.getElementById('walletBalanceDisplay');
+      const toggleTxt = document.getElementById('hideToggleText');
+
+      if (isBalanceHidden) {
+        displayEl.innerText = '****';
+        toggleTxt.innerText = 'Show';
+      } else {
+        displayEl.innerText = `$${baseWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        toggleTxt.innerText = 'Hide';
+      }
+    }
+
+    // Real-Time Ticker Update for $27,500
+    setInterval(() => {
+      // Fluctuate cents slightly
+      const delta = (Math.random() * 0.8 - 0.4);
+      baseWalletBalance += delta;
+      
+      if (!isBalanceHidden) {
+        document.getElementById('walletBalanceDisplay').innerText = `$${baseWalletBalance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      }
+
+      const now = new Date();
+      document.getElementById('liveTime').innerText = now.toLocaleTimeString();
+    }, 2500);
+  </script>
 </body>
 </html>
