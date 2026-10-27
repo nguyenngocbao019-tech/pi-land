@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pi Emerald & Gold Hub - Siêu Ứng Dụng TMĐT Đa Tầng</title>
+    <title>Pi Emerald & Gold Hub - Siêu Ứng Dụng TMĐT Toàn Cầu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -50,7 +50,7 @@
                 <button id="btn-back" onclick="goBack()" class="hidden text-white p-1 touch-action">
                     <i class="fa-solid fa-arrow-left text-xl"></i>
                 </button>
-                <h1 id="header-title" class="font-bold text-lg tracking-wide">Pi Emerald & Gold</h1>
+                <h1 id="header-title" class="font-bold text-lg tracking-wide">Pi Global Hub</h1>
             </div>
             <div class="flex items-center gap-2">
                 <button onclick="openFilterModal()" class="bg-emeraldTheme-700 hover:bg-emeraldTheme-900 text-xs px-2.5 py-1.5 rounded-none border border-goldAcc-400 text-goldAcc-400 font-bold touch-action shadow-sm">
@@ -67,15 +67,15 @@
     <!-- CONTAINER CHÍNH -->
     <main class="max-w-md mx-auto px-4 pt-3">
 
-        <!-- 1. MÀN HÌNH TRANG CHỦ & HỆ THỐNG DANH MỤC CÓ HÌNH ẢNH MỞ SÂU -->
+        <!-- 1. MÀN HÌNH TRANG CHỦ & HỆ THỐNG DANH MỤC CÓ HÌNH ẢNH MỞ SÂU TOÀN CẦU -->
         <section id="view-home" class="view-screen active">
             <div class="bg-gradient-to-r from-emeraldTheme-600 via-teal-600 to-goldAcc-600 rounded-none p-4 text-white shadow-md mb-4 border-2 border-goldAcc-400">
                 <div class="flex items-center justify-between">
-                    <span class="text-[10px] bg-goldAcc-400 text-slate-900 font-bold px-2 py-0.5 rounded-none shadow"><i class="fa-solid fa-crown"></i> Hệ sinh thái Pi VIP</span>
+                    <span class="text-[10px] bg-goldAcc-400 text-slate-900 font-bold px-2 py-0.5 rounded-none shadow"><i class="fa-solid fa-earth-americas"></i> Giao dịch toàn cầu VIP</span>
                     <span class="text-[10px] bg-white text-slate-900 font-bold px-2 py-0.5 rounded-none">Cloud Active</span>
                 </div>
-                <h2 class="text-xl font-bold mt-2">Chợ Giao Dịch Đa Tầng Pi Network</h2>
-                <p class="text-xs text-emeraldTheme-50 mt-1">Mở sâu nhiều tầng thư mục hình ảnh trực quan - Chuẩn Web3</p>
+                <h2 class="text-xl font-bold mt-2">Chợ Giao Dịch Toàn Cầu Pi Network</h2>
+                <p class="text-xs text-emeraldTheme-50 mt-1">Kết nối giao thương xuyên biên giới - Chuẩn Web3 Global</p>
             </div>
 
             <!-- HỆ THỐNG THƯ MỤC CHÍNH CÓ HÌNH ẢNH MINH HỌA -->
@@ -120,22 +120,20 @@
             </div>
 
             <div class="flex items-center justify-between mb-3">
-                <h3 class="font-bold text-slate-800 text-base border-l-4 border-goldAcc-500 pl-2">Sản phẩm nổi bật</h3>
+                <h3 class="font-bold text-slate-800 text-base border-l-4 border-goldAcc-500 pl-2">Sản phẩm toàn cầu nổi bật</h3>
                 <button onclick="loadListingsData()" class="text-xs text-emeraldTheme-600 font-bold"><i class="fa-solid fa-rotate"></i> Làm mới</button>
             </div>
             <div id="home-listings-grid" class="grid grid-cols-2 gap-3 mb-6"></div>
         </section>
 
-        <!-- 2. MÀN HÌNH MỞ SÂU THƯ MỤC CON CÓ HÌNH ẢNH (DEEP SUB-CATEGORIES SCREEN) -->
+        <!-- 2. MÀN HÌNH MỞ SÂU THƯ MỤC CON CÓ HÌNH ẢNH -->
         <section id="view-sub-categories" class="view-screen">
             <div class="flex items-center justify-between mb-3">
                 <h3 id="subcat-header-title" class="font-bold text-slate-800 text-lg border-l-4 border-emeraldTheme-600 pl-2">Danh mục chi tiết</h3>
-                <span class="text-xs bg-emeraldTheme-100 text-emeraldTheme-700 px-2 py-0.5 font-bold border border-emeraldTheme-300">Đa tầng</span>
+                <span class="text-xs bg-emeraldTheme-100 text-emeraldTheme-700 px-2 py-0.5 font-bold border border-emeraldTheme-300">Global</span>
             </div>
-            <p class="text-xs text-slate-500 mb-3">Chọn phân mục bên dưới để mở cửa sổ danh sách sản phẩm tương ứng:</p>
-            <div id="subcat-cards-grid" class="grid grid-cols-2 gap-3">
-                <!-- Render động các thẻ thư mục con có hình ảnh -->
-            </div>
+            <p class="text-xs text-slate-500 mb-3">Chọn phân mục bên dưới để xem danh sách giao dịch toàn cầu:</p>
+            <div id="subcat-cards-grid" class="grid grid-cols-2 gap-3"></div>
         </section>
 
         <!-- 3. MÀN HÌNH DANH SÁCH SẢN PHẨM -->
@@ -152,14 +150,14 @@
             <div class="bg-white rounded-none shadow-sm overflow-hidden border-2 border-slate-200 mb-4">
                 <div class="relative h-64 bg-slate-900 border-b-2 border-slate-200">
                     <img id="detail-img" src="" class="w-full h-full object-cover" alt="Sản phẩm">
-                    <span class="absolute top-3 left-3 bg-vibrantOrange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-none shadow">Đã xác minh VIP</span>
+                    <span class="absolute top-3 left-3 bg-vibrantOrange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-none shadow">Giao dịch toàn cầu</span>
                 </div>
                 <div id="detail-gallery" class="flex gap-2 p-2 overflow-x-auto no-scrollbar bg-slate-50 border-b border-slate-200"></div>
                 
                 <div class="p-4">
                     <div class="flex items-center justify-between gap-2 mb-1">
                         <span id="detail-category" class="text-[10px] font-bold text-emeraldTheme-600 bg-emeraldTheme-50 uppercase tracking-wider px-2 py-0.5 rounded-none border border-emeraldTheme-200">Danh mục</span>
-                        <span class="text-xs text-slate-500"><i class="fa-solid fa-location-dot text-vibrantOrange-500"></i> <span id="detail-location">Cần Thơ</span></span>
+                        <span class="text-xs text-slate-500"><i class="fa-solid fa-earth-americas text-vibrantOrange-500"></i> <span id="detail-location">Global (Toàn cầu)</span></span>
                     </div>
                     <h2 id="detail-title" class="text-lg font-bold text-slate-800 leading-snug mb-2">Tiêu đề</h2>
                     <div class="flex items-baseline gap-1 mb-3">
@@ -184,7 +182,7 @@
                                 <div id="seller-avatar" class="w-10 h-10 bg-emeraldTheme-100 text-emeraldTheme-700 rounded-none flex items-center justify-center font-bold text-base border-2 border-emeraldTheme-500 shadow-sm">S</div>
                                 <div>
                                     <h4 id="seller-name" class="text-xs font-bold text-slate-800">Cửa hàng Người Bán</h4>
-                                    <p class="text-[10px] text-goldAcc-600 font-bold"><i class="fa-solid fa-star"></i> <span id="seller-rating">4.9 / 5.0</span> (Uy tín Web3)</p>
+                                    <p class="text-[10px] text-goldAcc-600 font-bold"><i class="fa-solid fa-star"></i> <span id="seller-rating">4.9 / 5.0</span> (Global Web3)</p>
                                 </div>
                             </div>
                             <span class="text-xs text-emeraldTheme-600 font-bold">Xem Shop <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
@@ -204,7 +202,7 @@
                     <i class="fa-brands fa-pi text-goldAcc-400"></i> Thanh toán Ví Pi
                 </button>
                 <button onclick="handlePayment('COD')" class="flex-1 bg-vibrantOrange-500 hover:bg-vibrantOrange-600 text-white font-bold py-3 px-4 rounded-none shadow-md flex items-center justify-center gap-2 touch-action border-2 border-orange-600">
-                    <i class="fa-solid fa-handshake"></i> Thanh toán COD
+                    <i class="fa-solid fa-handshake"></i> Thanh toán COD Quốc Tế
                 </button>
             </div>
         </section>
@@ -214,7 +212,7 @@
             <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 mb-4 text-center">
                 <div id="shop-avatar-lg" class="w-20 h-20 bg-emeraldTheme-100 text-emeraldTheme-700 rounded-none flex items-center justify-center text-3xl font-bold mx-auto mb-2 border-2 border-emeraldTheme-500 shadow-sm">S</div>
                 <h2 id="shop-name-lg" class="font-bold text-slate-800 text-lg">Tên Cửa Hàng</h2>
-                <p class="text-xs text-slate-400 mb-2">Xác thực Web3 Ecosystem</p>
+                <p class="text-xs text-slate-400 mb-2">Giao dịch toàn cầu - Web3 Ecosystem</p>
                 <div class="inline-flex items-center gap-1 bg-amber-50 text-goldAcc-600 text-xs px-3 py-1 rounded-none font-bold border-2 border-goldAcc-400">
                     <i class="fa-solid fa-award"></i> Điểm uy tín: <span id="shop-score">99/100</span>
                 </div>
@@ -224,10 +222,10 @@
             <div id="shop-listings-grid" class="grid grid-cols-2 gap-3"></div>
         </section>
 
-        <!-- 6. MÀN HÌNH ĐĂNG TIN MỚI -->
+        <!-- 6. MÀN HÌNH ĐĂNG TIN MỚI (CÓ CHỌN QUỐC GIA/TOÀN CẦU) -->
         <section id="view-create" class="view-screen">
             <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-emeraldTheme-600 pl-2">Đăng sản phẩm / Dịch vụ</h2>
+                <h2 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-emeraldTheme-600 pl-2">Đăng sản phẩm toàn cầu</h2>
                 <form id="form-create" onsubmit="submitNewListing(event)">
                     <div class="mb-3">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Tên bài đăng</label>
@@ -246,6 +244,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Khu vực / Phạm vi giao dịch</label>
+                        <select id="inp-location" class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
+                            <option value="Global (Toàn cầu)">Global (Toàn cầu - Xuyên biên giới)</option>
+                            <option value="Vietnam">Vietnam (Việt Nam)</option>
+                            <option value="USA">USA (Hoa Kỳ)</option>
+                            <option value="Europe">Europe (Châu Âu)</option>
+                            <option value="Asia">Asia (Châu Á)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Giá bán (Pi)</label>
                         <input type="number" step="0.001" id="inp-price" required placeholder="Số Pi" class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-emeraldTheme-600 bg-slate-50">
                     </div>
@@ -255,9 +263,9 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-xs font-bold text-slate-700 mb-1">Mô tả chi tiết</label>
-                        <textarea id="inp-desc" rows="3" required placeholder="Thông tin chi tiết..." class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-emeraldTheme-600 bg-slate-50"></textarea>
+                        <textarea id="inp-desc" rows="3" required placeholder="Thông tin chi tiết vận chuyển toàn cầu..." class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-emeraldTheme-600 bg-slate-50"></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-emeraldTheme-600 hover:bg-emeraldTheme-700 text-white font-bold py-3 rounded-none shadow-md touch-action border-2 border-goldAcc-400">Đăng Ngay Lên Chợ</button>
+                    <button type="submit" class="w-full bg-emeraldTheme-600 hover:bg-emeraldTheme-700 text-white font-bold py-3 rounded-none shadow-md touch-action border-2 border-goldAcc-400">Đăng Lên Chợ Toàn Cầu</button>
                 </form>
             </div>
         </section>
@@ -288,7 +296,7 @@
                         <input type="number" step="0.001" id="edit-price" required class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
                     </div>
                     <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Thay đổi / Chọn ảnh mới (Chọn file mới để thay thế ảnh cũ)</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Thay đổi / Chọn ảnh mới (Tùy chọn)</label>
                         <input type="file" id="edit-files" multiple accept="image/*" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
                     </div>
                     <div class="mb-4">
@@ -305,7 +313,7 @@
 
         <!-- 8. MÀN HÌNH ĐƠN HÀNG (TxID) -->
         <section id="view-orders" class="view-screen">
-            <h2 class="font-bold text-slate-800 text-lg mb-3 border-l-4 border-vibrantOrange-500 pl-2">Lịch sử Đơn hàng</h2>
+            <h2 class="font-bold text-slate-800 text-lg mb-3 border-l-4 border-vibrantOrange-500 pl-2">Lịch sử Đơn hàng Toàn Cầu</h2>
             <div id="orders-list" class="space-y-3"></div>
         </section>
 
@@ -320,8 +328,8 @@
                     </label>
                     <input type="file" id="profile-avatar-file" accept="image/*" class="hidden" onchange="updateProfileAvatar(event)">
                 </div>
-                <h2 class="font-bold text-slate-800 text-base">Thành viên Pi Network</h2>
-                <p class="text-xs text-slate-400">Tài khoản Web3 đã kích hoạt</p>
+                <h2 class="font-bold text-slate-800 text-base">Thành viên Pi Global</h2>
+                <p class="text-xs text-slate-400">Tài khoản Web3 đã kích hoạt toàn cầu</p>
             </div>
 
             <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 mb-4">
@@ -333,7 +341,7 @@
 
             <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 space-y-2">
                 <button onclick="openSupportCenter()" class="w-full flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-none transition touch-action border border-slate-100">
-                    <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-headset text-emeraldTheme-600 mr-2"></i> Trung tâm hỗ trợ</span>
+                    <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-headset text-emeraldTheme-600 mr-2"></i> Trung tâm hỗ trợ toàn cầu</span>
                     <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
                 </button>
                 <button onclick="openSafetyRules()" class="w-full flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-none transition touch-action border border-slate-100">
@@ -357,7 +365,7 @@
     <div id="modal-filter" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center hidden">
         <div class="bg-white w-full max-w-md rounded-none border-t-4 border-goldAcc-500 p-4 shadow-2xl">
             <div class="flex items-center justify-between mb-4 border-b-2 border-slate-200 pb-2">
-                <h3 class="font-bold text-slate-800 text-base">Bộ lọc nâng cao</h3>
+                <h3 class="font-bold text-slate-800 text-base">Bộ lọc giao dịch toàn cầu</h3>
                 <button onclick="closeFilterModal()" class="text-slate-400 hover:text-slate-800"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="mb-3">
@@ -369,12 +377,13 @@
                 </div>
             </div>
             <div class="mb-4">
-                <label class="block text-xs font-bold text-slate-700 mb-1">Khu vực</label>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Khu vực / Quốc gia</label>
                 <select id="filter-location" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                    <option value="all">Tất cả khu vực</option>
-                    <option value="Cần Thơ">Cần Thơ</option>
-                    <option value="TP.HCM">TP. Hồ Chí Minh</option>
-                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="all">Tất cả khu vực (Global)</option>
+                    <option value="Global (Toàn cầu)">Global (Toàn cầu)</option>
+                    <option value="Vietnam">Vietnam (Việt Nam)</option>
+                    <option value="USA">USA (Hoa Kỳ)</option>
+                    <option value="Europe">Europe (Châu Âu)</option>
                 </select>
             </div>
             <button onclick="applyAdvancedFilter()" class="w-full bg-emeraldTheme-600 hover:bg-emeraldTheme-700 text-white font-bold py-3 rounded-none shadow touch-action border-2 border-goldAcc-400">Áp dụng bộ lọc</button>
@@ -405,42 +414,41 @@
 
     <!-- JAVASCRIPT XỬ LÝ -->
     <script>
-        // HỆ THỐNG THƯ MỤC CON ĐA TẦNG CÓ HÌNH ẢNH MINH HỌA (MỞ SÂU VÀO TRANG THỰC SỰ)
         const subFoldersData = {
             goods: [
-                { key: 'phone', name: 'Điện thoại & Tablet', img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300' },
-                { key: 'laptop', name: 'Laptop & Máy tính xách tay', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300' },
-                { key: 'fashion', name: 'Thời trang & Phụ kiện', img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=300' },
-                { key: 'home_appliances', name: 'Đồ gia dụng thông minh', img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300' }
+                { key: 'phone', name: 'Điện thoại & Tablet Quốc tế', img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300' },
+                { key: 'laptop', name: 'Laptop & Phụ kiện Global', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300' },
+                { key: 'fashion', name: 'Thời trang xuất khẩu & Phụ kiện', img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=300' },
+                { key: 'home_appliances', name: 'Đồ gia dụng nhập khẩu', img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300' }
             ],
             realestate: [
-                { key: 'house', name: 'Nhà phố & Biệt thự', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300' },
-                { key: 'land', name: 'Đất nền thổ cư & Dự án', img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300' },
-                { key: 'apartment', name: 'Căn hộ chung cư cao cấp', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300' }
+                { key: 'house', name: 'Biệt thự & BĐS nghỉ dưỡng quốc tế', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300' },
+                { key: 'land', name: 'Đất nền & Dự án toàn cầu', img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300' },
+                { key: 'apartment', name: 'Căn hộ cao cấp nước ngoài', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300' }
             ],
             vehicles: [
-                { key: 'car_suv', name: 'Ô tô SUV & Sedan các loại', img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=300' },
-                { key: 'motorbike', name: 'Xe máy tay ga & Số tay', img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300' },
-                { key: 'electric_bike', name: 'Xe điện eco thông minh', img: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=300' }
+                { key: 'car_suv', name: 'Ô tô nhập khẩu nguyên chiếc', img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=300' },
+                { key: 'motorbike', name: 'Mô tô phân khối lớn & Xe máy', img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300' },
+                { key: 'electric_bike', name: 'Xe điện công nghệ Global', img: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=300' }
             ],
             services: [
-                { key: 'it_service', name: 'Lập trình Web3 & DApp App', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300' },
-                { key: 'marketing', name: 'Marketing & Truyền thông số', img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=300' }
+                { key: 'it_service', name: 'Lập trình Web3 & Global DApp', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300' },
+                { key: 'marketing', name: 'Marketing & Quảng cáo xuyên biên giới', img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=300' }
             ],
             auction: [
-                { key: 'rare_item', name: 'Vật phẩm độc quyền Pi Network', img: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300' }
+                { key: 'rare_item', name: 'Vật phẩm đấu giá độc quyền quốc tế', img: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300' }
             ],
             forum: [
-                { key: 'pioneer_news', name: 'Tin tức & Thông báo cộng đồng', img: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=300' }
+                { key: 'pioneer_news', name: 'Tin tức Pi Network toàn cầu', img: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=300' }
             ],
             antiques: [
-                { key: 'ceramic', name: 'Gốm sứ cổ & Cổ vật phong thủy', img: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=300' }
+                { key: 'ceramic', name: 'Cổ vật & Gốm sứ quý hiếm thế giới', img: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=300' }
             ]
         };
 
         const sampleListings = [
-            { id: 901, title: 'Biệt thự cao cấp view sông Cần Thơ', price: 350, category: 'house', categoryName: 'Nhà phố & Biệt thự', area: '300m2', rooms: '5 Phòng', location: 'Cần Thơ', seller: 'Bảo Pi Land', sellerWallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6', rating: '5.0', imgs: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500'], desc: 'Sổ hồng pháp lý rõ ràng, giao dịch trực tiếp.' },
-            { id: 902, title: 'Ô tô Mazda CX-5 2023 lướt đẹp', price: 82, category: 'car_suv', categoryName: 'Ô tô SUV & Sedan các loại', location: 'TP.HCM', seller: 'Auto Pi Saigon', sellerWallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6', rating: '4.9', imgs: ['https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500'], desc: 'Xe gia đình đi giữ gìn cẩn thận.' }
+            { id: 901, title: 'Biệt thự nghỉ dưỡng cao cấp Global', price: 350, category: 'house', categoryName: 'Biệt thự & BĐS nghỉ dưỡng quốc tế', area: '300m2', rooms: '5 Phòng', location: 'Global (Toàn cầu)', seller: 'Global Pioneer Club', sellerWallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6', rating: '5.0', imgs: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500'], desc: 'Hỗ trợ pháp lý và giao dịch xuyên biên giới an toàn.' },
+            { id: 902, title: 'Ô tô điện thông minh Tesla Model Pi', price: 82, category: 'car_suv', categoryName: 'Ô tô nhập khẩu nguyên chiếc', location: 'USA', seller: 'US Pi Motors', sellerWallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6', rating: '4.9', imgs: ['https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500'], desc: 'Giao hàng tận nơi toàn cầu chuẩn Pi Web3.' }
         ];
 
         let allListingsCache = [];
@@ -449,14 +457,13 @@
 
         async function loadListingsData() {
             let data = [...sampleListings];
-            const localStored = JSON.parse(localStorage.getItem('pi_emerald_gold_db') || '[]');
+            const localStored = JSON.parse(localStorage.getItem('pi_global_hub_db') || '[]');
             allListingsCache = [...localStored, ...data];
             renderHomeListings();
             renderOrdersList();
             loadProfileAvatar();
         }
 
-        // HÀM MỞ SÂU VÀO TRANG THƯ MỤC CON CÓ HÌNH ẢNH (DEEP NAVIGATION)
         function openSubFoldersScreen(folderKey, folderTitle) {
             historyStack.push('sub-categories');
             showScreen('view-sub-categories');
@@ -476,7 +483,7 @@
                     </div>
                     <div class="p-2.5">
                         <h4 class="text-xs font-bold text-slate-800 line-clamp-2">${sub.name}</h4>
-                        <span class="text-[10px] text-emeraldTheme-600 font-bold mt-1 inline-block">Khám phá ngay <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
+                        <span class="text-[10px] text-emeraldTheme-600 font-bold mt-1 inline-block">Khám phá Global <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -531,7 +538,7 @@
             document.getElementById('detail-title').innerText = found.title;
             document.getElementById('detail-price').innerText = found.price;
             document.getElementById('detail-category').innerText = found.categoryName || found.category;
-            document.getElementById('detail-location').innerText = found.location || 'Cần Thơ';
+            document.getElementById('detail-location').innerText = found.location || 'Global (Toàn cầu)';
             document.getElementById('detail-desc').innerText = found.desc;
 
             const specsEl = document.getElementById('detail-specs');
@@ -584,7 +591,7 @@
             card.innerHTML = `
                 <div class="h-28 bg-slate-100 overflow-hidden relative border-b border-slate-200">
                     <img src="${mainImg}" class="w-full h-full object-cover">
-                    <span class="absolute top-2 right-2 bg-vibrantOrange-500 text-white text-[9px] px-1.5 py-0.5 rounded-none font-bold">${item.location || 'VN'}</span>
+                    <span class="absolute top-2 right-2 bg-vibrantOrange-500 text-white text-[9px] px-1.5 py-0.5 rounded-none font-bold">${item.location || 'Global'}</span>
                 </div>
                 <div class="p-2.5">
                     <h4 class="text-xs font-bold text-slate-800 line-clamp-2 mb-1">${item.title}</h4>
@@ -603,7 +610,6 @@
             allListingsCache.slice(0, 6).forEach(item => grid.appendChild(createCard(item)));
         }
 
-        // TÍNH NĂNG THAY ĐỔI ẢNH ĐẠI DIỆN HỒ SƠ (PROFILE AVATAR UPLOAD)
         function updateProfileAvatar(e) {
             const file = e.target.files[0];
             if (file) {
@@ -636,7 +642,7 @@
 
             historyStack.push('list');
             showScreen('view-list');
-            document.getElementById('category-title').innerText = 'Kết quả lọc nâng cao';
+            document.getElementById('category-title').innerText = 'Kết quả lọc toàn cầu';
 
             const filtered = allListingsCache.filter(item => {
                 const p = item.price;
@@ -661,6 +667,7 @@
 
             const fileInput = document.getElementById('inp-files');
             const catSelect = document.getElementById('inp-category');
+            const locSelect = document.getElementById('inp-location');
             
             const saveNewData = (imageArray) => {
                 const newListing = {
@@ -669,21 +676,21 @@
                     category: catSelect.value,
                     categoryName: catSelect.options[catSelect.selectedIndex].text,
                     price: parseFloat(document.getElementById('inp-price').value),
+                    location: locSelect.value,
                     imgs: imageArray,
                     desc: document.getElementById('inp-desc').value,
-                    seller: 'Tôi (Pioneer)',
+                    seller: 'Tôi (Global Pioneer)',
                     sellerWallet: myWallet,
                     rating: '5.0',
-                    location: 'Cần Thơ',
                     area: 'Tiêu chuẩn',
                     rooms: 'Mới'
                 };
 
-                const existing = JSON.parse(localStorage.getItem('pi_emerald_gold_db') || '[]');
+                const existing = JSON.parse(localStorage.getItem('pi_global_hub_db') || '[]');
                 existing.unshift(newListing);
-                localStorage.setItem('pi_emerald_gold_db', JSON.stringify(existing));
+                localStorage.setItem('pi_global_hub_db', JSON.stringify(existing));
 
-                alert('Đăng tin thành công!');
+                alert('Đăng tin toàn cầu thành công!');
                 document.getElementById('form-create').reset();
                 loadListingsData();
                 switchTab('home');
@@ -733,11 +740,11 @@
                 }
                 currentDetailListing.desc = document.getElementById('edit-desc').value;
 
-                let existing = JSON.parse(localStorage.getItem('pi_emerald_gold_db') || '[]');
+                let existing = JSON.parse(localStorage.getItem('pi_global_hub_db') || '[]');
                 existing = existing.map(item => item.id === currentDetailListing.id ? currentDetailListing : item);
-                localStorage.setItem('pi_emerald_gold_db', JSON.stringify(existing));
+                localStorage.setItem('pi_global_hub_db', JSON.stringify(existing));
 
-                alert('Cập nhật bài đăng và thay đổi ảnh thành công!');
+                alert('Cập nhật bài đăng toàn cầu thành công!');
                 loadListingsData();
                 openDetail(currentDetailListing.id);
             };
@@ -761,14 +768,14 @@
         function handlePayment(type) {
             if (!currentDetailListing) return;
             if (type === 'Pi') {
-                const txid = prompt("Nhập Mã giao dịch (TxID) sau khi thanh toán Ví Pi:");
+                const txid = prompt("Nhập Mã giao dịch (TxID) sau khi thanh toán Ví Pi Toàn Cầu:");
                 if (txid && txid.trim().length > 10) {
                     addOrderRecord(currentDetailListing, 'Thanh toán Ví Pi', txid.trim());
                 } else {
                     alert('Mã TxID không hợp lệ!');
                 }
             } else {
-                addOrderRecord(currentDetailListing, 'Thanh toán COD', 'N/A (Trực tiếp)');
+                addOrderRecord(currentDetailListing, 'Thanh toán COD Quốc Tế', 'N/A (Global Direct)');
             }
         }
 
@@ -779,21 +786,21 @@
                 price: item.price,
                 method: method,
                 txid: txid,
-                status: 'Đang xử lý giao hàng'
+                status: 'Đang xử lý vận chuyển toàn cầu'
             };
-            const orders = JSON.parse(localStorage.getItem('pi_emerald_orders') || '[]');
+            const orders = JSON.parse(localStorage.getItem('pi_global_orders') || '[]');
             orders.unshift(order);
-            localStorage.setItem('pi_emerald_orders', JSON.stringify(orders));
-            alert('Tạo đơn hàng thành công!');
+            localStorage.setItem('pi_global_orders', JSON.stringify(orders));
+            alert('Tạo đơn hàng toàn cầu thành công!');
             renderOrdersList();
             switchTab('orders');
         }
 
         function renderOrdersList() {
-            const orders = JSON.parse(localStorage.getItem('pi_emerald_orders') || '[]');
+            const orders = JSON.parse(localStorage.getItem('pi_global_orders') || '[]');
             const container = document.getElementById('orders-list');
             if (orders.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Chưa có đơn hàng nào.</p>`;
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Chưa có đơn hàng toàn cầu nào.</p>`;
                 return;
             }
             container.innerHTML = '';
@@ -824,15 +831,15 @@
         function openSupportCenter() {
             historyStack.push('info-page');
             showScreen('view-info-page');
-            document.getElementById('info-page-title').innerText = 'Trung Tâm Hỗ Trợ';
-            document.getElementById('info-page-content').innerHTML = `<p>Liên hệ quản trị viên qua diễn đàn hệ sinh thái Pi Network.</p>`;
+            document.getElementById('info-page-title').innerText = 'Trung Tâm Hỗ Trợ Toàn Cầu';
+            document.getElementById('info-page-content').innerHTML = `<p>Hỗ trợ giải quyết tranh chấp giao dịch quốc tế 24/7 qua cộng đồng Pi Network Global.</p>`;
         }
 
         function openSafetyRules() {
             historyStack.push('info-page');
             showScreen('view-info-page');
             document.getElementById('info-page-title').innerText = 'Quy Định An Toàn Giao Dịch';
-            document.getElementById('info-page-content').innerHTML = `<p>Kiểm tra kỹ mã TxID trên chuỗi khối trước khi xác nhận đơn hàng.</p>`;
+            document.getElementById('info-page-content').innerHTML = `<p>Luôn xác thực mã TxID trên chuỗi khối chính thức trước khi xác nhận hoàn tất đơn hàng toàn cầu.</p>`;
         }
 
         window.addEventListener('DOMContentLoaded', () => {
