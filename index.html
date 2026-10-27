@@ -1,775 +1,471 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DEX Crypto Wallet</title>
-<style>
-:root{
-  --bg:#08090b;
-  --panel:#17191d;
-  --gold:#d8a34b;
-  --gold-light:#ffe2a0;
-  --text:#eff0f3;
-  --muted:#a5a7ae;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(ellipse at 85% 12%,#5b4726 0,transparent 24%),
-    radial-gradient(ellipse at 7% 72%,#59401e 0,transparent 24%),
-    linear-gradient(150deg,#17191e,#08090b 48%,#12100d 75%,#07080a);
-  background-attachment:fixed;
-}
-button,input,select{font:inherit}
-button{cursor:pointer;color:inherit}
-.app{
-  position:relative;
-  width:min(100%,520px);
-  min-height:100vh;
-  margin:auto;
-  padding:0 13px 105px;
-  overflow:hidden;
-}
-.app:before{
-  content:"";
-  position:fixed;
-  z-index:-1;
-  pointer-events:none;
-  inset:0;
-  opacity:.25;
-  background-image:
-    radial-gradient(circle at 82% 14%,#ffd078 0 2px,transparent 4px),
-    radial-gradient(circle at 12% 73%,#ffd078 0 2px,transparent 4px),
-    linear-gradient(30deg,transparent 49.7%,#a77c37 50%,transparent 50.3%),
-    linear-gradient(150deg,transparent 49.7%,#a77c37 50%,transparent 50.3%);
-  background-size:90px 90px,110px 110px,85px 85px,85px 85px;
-}
-.browser{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin:0 -13px 18px;
-  padding:13px 10px;
-  background:linear-gradient(#292b30,#151619);
-  border-bottom:1px solid #4d4f54;
-}
-.url{
-  width:62%;
-  min-width:0;
-  padding:13px;
-  text-align:center;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  border:1px solid #6b6d72;
-  border-radius:30px;
-  color:#e3e4e7;
-  background:linear-gradient(#55575d,#292b30);
-  box-shadow:inset 0 1px 2px #ffffff30;
-}
-.browser-controls{
-  white-space:nowrap;
-  border:1px solid #55575c;
-  border-radius:30px;
-  padding:12px;
-  color:#dedfe2;
-}
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  margin:16px 2px 23px;
-}
-.brand{display:flex;align-items:center;gap:10px}
-.brand-logo{
-  width:60px;
-  height:60px;
-  display:grid;
-  place-items:center;
-  color:#ffe5a2;
-  font-size:34px;
-  font-weight:bold;
-  background:linear-gradient(145deg,#ffe8aa,#855a20 50%,#f7ca70);
-  clip-path:polygon(50% 0,63% 13%,83% 10%,87% 30%,100% 50%,87% 65%,90% 86%,66% 87%,50% 100%,35% 87%,13% 90%,12% 67%,0 50%,13% 33%,10% 13%,34% 14%);
-  filter:drop-shadow(0 0 7px #d59b3d);
-}
-.brand-logo:before{content:"$"}
-.network-select,.round-icon{
-  border:1px solid #55575e;
-  background:linear-gradient(145deg,#303238,#15161a);
-  box-shadow:inset 0 1px 2px #ffffff24,0 3px 9px #0008;
-}
-.network-select{
-  border-radius:25px;
-  padding:12px 14px;
-  color:#f4c35d;
-}
-.top-icons{display:flex;gap:7px}
-.round-icon{
-  width:45px;
-  height:45px;
-  border-radius:16px;
-  display:grid;
-  place-items:center;
-  font-size:23px;
-}
-.connection{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:5px;
-  color:#bfc1c7;
-  font-size:10px;
-  margin-top:7px;
-}
-.dot{
-  width:7px;height:7px;
-  border-radius:50%;
-  background:#2bd48c;
-  box-shadow:0 0 7px #2bd48c;
-}
-.swap-card{
-  border:3px solid #777a7f;
-  border-radius:30px;
-  padding:9px;
-  background:linear-gradient(135deg,#a1a3a7,#282a2e 15%,#111216 43%,#55585d 67%,#111216);
-  box-shadow:0 0 0 1px #d8d9dc66,inset 0 0 0 2px #050506,0 15px 35px #000a;
-}
-.swap-head{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:4px 5px 15px;
-}
-.tabs{
-  display:flex;
-  flex:1;
-  max-width:320px;
-  border:2px solid #606268;
-  border-radius:24px;
-  padding:4px;
-  background:#111216;
-}
-.tabs button{
-  flex:1;
-  border:0;
-  border-radius:18px;
-  padding:12px 8px;
-  background:transparent;
-  color:#a9abb1;
-  font-size:17px;
-}
-.tabs button.active{
-  background:linear-gradient(#777a80,#303238);
-  box-shadow:inset 0 1px #ffffff66,0 2px 6px #000b;
-  color:white;
-}
-.settings{
-  width:51px;height:51px;
-  border-radius:17px;
-  background:#101114;
-  border:1px solid #55575e;
-  font-size:25px;
-}
-.token-box{
-  position:relative;
-  border:2px solid #62656a;
-  border-radius:27px;
-  background:radial-gradient(ellipse at 90% 20%,#1b1c20,#0a0b0e 72%);
-  padding:21px 16px 17px;
-  margin-bottom:10px;
-  min-height:158px;
-  box-shadow:inset 0 2px 6px #000,0 1px 0 #ffffff12;
-}
-.token-label{font-size:14px;color:#b5b7be;margin-bottom:12px}
-.token-row{display:flex;justify-content:space-between;align-items:center;gap:7px}
-.amount{
-  min-width:0;
-  width:42%;
-  background:transparent;
-  border:0;
-  outline:0;
-  color:#f1f1f4;
-  font-size:39px;
-  padding:0;
-}
-.amount::placeholder{color:#e1e1e4}
-.token-picker{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid #4b4d52;
-  background:#111216;
-  border-radius:28px;
-  padding:7px 9px;
-  max-width:60%;
-  font-weight:bold;
-  font-size:18px;
-  white-space:nowrap;
-}
-.coin-logo{
-  width:38px;height:38px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  flex-shrink:0;
-  font-size:23px;
-  color:#ffe2a0;
-  background:radial-gradient(circle,#b37b27,#17110a 68%);
-  border:2px solid #e0b765;
-  box-shadow:0 0 12px #c88e39a0;
-}
-.token-meta{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  gap:7px;
-  color:#a9abb1;
-  font-size:12px;
-  margin-top:10px;
-}
-.max{
-  border:1px solid #bd862f;
-  background:#281b0b;
-  color:#ffc35e;
-  border-radius:8px;
-  padding:5px 8px;
-  font-weight:bold;
-}
-.swap-direction{
-  position:relative;
-  z-index:2;
-  display:flex;
-  justify-content:center;
-  height:0;
-}
-.swap-direction button{
-  transform:translateY(-50%);
-  width:72px;height:72px;
-  border-radius:50%;
-  border:5px solid #6f7277;
-  background:radial-gradient(circle,#594321,#151619 55%,#4b4e52);
-  box-shadow:0 0 0 3px #17181b,0 0 18px #d29b3c55,inset 0 0 8px #000;
-  color:#ffe0a0;
-  font-size:30px;
-}
-.submit-swap{
-  width:100%;
-  border:2px solid #777a80;
-  border-radius:22px;
-  padding:19px 10px;
-  margin-top:5px;
-  background:linear-gradient(120deg,#55585d,#232529 50%,#383a3e);
-  box-shadow:inset 0 1px 3px #ffffff65,0 0 0 2px #111;
-  color:#e0e1e5;
-  font-size:19px;
-  font-weight:bold;
-  text-shadow:0 1px 3px #000;
-}
-.section-heading{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:25px 5px 10px;
-}
-.section-heading h3{font-size:16px;margin:0}
-.refresh{
-  border:1px solid #55575d;
-  background:#1a1b1f;
-  color:#e5bd70;
-  border-radius:10px;
-  padding:8px 11px;
-}
-.panel{
-  border:1px solid #44464b;
-  border-radius:18px;
-  background:linear-gradient(145deg,#1b1c20,#0e0f12);
-  padding:8px 14px;
-}
-.coin{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:13px 0;
-  border-bottom:1px solid #ffffff12;
-}
-.coin:last-child{border:0}
-.icon{
-  width:40px;height:40px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-size:21px;
-  font-weight:bold;
-  flex-shrink:0;
-}
-.info{flex:1}
-.name{font-weight:bold;font-size:14px}
-.muted{color:#a3a5ac;font-size:12px;margin-top:5px}
-.price{text-align:right;font-weight:bold;font-size:14px}
-.up{color:#4dd3a0;font-size:12px;margin-top:5px}
-.down{color:#ff7883;font-size:12px;margin-top:5px}
-.note{color:#a3a5ac;font-size:11px;line-height:1.5}
-.nav{
-  position:fixed;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  width:calc(min(100%,520px) - 24px);
-  display:flex;
-  justify-content:space-around;
-  gap:3px;
-  border:2px solid #4c4e54;
-  border-radius:40px;
-  background:linear-gradient(#24262b,#111216);
-  padding:7px;
-  box-shadow:0 5px 20px #000c,inset 0 1px #ffffff1f;
-  z-index:4;
-}
-.nav button{
-  flex:1;
-  border:0;
-  border-radius:28px;
-  background:transparent;
-  color:#a4a6ad;
-  padding:9px 3px;
-  font-size:12px;
-}
-.nav button span{display:block;font-size:20px;margin-bottom:4px}
-.nav button.active{
-  border:1px solid #d2a351;
-  background:linear-gradient(#2b2418,#171512);
-  color:#ffdc91;
-  box-shadow:0 0 12px #d8a04b45;
-}
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#000b;
-  z-index:8;
-  align-items:flex-end;
-  justify-content:center;
-}
-.overlay.show{display:flex}
-.modal{
-  width:100%;
-  max-width:520px;
-  background:linear-gradient(145deg,#292b30,#101114);
-  border:2px solid #65676d;
-  border-bottom:0;
-  border-radius:25px 25px 0 0;
-  padding:22px 19px 30px;
-  color:var(--text);
-  box-shadow:0 -10px 40px #000a;
-}
-.modal-head{display:flex;align-items:center;justify-content:space-between}
-.close{
-  background:#24262b;
-  color:#eee;
-  border:1px solid #55575c;
-  border-radius:10px;
-  padding:9px 13px;
-}
-label{display:block;color:#b5b7bd;font-size:13px;margin-top:13px}
-.modal input,.modal select{
-  width:100%;
-  background:#0e0f12;
-  color:#eee;
-  border:1px solid #55575c;
-  border-radius:11px;
-  padding:13px;
-  margin-top:7px;
-}
-.primary{
-  width:100%;
-  padding:15px;
-  border:1px solid #d7a650;
-  border-radius:12px;
-  background:linear-gradient(#6d5124,#30220e);
-  color:#ffe1a0;
-  font-weight:bold;
-  margin-top:18px;
-}
-.toast{
-  display:none;
-  position:fixed;
-  top:18px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#27292e;
-  border:1px solid #a47a38;
-  color:#fff0cc;
-  padding:13px 17px;
-  border-radius:12px;
-  z-index:10;
-  max-width:90%;
-  font-size:13px;
-}
-@media(max-width:360px){
-  .app{padding-left:9px;padding-right:9px}
-  .token-box{padding:18px 11px}
-  .token-picker{font-size:15px;gap:5px}
-  .coin-logo{width:31px;height:31px}
-  .amount{font-size:33px}
-  .browser-controls{padding:10px}
-  .nav button{font-size:10px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sidra Pi Ecosystem - Super App</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Tối ưu hiệu ứng cuộn & chuyển cảnh mượt như App Studio */
+        body { -webkit-tap-highlight-color: transparent; user-select: none; font-family: system-ui, -apple-system, sans-serif; }
+        .view-screen { display: none; opacity: 0; transition: opacity 0.25s ease-in-out, transform 0.25s ease-in-out; transform: translateY(8px); }
+        .view-screen.active { display: block; opacity: 1; transform: translateY(0); }
+        .touch-action { touch-action: manipulation; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
-<body>
-<div class="app">
+<body class="bg-slate-50 text-slate-800 pb-20">
 
-  <div class="browser">
-    <div class="url">🔒 https://dex...　⌄</div>
-    <div class="browser-controls">•••　│　—　│　×</div>
-  </div>
-
-  <header class="topbar">
-    <div class="brand">
-      <div class="brand-logo"></div>
-      <button class="network-select" onclick="openModal('Chọn mạng')">✹　⌄</button>
-    </div>
-    <div>
-      <div class="top-icons">
-        <button class="round-icon" onclick="toast('Ethereum')">♦</button>
-        <button class="round-icon" onclick="openModal('Tìm kiếm coin')">⌕</button>
-        <button class="round-icon" onclick="openModal('Cài đặt')">✺</button>
-      </div>
-      <div id="connection" class="connection"><span class="dot"></span> Checking...</div>
-    </div>
-  </header>
-
-  <main>
-    <section class="swap-card" id="swap">
-      <div class="swap-head">
-        <div class="tabs">
-          <button id="swapTab" class="active" onclick="setTab('Swap')">Swap</button>
-          <button id="buyTab" onclick="setTab('Buy')">Buy</button>
+    <!-- HEADER / THANH TIÊU ĐỀ -->
+    <header class="sticky top-0 z-40 bg-ocean-600 text-white shadow-md">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <button id="btn-back" onclick="goBack()" class="hidden text-white p-1 touch-action">
+                    <i class="fa-solid fa-arrow-left text-xl"></i>
+                </button>
+                <h1 id="app-title" class="font-bold text-lg tracking-wide">Ocean Pi Market</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="openWalletModal()" class="bg-ocean-700 hover:bg-ocean-900 text-xs px-2.5 py-1.5 rounded-full flex items-center gap-1 border border-ocean-500 touch-action">
+                    <i class="fa-solid fa-wallet text-amber-300"></i>
+                    <span id="wallet-status">Chưa nối ví</span>
+                </button>
+            </div>
         </div>
-        <button class="settings" onclick="openModal('Cài đặt')">⚙</button>
-      </div>
+    </header>
 
-      <div class="token-box">
-        <div class="token-label">You pay</div>
-        <div class="token-row">
-          <input class="amount" id="payAmount" type="number" min="0" placeholder="0" oninput="calculateReceive()">
-          <button class="token-picker" onclick="openTokenPicker('pay')">
-            <span class="coin-logo" id="payLogo">$</span>
-            <span id="paySymbol">SDA</span>⌄
-          </button>
+    <!-- CONTAINER CHÍNH -->
+    <main class="max-w-md mx-auto px-4 pt-3">
+
+        <!-- 1. MÀN HÌNH TRANG CHỦ & DANH MỤC (HOME VIEW) -->
+        <section id="view-home" class="view-screen active">
+            <!-- Banner chào mừng -->
+            <div class="bg-gradient-to-r from-ocean-600 to-ocean-800 rounded-2xl p-4 text-white shadow-lg mb-5">
+                <p class="text-xs text-ocean-100 font-medium">Hệ sinh thái Bất động sản & Sản phẩm</p>
+                <h2 class="text-xl font-bold mt-0.5">Trao đổi Pi Network</h2>
+                <p class="text-xs text-ocean-100 mt-2 opacity-90"><i class="fa-solid fa-shield-halved"></i> Giao dịch an toàn - Trực tiếp qua Ví Pi</p>
+            </div>
+
+            <!-- DANH MỤC BẤT BẰNG & SẢN PHẨM (MỞ SÂU) -->
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-800 text-base">Danh mục dịch vụ</h3>
+            </div>
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <button onclick="openCategory('Bất động sản', 'realestate')" class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:border-ocean-500 transition touch-action">
+                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-xl mb-1.5"><i class="fa-solid fa-city"></i></div>
+                    <span class="text-xs font-semibold text-slate-700">Bất động sản</span>
+                </button>
+                <button onclick="openCategory('Xe cộ', 'vehicles')" class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:border-ocean-500 transition touch-action">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center text-xl mb-1.5"><i class="fa-solid fa-car"></i></div>
+                    <span class="text-xs font-semibold text-slate-700">Xe cộ</span>
+                </button>
+                <button onclick="openCategory('Chợ hàng hóa', 'goods')" class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:border-ocean-500 transition touch-action">
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-xl mb-1.5"><i class="fa-solid fa-basket-shopping"></i></div>
+                    <span class="text-xs font-semibold text-slate-700">Chợ hàng hóa</span>
+                </button>
+                <button onclick="openCategory('Dịch vụ', 'services')" class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:border-ocean-500 transition touch-action">
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center text-xl mb-1.5"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <span class="text-xs font-semibold text-slate-700">Dịch vụ</span>
+                </button>
+                <button onclick="openCategory('Đấu giá', 'auction')" class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:border-ocean-500 transition touch-action">
+                    <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center text-xl mb-1.5"><i class="fa-solid fa-gavel"></i></div>
+                    <span class="text-xs font-semibold text-slate-700">Đấu giá Pi</span>
+                </button>
+                <button onclick="openCategory('Tất cả', 'all')" class="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex flex-col items-center justify-center hover:border-ocean-500 transition touch-action">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center text-xl mb-1.5"><i class="fa-solid fa-border-all"></i></div>
+                    <span class="text-xs font-semibold text-slate-700">Xem tất cả</span>
+                </button>
+            </div>
+
+            <!-- BÀI ĐĂNG NỔI BẬT -->
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-bold text-slate-800 text-base">Tin nổi bật</h3>
+            </div>
+            <div id="home-listings-grid" class="grid grid-cols-2 gap-3">
+                <!-- Javascript sẽ tự chèn tin nổi bật vào đây -->
+            </div>
+        </section>
+
+        <!-- 2. MÀN HÌNH DANH SÁCH SẢN PHẨM / KHI BẤM DANH MỤC (LIST VIEW) -->
+        <section id="view-list" class="view-screen">
+            <div class="flex items-center justify-between mb-3">
+                <h3 id="category-title" class="font-bold text-slate-800 text-lg">Danh sách tin</h3>
+                <span id="category-count" class="text-xs bg-ocean-100 text-ocean-700 px-2 py-1 rounded-full font-semibold">0 bài</span>
+            </div>
+            <div id="category-listings-grid" class="grid grid-cols-2 gap-3">
+                <!-- Đổ dữ liệu danh sách sản phẩm nhiều bài -->
+            </div>
+        </section>
+
+        <!-- 3. MÀN HÌNH CHI TIẾT SẢN PHẨM (DETAIL VIEW) -->
+        <section id="view-detail" class="view-screen">
+            <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-100 mb-4">
+                <div class="relative h-60 bg-slate-200">
+                    <img id="detail-img" src="" class="w-full h-full object-cover" alt="Sản phẩm">
+                    <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full backdrop-blur-sm">
+                        <i class="fa-regular fa-image"></i> 3 ảnh
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center justify-between gap-2 mb-1">
+                        <span id="detail-category" class="text-[10px] font-bold text-ocean-600 bg-ocean-50 uppercase tracking-wider px-2 py-0.5 rounded">Bất động sản</span>
+                        <span id="detail-date" class="text-xs text-slate-400">Vừa đăng</span>
+                    </div>
+                    <h2 id="detail-title" class="text-lg font-bold text-slate-800 leading-snug mb-2">Biệt thự Đà Lạt view thung lũng</h2>
+                    <div class="flex items-baseline gap-1 mb-3">
+                        <span id="detail-price" class="text-2xl font-extrabold text-ocean-600">350</span>
+                        <span class="text-sm font-bold text-amber-500">π (Pi)</span>
+                    </div>
+                    <div class="border-t border-slate-100 pt-3 mt-3">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Mô tả sản phẩm</h4>
+                        <p id="detail-desc" class="text-sm text-slate-600 leading-relaxed">Thông tin mô tả đầy đủ...</p>
+                    </div>
+                    <div class="border-t border-slate-100 pt-3 mt-3">
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Địa chỉ Ví người bán</h4>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 flex items-center justify-between">
+                            <span id="detail-wallet" class="text-xs font-mono text-slate-600 truncate pr-2">G.......................................................</span>
+                            <button onclick="copySellerWallet()" class="text-xs bg-white text-ocean-600 border border-ocean-200 px-2 py-1 rounded hover:bg-ocean-50 touch-action">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NÚT THANH TOÁN -->
+            <div class="flex gap-2">
+                <button onclick="handlePayment('Pi')" class="flex-1 bg-ocean-600 hover:bg-ocean-700 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 touch-action">
+                    <i class="fa-brands fa-brands fa-pi font-bold text-amber-300"></i> Thanh toán bằng Ví Pi
+                </button>
+                <button onclick="handlePayment('COD')" class="flex-1 bg-slate-700 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 touch-action">
+                    <i class="fa-solid fa-truck"></i> Thanh toán COD
+                </button>
+            </div>
+        </section>
+
+        <!-- 4. MÀN HÌNH ĐĂNG TIN MỚI (CREATE LISTING VIEW) -->
+        <section id="view-create" class="view-screen">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-800 mb-4">Đăng sản phẩm/Tin bán mới</h2>
+                <form id="form-create" onsubmit="submitNewListing(event)">
+                    <div class="mb-3">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Tiêu đề bài đăng</label>
+                        <input type="text" id="inp-title" required placeholder="Ví dụ: Xe Mazda CX-5 chính chủ" class="w-full text-sm p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-ocean-500">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Chọn Danh mục</label>
+                        <select id="inp-category" class="w-full text-sm p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-ocean-500">
+                            <option value="realestate">Bất động sản</option>
+                            <option value="vehicles">Xe cộ</option>
+                            <option value="goods">Chợ hàng hóa</option>
+                            <option value="services">Dịch vụ</option>
+                            <option value="auction">Đấu giá Pi</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Giá bán (Pi)</label>
+                        <input type="number" step="0.01" id="inp-price" required placeholder="Nhập số Pi" class="w-full text-sm p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-ocean-500">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Đường dẫn ảnh (Unsplash/URL)</label>
+                        <input type="url" id="inp-img" placeholder="https://images.unsplash.com/..." class="w-full text-sm p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-ocean-500">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Mô tả chi tiết</label>
+                        <textarea id="inp-desc" rows="3" required placeholder="Nhập tình trạng sản phẩm, địa chỉ, số điện thoại..." class="w-full text-sm p-2.5 border border-slate-200 rounded-lg focus:outline-none focus:border-ocean-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-ocean-600 hover:bg-ocean-700 text-white font-bold py-3 rounded-xl shadow-md touch-action">Đăng ngay</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 5. MÀN HÌNH TRANG CÁ NHÂN & DÁN VÍ (PROFILE VIEW) -->
+        <section id="view-profile" class="view-screen">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 text-center">
+                <div class="w-16 h-16 bg-ocean-100 text-ocean-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-2">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h2 id="profile-name" class="font-bold text-slate-800 text-base">Thành viên Pi Network</h2>
+                <p class="text-xs text-slate-400">Tài khoản chính thức</p>
+            </div>
+
+            <!-- Ô CẤU HÌNH ĐỊA CHỈ VÍ PI G-ADDRESS (56 KÝ TỰ) -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm mb-1"><i class="fa-solid fa-wallet text-ocean-600"></i> Địa chỉ Ví Pi của tôi</h3>
+                <p class="text-xs text-slate-500 mb-3">Dán Địa chỉ Ví công khai (bắt đầu bằng chữ **G**, 56 ký tự) để nhận Pi khi bán hàng.</p>
+                
+                <input type="text" id="user-wallet-input" maxlength="56" placeholder="GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" class="w-full font-mono text-xs p-3 border border-slate-200 rounded-xl mb-3 focus:outline-none focus:border-ocean-500 bg-slate-50">
+                
+                <button onclick="saveUserWallet()" class="w-full bg-ocean-600 hover:bg-ocean-700 text-white font-bold py-2.5 rounded-xl shadow touch-action text-sm">Lưu Địa Chỉ Ví</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- THANH ĐIỀU HƯỚNG DƯỚI CÙNG (BOTTOM NAVIGATION BAR) -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40">
+        <div class="max-w-md mx-auto flex justify-around py-2">
+            <button onclick="switchTab('home')" class="nav-btn text-ocean-600 flex flex-col items-center touch-action" id="nav-home">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-medium mt-0.5">Trang chủ</span>
+            </button>
+            <button onclick="switchTab('create')" class="nav-btn text-slate-400 flex flex-col items-center touch-action" id="nav-create">
+                <i class="fa-solid fa-circle-plus text-lg"></i>
+                <span class="text-[10px] font-medium mt-0.5">Đăng tin</span>
+            </button>
+            <button onclick="switchTab('profile')" class="nav-btn text-slate-400 flex flex-col items-center touch-action" id="nav-profile">
+                <i class="fa-solid fa-user text-lg"></i>
+                <span class="text-[10px] font-medium mt-0.5">Cá nhân</span>
+            </button>
         </div>
-        <div class="token-meta">
-          Balance: <span id="payBalance">0.512</span>
-          <button class="max" onclick="setMax()">MAX</button>
-        </div>
-      </div>
+    </nav>
 
-      <div class="swap-direction">
-        <button onclick="reverseTokens()" aria-label="Đổi chiều token">↕</button>
-      </div>
+    <!-- JAVASCRIPT LOGIC & ĐIỀU HƯỚNG CỬA SỔ SÂU -->
+    <script>
+        // NGÂN HÀNG DỮ LIỆU MẪU ĐA DẠNG (6-10 BÀI CHO MỖI DANH MỤC)
+        const sampleListings = [
+            // Bất động sản
+            { id: 101, title: 'Biệt thự Đà Lạt view thung lũng 300m2', price: 350, category: 'realestate', categoryName: 'Bất động sản', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500', desc: 'Biệt thự full nội thất gỗ cao cấp, 4 phòng ngủ, sân vườn rộng rãi.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 102, title: 'Đất nền thổ cư Q.9 TP.HCM 100m2', price: 180, category: 'realestate', categoryName: 'Bất động sản', img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500', desc: 'Sổ hồng riêng, mặt tiền đường nhựa 8m, khu dân cư đông đúc.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 103, title: 'Căn hộ chung cư cao cấp Cần Thơ', price: 95, category: 'realestate', categoryName: 'Bất động sản', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500', desc: 'Căn hộ 2PN view sông Hậu cực đẹp, tiện ích hồ bơi gym đầy đủ.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 104, title: 'Nhà phố thương mại Shophouse Hà Nội', price: 420, category: 'realestate', categoryName: 'Bất động sản', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500', desc: 'Vị trí đắc địa kinh doanh đỉnh, 5 tầng có thang máy.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 105, title: 'Lô đất nghỉ dưỡng ven biển Phú Quốc', price: 290, category: 'realestate', categoryName: 'Bất động sản', img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500', desc: 'Cách bãi tắm 200m, thích hợp làm Homestay hoặc Resort.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 106, title: 'Nhà vườn sinh thái ven sông Đồng Nai', price: 150, category: 'realestate', categoryName: 'Bất động sản', img: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=500', desc: 'Có sẵn cây ăn trái, ao cá, không khí mát mẻ quanh năm.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
 
-      <div class="token-box">
-        <div class="token-label">You receive</div>
-        <div class="token-row">
-          <input class="amount" id="receiveAmount" type="number" min="0" placeholder="0" readonly>
-          <button class="token-picker" onclick="openTokenPicker('receive')">
-            <span class="coin-logo" id="receiveLogo">G</span>
-            <span id="receiveSymbol">GACP</span>⌄
-          </button>
-        </div>
-        <div class="token-meta">Balance: <span id="receiveBalance">1,421.38</span></div>
-      </div>
+            // Xe cộ
+            { id: 201, title: 'Xe Mazda CX-5 2.5 AWD 2022 trắng', price: 85, category: 'vehicles', categoryName: 'Xe cộ', img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500', desc: 'Xe gia đình đi giữ gìn, ODO 15.000km, bảo dưỡng hãng đầy đủ.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 202, title: 'Xe điện VinFast VF8 Plus mới 99%', price: 92, category: 'vehicles', categoryName: 'Xe cộ', img: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=500', desc: 'Pin thuê, màu xám xi măng thời thượng, đăng ký chính chủ.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 203, title: 'Xe máy Vespa Sprint ABS 125cc', price: 12, category: 'vehicles', categoryName: 'Xe cộ', img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500', desc: 'Màu vàng nhám cá tính, biển số thành phố đẹp.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 204, title: 'Xe bán tải Ford Ranger Wildtrak', price: 68, category: 'vehicles', categoryName: 'Xe cộ', img: 'https://images.unsplash.com/photo-1533106497176-45ae6b258547?w=500', desc: 'Máy Bi-Turbo mạnh mẽ, lên sẵn nhiều đồ chơi việt dã.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 205, title: 'Xe Honda SH 150i ABS nhập Ý', price: 25, category: 'vehicles', categoryName: 'Xe cộ', img: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?w=500', desc: 'Xe cùm công tắc zin, sơn nguyên bản chưa dặm tút.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 206, title: 'Xe thể thao Toyota GR Supra', price: 210, category: 'vehicles', categoryName: 'Xe cộ', img: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=500', desc: 'Bản độ thể thao độc nhất, màu đỏ rực rỡ.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
 
-      <button class="submit-swap" id="submitSwap" onclick="submitSwap()">Enter an amount</button>
-    </section>
+            // Chợ hàng hóa
+            { id: 301, title: 'Bình gốm sứ cổ hoa văn xanh', price: 2.5, category: 'goods', categoryName: 'Chợ hàng hóa', img: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=500', desc: 'Gốm thủ công chế tác tinh xảo, thích hợp sưu tầm trưng bày.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 302, title: 'iPhone 15 Pro Max 512GB VN/A', price: 18.5, category: 'goods', categoryName: 'Chợ hàng hóa', img: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500', desc: 'Màu Titan Tự Nhiên, pin 100%, bảo hành chính hãng dài.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 303, title: 'Laptop MacBook Pro M3 Max 16 inch', price: 32, category: 'goods', categoryName: 'Chợ hàng hóa', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500', desc: 'RAM 36GB, SSD 1TB, máy mới fullbox chưa qua sử dụng.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 304, title: 'Đồng hồ Thụy Sĩ Omega Seamaster', price: 45, category: 'goods', categoryName: 'Chợ hàng hóa', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500', desc: 'Thép không gỉ, mặt xanh lướt sóng, đầy đủ thẻ bảo hành.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
 
-    <div class="section-heading">
-      <h3>Portfolio</h3>
-      <button class="refresh" onclick="loadPrices()">↻ Refresh</button>
-    </div>
-    <div class="panel" id="portfolio"></div>
+            // Dịch vụ
+            { id: 401, title: 'Dịch vụ Thiết kế Web / DApp Pi Network', price: 5.0, category: 'services', categoryName: 'Dịch vụ', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500', desc: 'Lập trình chuẩn SDK Pi, tối ưu giao diện di động mượt mà.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
+            { id: 402, title: 'Dịch vụ Dịch thuật Công chứng Anh - Việt', price: 0.5, category: 'services', categoryName: 'Dịch vụ', img: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=500', desc: 'Dịch thuật nhanh chóng, chuẩn pháp lý hồ sơ du học, visa.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' },
 
-    <div class="section-heading" id="marketTitle">
-      <h3>Market</h3><span class="muted">Live prices</span>
-    </div>
-    <div class="panel" id="market"></div>
-    <p class="note" id="status">Giá coin ban đầu là số liệu minh họa. Swap là mô phỏng giao diện.</p>
-  </main>
-</div>
+            // Đấu giá Pi
+            { id: 501, title: 'Máy chơi game Retro cổ hiếm có', price: 1.2, category: 'auction', categoryName: 'Đấu giá Pi', img: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500', desc: 'Máy nguyên bản hoạt động tốt, kèm 500 game tuổi thơ.', wallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R' }
+        ];
 
-<nav class="nav">
-  <button class="active" onclick="go('swap',this)"><span>⇄</span>Swap</button>
-  <button onclick="go('marketTitle',this)"><span>◈</span>Explore</button>
-  <button onclick="openModal('Pools')"><span>▤</span>Pools</button>
-  <button onclick="openModal('More')"><span>•••</span>More</button>
-</nav>
+        // KHỞI TẠO BỘ NHỚ LƯU TRỮ CHUNG (LOCAL STORAGE SYNCRONIZATION)
+        function getCombinedListings() {
+            const userCreated = JSON.parse(localStorage.getItem('my_pi_listings') || '[]');
+            return [...userCreated, ...sampleListings];
+        }
 
-<div class="overlay" id="overlay" onclick="backdropClose(event)">
-  <section class="modal">
-    <div class="modal-head">
-      <h3 id="modalTitle" style="margin:0">Chức năng</h3>
-      <button class="close" onclick="closeModal()">✕</button>
-    </div>
-    <div id="modalBody"></div>
-  </section>
-</div>
-<div class="toast" id="toast"></div>
+        let historyStack = ['home'];
+        let currentDetailListing = null;
 
-<script>
-const coins=[
- {name:"Bitcoin",symbol:"BTC",icon:"₿",color:"#f7931a",price:67420,change:2.4,amount:.25},
- {name:"Ethereum",symbol:"ETH",icon:"◆",color:"#8998ff",price:3520,change:1.8,amount:2.4},
- {name:"Tether",symbol:"USDT",icon:"₮",color:"#26a17b",price:1,change:.1,amount:850}
-];
+        // BỘ ĐIỀU HƯỚNG MỞ SÂU CỬA SỔ (DEEP NAVIGATION LOGIC)
+        function showScreen(screenId) {
+            document.querySelectorAll('.view-screen').forEach(el => {
+                el.classList.remove('active');
+            });
+            const target = document.getElementById(screenId);
+            if (target) {
+                target.classList.add('active');
+            }
 
-const tokenData={
- SDA:{name:"SDA",icon:"$",color:"#d7a64f",balance:0.512,price:1},
- GACP:{name:"GACP",icon:"G",color:"#e9bd62",balance:1421.38,price:.5},
- BTC:{name:"Bitcoin",icon:"₿",color:"#f7931a",balance:.25,price:67420},
- ETH:{name:"Ethereum",icon:"◆",color:"#8998ff",balance:2.4,price:3520},
- USDT:{name:"Tether",icon:"₮",color:"#26a17b",balance:850,price:1}
-};
+            // Nút Back trên Header
+            const backBtn = document.getElementById('btn-back');
+            if (screenId !== 'view-home') {
+                backBtn.classList.remove('hidden');
+            } else {
+                backBtn.classList.add('hidden');
+            }
+        }
 
-let payToken="SDA";
-let receiveToken="GACP";
-let activeTab="Swap";
+        function switchTab(tabName) {
+            historyStack = [tabName];
+            showScreen('view-' + tabName);
 
-function money(n){
- return n.toLocaleString("en-US",{
-  style:"currency",currency:"USD",maximumFractionDigits:2
- });
-}
+            // Cập nhật trạng thái màu sắc Bottom Nav
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.replace('text-ocean-600', 'text-slate-400');
+            });
+            const activeNav = document.getElementById('nav-' + tabName);
+            if (activeNav) {
+                activeNav.classList.replace('text-slate-400', 'text-ocean-600');
+            }
+        }
 
-function updateClock(){
- const d=new Date();
- const el=document.getElementById("clock");
- if(el){
-  el.textContent=d.toLocaleTimeString("vi-VN",{
-   timeZone:"Asia/Ho_Chi_Minh",hour12:false
-  });
- }
-}
+        function goBack() {
+            if (historyStack.length > 1) {
+                historyStack.pop();
+                const prev = historyStack[historyStack.length - 1];
+                showScreen('view-' + prev);
+            } else {
+                switchTab('home');
+            }
+        }
 
-function updateConnection(){
- const el=document.getElementById("connection");
- el.innerHTML=navigator.onLine
-  ?'<span class="dot"></span> Connected'
-  :'<span class="dot" style="background:#e34d59"></span> Disconnected';
-}
+        // 1. MỞ DANH MỤC HÀNG HÓA SÂU (CATEGORY DEEP NAVIGATION)
+        function openCategory(catName, catKey) {
+            historyStack.push('list');
+            showScreen('view-list');
 
-function renderCoin(c,portfolio=false){
- return `<div class="coin">
-  <div class="icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
-  <div class="info">
-   <div class="name">${c.name}</div>
-   <div class="muted">${portfolio?c.amount+" "+c.symbol:c.symbol}</div>
-  </div>
-  <div class="price">
-   ${money(portfolio?c.amount*c.price:c.price)}
-   <div class="${c.change<0?"down":"up"}">${c.change>=0?"+":""}${Number(c.change).toFixed(2)}%</div>
-  </div>
- </div>`;
-}
+            document.getElementById('category-title').innerText = catName;
+            const grid = document.getElementById('category-listings-grid');
+            grid.innerHTML = '';
 
-function render(){
- document.getElementById("portfolio").innerHTML=coins.map(c=>renderCoin(c,true)).join("");
- document.getElementById("market").innerHTML=coins.map(c=>renderCoin(c)).join("");
-}
+            const allData = getCombinedListings();
+            const filtered = (catKey === 'all') ? allData : allData.filter(item => item.category === catKey);
 
-function updateTokenUI(){
- const p=tokenData[payToken],r=tokenData[receiveToken];
- document.getElementById("paySymbol").textContent=payToken;
- document.getElementById("payLogo").textContent=p.icon;
- document.getElementById("payLogo").style.color=p.color;
- document.getElementById("receiveSymbol").textContent=receiveToken;
- document.getElementById("receiveLogo").textContent=r.icon;
- document.getElementById("receiveLogo").style.color=r.color;
- document.getElementById("payBalance").textContent=p.balance.toLocaleString("en-US");
- document.getElementById("receiveBalance").textContent=r.balance.toLocaleString("en-US");
- calculateReceive();
-}
+            document.getElementById('category-count').innerText = `${filtered.length} bài đăng`;
 
-function calculateReceive(){
- const amount=Number(document.getElementById("payAmount").value||0);
- const p=tokenData[payToken],r=tokenData[receiveToken];
- document.getElementById("receiveAmount").value=
-  amount>0?(amount*p.price/r.price).toFixed(6):"";
- document.getElementById("submitSwap").textContent=
-  amount>0?(activeTab==="Buy"?"Preview Buy":"Preview Swap")
-  :(activeTab==="Buy"?"Enter purchase amount":"Enter an amount");
-}
+            filtered.forEach(item => {
+                grid.appendChild(createListingCard(item));
+            });
+        }
 
-function setMax(){
- document.getElementById("payAmount").value=tokenData[payToken].balance;
- calculateReceive();
-}
+        // 2. MỞ CHI TIẾT SẢN PHẨM SÂU (PRODUCT DETAIL DEEP NAVIGATION)
+        function openDetail(id) {
+            const allData = getCombinedListings();
+            const found = allData.find(item => item.id == id);
+            if (!found) return;
 
-function reverseTokens(){
- const temp=payToken;
- payToken=receiveToken;
- receiveToken=temp;
- updateTokenUI();
-}
+            currentDetailListing = found;
+            historyStack.push('detail');
+            showScreen('view-detail');
 
-function setTab(tab){
- activeTab=tab;
- document.getElementById("swapTab").classList.toggle("active",tab==="Swap");
- document.getElementById("buyTab").classList.toggle("active",tab==="Buy");
- calculateReceive();
-}
+            document.getElementById('detail-img').src = found.img;
+            document.getElementById('detail-title').innerText = found.title;
+            document.getElementById('detail-price').innerText = found.price;
+            document.getElementById('detail-category').innerText = found.categoryName || found.category;
+            document.getElementById('detail-desc').innerText = found.desc;
+            document.getElementById('detail-wallet').innerText = found.wallet || 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R';
+        }
 
-function openTokenPicker(which){
- const choices=Object.keys(tokenData).map(s=>
-  `<option value="${s}">${s} — ${tokenData[s].name}</option>`
- ).join("");
+        // HÀM TẠO CARD SẢN PHẨM TRỰC QUAN
+        function createListingCard(item) {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-sm overflow-hidden border border-slate-100 flex flex-col justify-between hover:shadow-md transition touch-action cursor-pointer';
+            card.onclick = () => openDetail(item.id);
 
- document.getElementById("modalTitle").textContent="Select token";
- document.getElementById("modalBody").innerHTML=`
-  <label>Choose token</label>
-  <select id="tokenChoice">${choices}</select>
-  <button class="primary" onclick="chooseToken('${which}')">Select token</button>`;
- document.getElementById("tokenChoice").value=which==="pay"?payToken:receiveToken;
- document.getElementById("overlay").classList.add("show");
-}
+            card.innerHTML = `
+                <div>
+                    <div class="h-28 bg-slate-100 relative overflow-hidden">
+                        <img src="${item.img}" class="w-full h-full object-cover" loading="lazy" alt="${item.title}">
+                    </div>
+                    <div class="p-2.5">
+                        <h4 class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug mb-1">${item.title}</h4>
+                        <div class="flex items-baseline gap-0.5">
+                            <span class="text-sm font-extrabold text-ocean-600">${item.price}</span>
+                            <span class="text-[10px] font-bold text-amber-500">π</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
 
-function chooseToken(which){
- const value=document.getElementById("tokenChoice").value;
- if(which==="pay")payToken=value;
- else receiveToken=value;
- updateTokenUI();
- closeModal();
-}
+        // BÀI ĐĂNG TRANG CHỦ
+        function renderHomeListings() {
+            const grid = document.getElementById('home-listings-grid');
+            grid.innerHTML = '';
+            const data = getCombinedListings().slice(0, 6);
+            data.forEach(item => {
+                grid.appendChild(createListingCard(item));
+            });
+        }
 
-function submitSwap(){
- const amount=Number(document.getElementById("payAmount").value||0);
- if(amount<=0){
-  toast("Enter an amount first");
-  return;
- }
- if(payToken===receiveToken){
-  toast("Hãy chọn hai token khác nhau");
-  return;
- }
+        // 3. ĐĂNG TIN MỚI & LƯU TỰ ĐỘNG
+        function submitNewListing(e) {
+            e.preventDefault();
+            const myWallet = localStorage.getItem('user_pi_wallet');
+            
+            if (!myWallet) {
+                alert('Vui lòng vào mục "Cá nhân" dán Địa chỉ Ví Pi của bạn trước khi đăng bài!');
+                switchTab('profile');
+                return;
+            }
 
- openModal(activeTab==="Buy"?"Buy preview":"Swap preview");
- document.getElementById("modalBody").innerHTML=`
-  <p>Bạn nhập <b>${amount} ${payToken}</b></p>
-  <p>Dự kiến nhận <b>${document.getElementById("receiveAmount").value} ${receiveToken}</b></p>
-  <p class="note">Đây chỉ là bản demo giao diện, không gửi giao dịch lên blockchain và không trừ số dư thật.</p>
-  <button class="primary" onclick="closeModal();toast('Bản demo: giao dịch chưa được thực hiện')">Tôi đã hiểu</button>`;
-}
+            const newListing = {
+                id: Date.now(),
+                title: document.getElementById('inp-title').value,
+                category: document.getElementById('inp-category').value,
+                categoryName: document.getElementById('inp-category').options[document.getElementById('inp-category').selectedIndex].text,
+                price: parseFloat(document.getElementById('inp-price').value),
+                img: document.getElementById('inp-img').value || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500',
+                desc: document.getElementById('inp-desc').value,
+                wallet: myWallet
+            };
 
-function openModal(title){
- document.getElementById("modalTitle").textContent=title;
- const body=document.getElementById("modalBody");
+            const existing = JSON.parse(localStorage.getItem('my_pi_listings') || '[]');
+            existing.unshift(newListing);
+            localStorage.setItem('my_pi_listings', JSON.stringify(existing));
 
- if(title==="Cài đặt"){
-  body.innerHTML=`
-   <p>DEX Wallet · UI demo</p>
-   <p class="note">Chưa kết nối ví hoặc blockchain thật.</p>
-   <label>Slippage tolerance</label>
-   <select><option>0.5%</option><option>1.0%</option><option>3.0%</option></select>`;
- }else if(title==="More"){
-  body.innerHTML=`
-   <button class="primary" onclick="openModal('Cài đặt')">Settings</button>
-   <button class="primary" onclick="toast('Chức năng demo')">Help</button>`;
- }else if(title==="Pools"){
-  body.innerHTML=`
-   <p>Liquidity pools</p>
-   <p class="note">Thông tin pool sẽ hiển thị khi kết nối nguồn dữ liệu phù hợp.</p>`;
- }else if(title==="Tìm kiếm coin"){
-  body.innerHTML=`
-   <label>Search token</label>
-   <input id="searchToken" placeholder="BTC, ETH, SDA..." oninput="searchTokens(this.value)">
-   <div id="searchResults"></div>`;
- }else if(title==="Chọn mạng"){
-  body.innerHTML=`
-   <label>Network</label>
-   <select id="networkChoice">
-    <option>Ethereum (demo)</option>
-    <option>BNB Chain (demo)</option>
-    <option>Polygon (demo)</option>
-   </select>
-   <p class="note">Lựa chọn mạng chỉ thay đổi giao diện, chưa kết nối blockchain.</p>
-   <button class="primary" onclick="toast('Mạng demo được chọn');closeModal()">Confirm</button>`;
- }else{
-  body.innerHTML=`
-   <p class="note">Đây là giao diện minh họa, chưa thực hiện chuyển tiền thật.</p>
-   <button class="primary" onclick="closeModal()">Đóng</button>`;
- }
- document.getElementById("overlay").classList.add("show");
-}
+            alert('Đăng bài thành công!');
+            document.getElementById('form-create').reset();
+            renderHomeListings();
+            switchTab('home');
+        }
 
-function searchTokens(query){
- const q=query.toUpperCase();
- const matches=Object.keys(tokenData).filter(s=>
-  s.includes(q)||tokenData[s].name.toUpperCase().includes(q)
- );
- document.getElementById("searchResults").innerHTML=
-  matches.map(s=>`<button class="primary" onclick="payToken='${s}';updateTokenUI();closeModal()">${s} — ${tokenData[s].name}</button>`).join("")
-  ||'<p class="note">Không tìm thấy token</p>';
-}
+        // 4. QUẢN LÝ VÍ & LƯU ĐỊA CHỈ VÍ G-ADDRESS
+        function saveUserWallet() {
+            const val = document.getElementById('user-wallet-input').value.trim();
+            if (val.length === 56 && val.startsWith('G')) {
+                localStorage.setItem('user_pi_wallet', val);
+                document.getElementById('wallet-status').innerText = 'Đã nối ví';
+                alert('Đã lưu Địa chỉ Ví Pi công khai thành công!');
+            } else {
+                alert('Địa chỉ Ví Pi công khai phải bắt đầu bằng chữ "G" và có độ dài đúng 56 ký tự!');
+            }
+        }
 
-function closeModal(){
- document.getElementById("overlay").classList.remove("show");
-}
+        function copySellerWallet() {
+            const wallet = document.getElementById('detail-wallet').innerText;
+            navigator.clipboard.writeText(wallet).then(() => {
+                alert('Đã sao chép Địa chỉ Ví người bán!');
+            });
+        }
 
-function backdropClose(e){
- if(e.target.id==="overlay")closeModal();
-}
+        function handlePayment(type) {
+            if (type === 'Pi') {
+                alert(`Vui lòng mở Ví Pi của bạn trong Pi Browser và chuyển số Pi đến địa chỉ:\n\n${currentDetailListing.wallet}\n\nNội dung: Thanh toan đơn hàng #${currentDetailListing.id}`);
+            } else {
+                alert('Đã ghi nhận yêu cầu Thanh toán COD khi nhận hàng!');
+            }
+        }
 
-function toast(msg){
- const el=document.getElementById("toast");
- el.textContent=msg;
- el.style.display="block";
- setTimeout(()=>el.style.display="none",2500);
-}
-
-function go(where,btn){
- document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
- btn.classList.add("active");
- document.getElementById(where).scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-async function loadPrices(){
- const status=document.getElementById("status");
- status.textContent="Loading live prices...";
- try{
-  const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=usd&include_24hr_change=true");
-  if(!r.ok)throw Error("network");
-  const data=await r.json();
-  const ids={BTC:"bitcoin",ETH:"ethereum",USDT:"tether"};
-  coins.forEach(c=>{
-   const x=data[ids[c.symbol]];
-   if(x){
-    c.price=x.usd;
-    c.change=x.usd_24h_change||0;
-    tokenData[c.symbol].price=x.usd;
-   }
-  });
-  render();
-  status.textContent="Prices updated from CoinGecko.";
- }catch(e){
-  status.textContent="Không tải được giá trực tuyến. Dữ liệu đang hiển thị có thể là số minh họa.";
- }
-}
-
-updateConnection();
-render();
-updateTokenUI();
-setInterval(updateClock,1000);
-updateClock();
-window.addEventListener("online",updateConnection);
-window.addEventListener("offline",updateConnection);
-</script>
+        // TỰ ĐỘNG KHỞI CHẠY KHI TẢI TRANG
+        window.addEventListener('DOMContentLoaded', () => {
+            renderHomeListings();
+            
+            // Khôi phục ví cũ nếu có
+            const savedWallet = localStorage.getItem('user_pi_wallet');
+            if (savedWallet) {
+                document.getElementById('user-wallet-input').value = savedWallet;
+                document.getElementById('wallet-status').innerText = 'Đã nối ví';
+            }
+        });
+    </script>
 </body>
 </html>
