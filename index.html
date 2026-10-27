@@ -25,6 +25,12 @@
                             400: '#facc15',
                             500: '#eab308',
                             600: '#ca8a04'
+                        },
+                        softRed: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48'
                         }
                     }
                 }
@@ -78,7 +84,7 @@
                 <p class="text-xs text-oceanBlue-100 mt-1">Mở sâu nhiều thư mục tiện ích - Giao dịch an toàn chuẩn Web3</p>
             </div>
 
-            <!-- HỆ THỐNG THƯ MỤC CHÍNH -->
+            <!-- HỆ THỐNG THƯ MỤC CHÍNH (ĐIỂM NHẤN ĐỎ NHẠT) -->
             <div class="flex items-center justify-between mb-3">
                 <h3 class="font-bold text-slate-800 text-base">Thư mục tiện ích</h3>
                 <span class="text-xs text-goldAcc-600 font-bold cursor-pointer" onclick="openCategory('Tất cả danh mục', 'all')">Xem tất cả</span>
@@ -86,7 +92,7 @@
             
             <div class="grid grid-cols-4 gap-2.5 mb-4">
                 <button onclick="openSubFolder('goods', 'Chợ Hàng Hóa')" class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
-                    <div class="w-10 h-10 bg-oceanBlue-50 text-oceanBlue-600 rounded-xl flex items-center justify-center text-base mb-1"><i class="fa-solid fa-basket-shopping"></i></div>
+                    <div class="w-10 h-10 bg-softRed-50 text-softRed-500 rounded-xl flex items-center justify-center text-base mb-1"><i class="fa-solid fa-basket-shopping"></i></div>
                     <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Hàng Hóa</span>
                 </button>
                 <button onclick="openSubFolder('realestate', 'Bất Động Sản')" class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
@@ -94,7 +100,7 @@
                     <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">BĐS</span>
                 </button>
                 <button onclick="openSubFolder('vehicles', 'Phương Tiện Xe Cộ')" class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
-                    <div class="w-10 h-10 bg-blue-50 text-oceanBlue-600 rounded-xl flex items-center justify-center text-base mb-1"><i class="fa-solid fa-car-side"></i></div>
+                    <div class="w-10 h-10 bg-oceanBlue-50 text-oceanBlue-600 rounded-xl flex items-center justify-center text-base mb-1"><i class="fa-solid fa-car-side"></i></div>
                     <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Xe Cộ</span>
                 </button>
                 <button onclick="openSubFolder('services', 'Dịch Vụ & Việc Làm')" class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
@@ -102,7 +108,7 @@
                     <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Việc Làm</span>
                 </button>
                 <button onclick="openSubFolder('auction', 'Đấu Giá Pi')" class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
-                    <div class="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center text-base mb-1"><i class="fa-solid fa-gavel"></i></div>
+                    <div class="w-10 h-10 bg-softRed-50 text-softRed-500 rounded-xl flex items-center justify-center text-base mb-1"><i class="fa-solid fa-gavel"></i></div>
                     <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Đấu Giá</span>
                 </button>
                 <button onclick="openSubFolder('forum', 'Tin Tức & Diễn Đàn')" class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
@@ -119,7 +125,7 @@
                 </button>
             </div>
 
-            <!-- THƯ MỤC CON -->
+            <!-- THƯ MỤC CON SÂU -->
             <div id="subfolder-container" class="mb-4 hidden bg-oceanBlue-50 p-3 rounded-2xl border border-goldAcc-400 shadow-sm">
                 <div class="flex items-center justify-between mb-2">
                     <h4 id="subfolder-title" class="font-bold text-xs text-oceanBlue-900 uppercase">Thư mục con</h4>
@@ -144,19 +150,19 @@
             <div id="category-listings-grid" class="grid grid-cols-2 gap-3"></div>
         </section>
 
-        <!-- 3. MÀN HÌNH CHI TIẾT (CÓ AVATAR SHOP & NÚT CHỈNH SỬA) -->
+        <!-- 3. MÀN HÌNH CHI TIẾT (CÓ AVATAR & NÚT SỬA) -->
         <section id="view-detail" class="view-screen">
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-slate-200 mb-4">
                 <div class="relative h-64 bg-slate-900">
                     <img id="detail-img" src="" class="w-full h-full object-cover" alt="Sản phẩm">
-                    <span class="absolute top-3 left-3 bg-goldAcc-500 text-slate-900 text-[10px] font-bold px-2 py-0.5 rounded-full shadow">Đã xác minh</span>
+                    <span class="absolute top-3 left-3 bg-softRed-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">Đã xác minh VIP</span>
                 </div>
                 <div id="detail-gallery" class="flex gap-2 p-2 overflow-x-auto no-scrollbar bg-slate-50 border-t border-slate-200"></div>
                 
                 <div class="p-4">
                     <div class="flex items-center justify-between gap-2 mb-1">
                         <span id="detail-category" class="text-[10px] font-bold text-oceanBlue-600 bg-oceanBlue-50 uppercase tracking-wider px-2 py-0.5 rounded">Danh mục</span>
-                        <span class="text-xs text-slate-500"><i class="fa-solid fa-location-dot text-goldAcc-600"></i> <span id="detail-location">Cần Thơ</span></span>
+                        <span class="text-xs text-slate-500"><i class="fa-solid fa-location-dot text-softRed-500"></i> <span id="detail-location">Cần Thơ</span></span>
                     </div>
                     <h2 id="detail-title" class="text-lg font-bold text-slate-800 leading-snug mb-2">Tiêu đề</h2>
                     <div class="flex items-baseline gap-1 mb-3">
@@ -178,7 +184,7 @@
                     <div class="border-t border-slate-200 pt-3 mt-3 cursor-pointer hover:bg-slate-50 p-2 rounded-xl transition border border-dashed border-goldAcc-400" onclick="openSellerProfile()">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <div id="seller-avatar" class="w-10 h-10 bg-oceanBlue-100 text-oceanBlue-700 rounded-full flex items-center justify-center font-bold text-base border border-goldAcc-400">S</div>
+                                <div id="seller-avatar" class="w-10 h-10 bg-softRed-100 text-softRed-600 rounded-full flex items-center justify-center font-bold text-base border border-softRed-500">S</div>
                                 <div>
                                     <h4 id="seller-name" class="text-xs font-bold text-slate-800">Cửa hàng Người Bán</h4>
                                     <p class="text-[10px] text-goldAcc-600 font-bold"><i class="fa-solid fa-star"></i> <span id="seller-rating">4.9 / 5.0</span> (Uy tín Web3)</p>
@@ -200,16 +206,16 @@
                 <button onclick="handlePayment('Pi')" class="flex-1 bg-oceanBlue-600 hover:bg-oceanBlue-700 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 touch-action border border-goldAcc-400">
                     <i class="fa-brands fa-pi text-goldAcc-400"></i> Thanh toán Ví Pi
                 </button>
-                <button onclick="handlePayment('COD')" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 touch-action">
-                    <i class="fa-solid fa-handshake text-goldAcc-400"></i> Thanh toán COD
+                <button onclick="handlePayment('COD')" class="flex-1 bg-softRed-500 hover:bg-softRed-600 text-white font-bold py-3 px-4 rounded-xl shadow-md flex items-center justify-center gap-2 touch-action">
+                    <i class="fa-solid fa-handshake"></i> Thanh toán COD
                 </button>
             </div>
         </section>
 
-        <!-- 4. MÀN HÌNH SHOP PROFILE (CÓ AVATAR LỚN) -->
+        <!-- 4. MÀN HÌNH SHOP PROFILE -->
         <section id="view-shop" class="view-screen">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-4 text-center">
-                <div id="shop-avatar-lg" class="w-20 h-20 bg-oceanBlue-100 text-oceanBlue-700 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-2 border-2 border-goldAcc-500">S</div>
+                <div id="shop-avatar-lg" class="w-20 h-20 bg-softRed-100 text-softRed-600 rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-2 border-2 border-softRed-500">S</div>
                 <h2 id="shop-name-lg" class="font-bold text-slate-800 text-lg">Tên Cửa Hàng</h2>
                 <p class="text-xs text-slate-400 mb-2">Xác thực Web3 Ecosystem</p>
                 <div class="inline-flex items-center gap-1 bg-amber-50 text-goldAcc-600 text-xs px-3 py-1 rounded-full font-bold border border-goldAcc-400">
@@ -309,8 +315,8 @@
         <!-- 8. MÀN HÌNH CÁ NHÂN & VÍ PI -->
         <section id="view-profile" class="view-screen">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 mb-4 text-center">
-                <div class="w-16 h-16 bg-oceanBlue-100 text-oceanBlue-700 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-2 border border-goldAcc-400">
-                    <i class="fa-solid fa-user-shield text-goldAcc-600"></i>
+                <div class="w-16 h-16 bg-softRed-100 text-softRed-600 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-2 border border-softRed-500">
+                    <i class="fa-solid fa-user-shield"></i>
                 </div>
                 <h2 class="font-bold text-slate-800 text-base">Thành viên Pi Network</h2>
                 <p class="text-xs text-slate-400">Tài khoản Web3 đã kích hoạt</p>
@@ -444,7 +450,7 @@
                     if (!error && cloudData) data = [...cloudData, ...sampleListings];
                 } catch (e) {}
             }
-            const localStored = JSON.parse(localStorage.getItem('pi_ocean_gold_v2') || '[]');
+            const localStored = JSON.parse(localStorage.getItem('pi_ocean_gold_v3') || '[]');
             allListingsCache = [...localStored, ...data];
             renderHomeListings();
             renderOrdersList();
@@ -463,7 +469,7 @@
                 const btn = document.createElement('button');
                 btn.className = 'bg-white p-2.5 rounded-xl border border-slate-200 text-left hover:border-goldAcc-500 transition flex items-center gap-2 touch-action shadow-sm';
                 btn.onclick = () => openCategory(sub.name, sub.key);
-                btn.innerHTML = `<i class="fa-solid ${sub.icon} text-oceanBlue-600 text-sm"></i><span class="text-xs font-bold text-slate-700 truncate">${sub.name}</span>`;
+                btn.innerHTML = `<i class="fa-solid ${sub.icon} text-softRed-500 text-sm"></i><span class="text-xs font-bold text-slate-700 truncate">${sub.name}</span>`;
                 listEl.appendChild(btn);
             });
             container.classList.remove('hidden');
@@ -535,7 +541,6 @@
             document.getElementById('seller-rating').innerText = `${found.rating || '4.9'} / 5.0`;
             document.getElementById('seller-avatar').innerText = (found.seller || 'S').charAt(0).toUpperCase();
 
-            // Kiểm tra quyền chỉnh sửa
             const myWallet = localStorage.getItem('user_pi_wallet');
             const ownerActions = document.getElementById('owner-actions');
             if (myWallet && found.sellerWallet === myWallet) ownerActions.classList.remove('hidden');
@@ -573,7 +578,7 @@
             card.innerHTML = `
                 <div class="h-28 bg-slate-100 overflow-hidden relative">
                     <img src="${mainImg}" class="w-full h-full object-cover">
-                    <span class="absolute top-2 right-2 bg-slate-900/70 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">${item.location || 'VN'}</span>
+                    <span class="absolute top-2 right-2 bg-softRed-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold">${item.location || 'VN'}</span>
                 </div>
                 <div class="p-2.5">
                     <h4 class="text-xs font-bold text-slate-800 line-clamp-2 mb-1">${item.title}</h4>
@@ -617,7 +622,6 @@
             filtered.forEach(item => grid.appendChild(createCard(item)));
         }
 
-        // ĐĂNG BÀI MỚI
         function submitNewListing(e) {
             e.preventDefault();
             const myWallet = localStorage.getItem('user_pi_wallet');
@@ -645,9 +649,9 @@
                     location: 'Cần Thơ'
                 };
 
-                const existing = JSON.parse(localStorage.getItem('pi_ocean_gold_v2') || '[]');
+                const existing = JSON.parse(localStorage.getItem('pi_ocean_gold_v3') || '[]');
                 existing.unshift(newListing);
-                localStorage.setItem('pi_ocean_gold_v2', JSON.stringify(existing));
+                localStorage.setItem('pi_ocean_gold_v3', JSON.stringify(existing));
 
                 if (supabaseClient) {
                     supabaseClient.from('listings').insert([newListing]).then(() => {});
@@ -675,7 +679,6 @@
             }
         }
 
-        // CHỈNH SỬA BÀI ĐĂNG
         function openEditScreen() {
             if (!currentDetailListing) return;
             historyStack.push('edit');
@@ -702,9 +705,9 @@
                 if (imageArray) currentDetailListing.imgs = imageArray;
                 currentDetailListing.desc = document.getElementById('edit-desc').value;
 
-                let existing = JSON.parse(localStorage.getItem('pi_ocean_gold_v2') || '[]');
+                let existing = JSON.parse(localStorage.getItem('pi_ocean_gold_v3') || '[]');
                 existing = existing.map(item => item.id === currentDetailListing.id ? currentDetailListing : item);
-                localStorage.setItem('pi_ocean_gold_v2', JSON.stringify(existing));
+                localStorage.setItem('pi_ocean_gold_v3', JSON.stringify(existing));
 
                 if (supabaseClient) {
                     supabaseClient.from('listings').update(currentDetailListing).eq('id', currentDetailListing.id).then(() => {});
@@ -731,7 +734,6 @@
             }
         }
 
-        // THANH TOÁN & ĐƠN HÀNG
         function handlePayment(type) {
             if (!currentDetailListing) return;
             if (type === 'Pi') {
