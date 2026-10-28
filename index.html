@@ -9,14 +9,12 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom Light Glassmorphism & Shadow Effects */
         .glass-card-light {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 10px -1px rgba(0, 0, 0, 0.04);
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -33,10 +31,10 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white pb-20">
+<body class="bg-slate-100 text-slate-800 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white pb-24">
 
     <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 gap-4">
                 
@@ -79,19 +77,19 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- CATEGORIES BAR -->
+        <!-- THƯ MỤC TIỆN ÍCH TRÊN MÀN HÌNH CHÍNH (HIỂN THỊ NHIỀU Ô) -->
         <section class="space-y-3">
             <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-layer-group text-cyan-600"></i>
-                    Danh Mục Sản Phẩm & Tiện Ích
+                <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                    <i class="fa-solid fa-grip text-cyan-600"></i>
+                    Thư Mục & Tiện Ích Toàn Cầu
                 </h2>
-                <span class="text-xs text-slate-500">Bấm vào nhóm để mở danh mục con</span>
+                <span class="text-xs text-slate-500">Chạm để mở cửa sổ chi tiết</span>
             </div>
 
-            <div id="mainCategoryList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            <div id="mainCategoryList" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3">
                 <!-- Rendered by JS -->
             </div>
         </section>
@@ -107,55 +105,56 @@
             </button>
         </section>
 
-        <!-- POSTS / MARKETPLACE LIST -->
+        <!-- POSTS / MARKETPLACE LIST (LƯỚI NHỎ GỌN NHÌN THẤY NHIỀU SẢN PHẨM) -->
         <section class="space-y-4">
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
                     <i class="fa-solid fa-store text-emerald-600"></i>
-                    Bài Đăng Rao Bán & Tin Mới
+                    Sản Phẩm & Bài Đăng Mới
                 </h2>
-                <span id="itemCount" class="text-sm font-medium text-slate-500">0 bài đăng</span>
+                <span id="itemCount" class="text-xs font-medium text-slate-500">0 bài đăng</span>
             </div>
 
-            <div id="postsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Grid bài đăng nhỏ gọn hiển thị nhiều mục -->
+            <div id="postsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
                 <!-- Rendered by JS -->
             </div>
         </section>
     </main>
 
-    <!-- THƯ MỤC TIỆN ÍCH DƯỚI CÙNG MÀN HÌNH (BOTTOM NAVIGATION BAR) -->
-    <nav aria-label="Thanh điều hướng dưới" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg py-2 px-4">
+    <!-- THƯ MỤC TIỆN ÍCH CỐ ĐỊNH GÓC DƯỚI MÀN HÌNH (BOTTOM BAR) -->
+    <nav aria-label="Thanh điều hướng dưới" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg py-2 px-3">
         <div class="max-w-md mx-auto flex items-center justify-around text-slate-600">
-            <button onclick="resetFilter(); window.scrollTo({top: 0, behavior: 'smooth'});" class="flex flex-col items-center gap-1 hover:text-cyan-600 transition group">
-                <i class="fa-solid fa-house text-lg text-cyan-600"></i>
+            <button onclick="resetFilter(); window.scrollTo({top: 0, behavior: 'smooth'});" class="flex flex-col items-center gap-0.5 hover:text-cyan-600 transition group">
+                <i class="fa-solid fa-house text-base text-cyan-600"></i>
                 <span class="text-[10px] font-semibold">Trang chủ</span>
             </button>
-            <button onclick="openCategoryModal('auto')" class="flex flex-col items-center gap-1 hover:text-cyan-600 transition group">
-                <i class="fa-solid fa-compass text-lg text-slate-500 group-hover:text-cyan-600"></i>
+            <button onclick="openCategoryModal('auto')" class="flex flex-col items-center gap-0.5 hover:text-cyan-600 transition group">
+                <i class="fa-solid fa-compass text-base text-slate-500 group-hover:text-cyan-600"></i>
                 <span class="text-[10px] font-medium">Khám phá</span>
             </button>
-            <button onclick="openPostModal()" class="flex flex-col items-center gap-1 text-emerald-600 hover:scale-105 transition">
-                <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md -mt-4 border-2 border-white">
-                    <i class="fa-solid fa-plus"></i>
+            <button onclick="openPostModal()" class="flex flex-col items-center gap-0.5 text-emerald-600 hover:scale-105 transition">
+                <div class="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md -mt-3 border-2 border-white">
+                    <i class="fa-solid fa-plus text-sm"></i>
                 </div>
                 <span class="text-[10px] font-bold">Đăng tin</span>
             </button>
-            <button onclick="filterMyPosts()" class="flex flex-col items-center gap-1 hover:text-violet-600 transition group">
-                <i class="fa-solid fa-folder-user text-lg text-slate-500 group-hover:text-violet-600"></i>
+            <button onclick="filterMyPosts()" class="flex flex-col items-center gap-0.5 hover:text-violet-600 transition group">
+                <i class="fa-solid fa-folder-user text-base text-slate-500 group-hover:text-violet-600"></i>
                 <span class="text-[10px] font-medium">Thư mục của tôi</span>
             </button>
-            <button onclick="openWalletModal()" class="flex flex-col items-center gap-1 hover:text-violet-600 transition group">
-                <i class="fa-solid fa-wallet text-lg text-slate-500 group-hover:text-violet-600"></i>
+            <button onclick="openWalletModal()" class="flex flex-col items-center gap-0.5 hover:text-violet-600 transition group">
+                <i class="fa-solid fa-wallet text-base text-slate-500 group-hover:text-violet-600"></i>
                 <span class="text-[10px] font-medium">Ví Web3</span>
             </button>
         </div>
     </nav>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 mt-16 py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
-            <p class="text-slate-600 text-sm">Global Super App Platform &copy; 2026. Giao diện nền sáng toàn cầu.</p>
-            <p class="text-xs text-slate-400">Tích hợp Chợ mua bán, Bất động sản, Ô tô, Dịch vụ tiện ích & Thư mục cá nhân.</p>
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-1">
+            <p class="text-slate-600 text-xs">Global Super App Platform &copy; 2026. Giao diện nền sáng toàn cầu.</p>
+            <p class="text-[10px] text-slate-400">Tích hợp Chợ mua bán, Bất động sản, Ô tô, Dịch vụ tiện ích & Thư mục cá nhân.</p>
         </div>
     </footer>
 
@@ -191,7 +190,7 @@
         </div>
     </div>
 
-    <!-- 2. MODAL ĐĂNG BÀI / CHỈNH SỬA (Ô gắn hình ảnh tích hợp) -->
+    <!-- 2. MODAL ĐĂNG BÀI / CHỈNH SỬA (GẮN TỐI ĐA 5 ẢNH) -->
     <div id="postModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-card-light w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white/80">
@@ -203,7 +202,7 @@
                 </button>
             </div>
             
-            <form id="postForm" onsubmit="savePost(event)" class="p-6 space-y-4 overflow-y-auto flex-1">
+            <form id="postForm" onsubmit="savePost(event)" class="p-5 space-y-4 overflow-y-auto flex-1">
                 <input type="hidden" id="editPostId" value="">
 
                 <div>
@@ -212,7 +211,7 @@
                         class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-violet-500">
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Danh mục chính *</label>
                         <select id="postMainCat" onchange="updateSubCatDropdown()" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-violet-500">
@@ -226,7 +225,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Giá bán *</label>
                         <input type="text" id="postPrice" required placeholder="VD: 850.000.000 VNĐ" 
@@ -239,17 +238,17 @@
                     </div>
                 </div>
 
-                <!-- Ô GẮN HÌNH ẢNH (Image Upload / Picker) -->
+                <!-- Ô GẮN TỐI ĐA 5 HÌNH ẢNH (MULTIPLE FILE UPLOAD) -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Hình ảnh sản phẩm (Chọn file ảnh hoặc dán link)</label>
-                    <div class="flex gap-2">
-                        <input type="file" id="postImageFile" accept="image/*" onchange="handleImageUpload(event)" 
-                            class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 border border-slate-300 rounded-xl bg-white cursor-pointer">
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="block text-xs font-semibold text-slate-700">Hình ảnh sản phẩm (Chọn tối đa 5 ảnh)</label>
+                        <span id="imageCountBadge" class="text-[10px] text-violet-600 font-bold">0/5 ảnh</span>
                     </div>
-                    <input type="hidden" id="postImage" value="">
-                    <div id="imagePreviewContainer" class="mt-2 hidden">
-                        <img id="imagePreview" src="" alt="Xem trước ảnh" class="w-24 h-24 object-cover rounded-xl border border-slate-300">
-                    </div>
+                    <input type="file" id="postImageFiles" accept="image/*" multiple onchange="handleMultipleImagesUpload(event)" 
+                        class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 border border-slate-300 rounded-xl bg-white cursor-pointer">
+                    
+                    <!-- Khung Preview 5 ảnh -->
+                    <div id="imagePreviewContainer" class="mt-3 grid grid-cols-5 gap-2"></div>
                 </div>
 
                 <div>
@@ -268,33 +267,35 @@
         </div>
     </div>
 
-    <!-- 3. MODAL XEM CHI TIẾT SẢN PHẨM -->
+    <!-- 3. MODAL XEM CHI TIẾT SẢN PHẨM (CÓ BỘ SƯU TẬP 5 ẢNH) -->
     <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-card-light w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="relative">
+            <div class="relative bg-slate-900">
                 <img id="detailImg" src="" alt="" class="w-full h-64 object-cover">
                 <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 text-slate-800 flex items-center justify-center hover:bg-white shadow">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
+                <!-- Thumbnail bar khi có nhiều ảnh -->
+                <div id="detailThumbs" class="absolute bottom-2 left-2 right-2 flex gap-1.5 overflow-x-auto justify-center"></div>
             </div>
-            <div class="p-6 space-y-4 overflow-y-auto">
+            <div class="p-5 space-y-3 overflow-y-auto">
                 <div class="flex items-center justify-between">
                     <span id="detailBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-100 text-cyan-800 border border-cyan-200">Danh mục</span>
                     <span id="detailDate" class="text-xs text-slate-500">Đăng hôm nay</span>
                 </div>
-                <h2 id="detailTitle" class="text-2xl font-bold text-slate-900">Tên bài đăng</h2>
-                <div class="text-xl font-extrabold text-emerald-600" id="detailPrice">0 VNĐ</div>
+                <h2 id="detailTitle" class="text-xl font-bold text-slate-900">Tên bài đăng</h2>
+                <div class="text-lg font-extrabold text-emerald-600" id="detailPrice">0 VNĐ</div>
                 <p id="detailLocation" class="text-xs text-slate-600 flex items-center gap-1">
                     <i class="fa-solid fa-location-dot text-rose-500"></i> Địa điểm
                 </p>
                 <div class="border-t border-slate-200 pt-3">
-                    <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Mô Tả Chi Tiết</h4>
-                    <p id="detailDesc" class="text-sm text-slate-700 leading-relaxed whitespace-pre-line"></p>
+                    <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-1">Mô Tả Chi Tiết</h4>
+                    <p id="detailDesc" class="text-xs text-slate-700 leading-relaxed whitespace-pre-line"></p>
                 </div>
             </div>
-            <div class="p-4 border-t border-slate-200 bg-white/50 flex gap-3 justify-end">
-                <button onclick="closeDetailModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-sm font-medium">Đóng</button>
-                <button onclick="alert('Đã gửi yêu cầu liên hệ người bán!')" class="px-5 py-2 rounded-xl bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 shadow">
+            <div class="p-3 border-t border-slate-200 bg-white/50 flex gap-3 justify-end">
+                <button onclick="closeDetailModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-medium">Đóng</button>
+                <button onclick="alert('Đã gửi yêu cầu liên hệ người bán!')" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow">
                     <i class="fa-solid fa-phone mr-1"></i> Liên Hệ Người Bán
                 </button>
             </div>
@@ -376,78 +377,47 @@
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT ================= -->
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
+        // 12+ Danh mục tiện ích hiển thị nhiều ngoài màn hình chính
         const categoriesTree = [
-            {
-                id: 'auto', name: 'Xe Ô Tô & Phương Tiện', icon: 'fa-car', color: 'from-cyan-500 to-blue-600',
-                subs: [
-                    { id: 'toyota', name: 'Toyota', items: ['Camry', 'Fortuner', 'Corolla Cross', 'Hilux', 'Vios'] },
-                    { id: 'vinfast', name: 'VinFast', items: ['VF8', 'VF9', 'VF e34', 'VF5 Plus'] },
-                    { id: 'tesla', name: 'Tesla', items: ['Model 3', 'Model Y', 'Cybertruck'] }
-                ]
-            },
-            {
-                id: 'realestate', name: 'Bất Động Sản', icon: 'fa-building-user', color: 'from-emerald-500 to-teal-600',
-                subs: [
-                    { id: 'apartment', name: 'Căn Hộ & Chung Cư', items: ['Căn hộ cao cấp', 'Penthouse', 'Studio'] },
-                    { id: 'house', name: 'Nhà Phố & Biệt Thự', items: ['Biệt thự đơn lập', 'Nhà liền kề', 'Shophouse'] },
-                    { id: 'land', name: 'Đất Nền', items: ['Đất thổ cư', 'Đất dự án', 'Đất vườn'] }
-                ]
-            },
-            {
-                id: 'electronics', name: 'Chợ Điện Máy & Đồ Cũ', icon: 'fa-laptop', color: 'from-violet-500 to-purple-600',
-                subs: [
-                    { id: 'mobile', name: 'Điện Thoại & Tablet', items: ['iPhone', 'Samsung Galaxy', 'iPad'] },
-                    { id: 'computer', name: 'Laptop', items: ['MacBook', 'Dell XPS', 'ASUS ROG'] }
-                ]
-            },
-            {
-                id: 'services', name: 'Dịch Vụ & Tiện Ích', icon: 'fa-screwdriver-wrench', color: 'from-amber-500 to-orange-600',
-                subs: [
-                    { id: 'repair', name: 'Sửa Chữa', items: ['Sửa xe tận nơi', 'Bảo dưỡng nhà cửa'] },
-                    { id: 'rental', name: 'Cho Thuê', items: ['Cho thuê xe tự lái', 'Căn hộ du lịch'] }
-                ]
-            },
-            {
-                id: 'web3', name: 'Tài Sản Số & Web3', icon: 'fa-cubes', color: 'from-pink-500 to-rose-600',
-                subs: [
-                    { id: 'nft', name: 'NFT Collection', items: ['Digital Artworks', 'Domain Names'] }
-                ]
-            }
+            { id: 'auto', name: 'Xe Ô Tô & Xe Máy', icon: 'fa-car', color: 'from-cyan-500 to-blue-600', subs: [{ id: 'toyota', name: 'Toyota', items: ['Camry', 'Fortuner', 'Corolla Cross'] }, { id: 'vinfast', name: 'VinFast', items: ['VF8', 'VF9', 'VF5'] }] },
+            { id: 'realestate', name: 'Bất Động Sản', icon: 'fa-building-user', color: 'from-emerald-500 to-teal-600', subs: [{ id: 'apartment', name: 'Căn Hộ', items: ['Chung cư', 'Penthouse'] }, { id: 'house', name: 'Biệt Thự & Nhà Phố', items: ['Shophouse', 'Nhà mặt tiền'] }] },
+            { id: 'electronics', name: 'Chợ Điện Máy', icon: 'fa-laptop', color: 'from-violet-500 to-purple-600', subs: [{ id: 'mobile', name: 'Điện Thoại', items: ['iPhone', 'Samsung'] }] },
+            { id: 'services', name: 'Dịch Vụ Tiện Ích', icon: 'fa-screwdriver-wrench', color: 'from-amber-500 to-orange-600', subs: [{ id: 'repair', name: 'Sửa Chữa', items: ['Sửa xe', 'Cứu hộ 24/7'] }] },
+            { id: 'web3', name: 'Tài Sản Web3', icon: 'fa-cubes', color: 'from-pink-500 to-rose-600', subs: [{ id: 'nft', name: 'NFT', items: ['Digital Art', 'Domain'] }] },
+            { id: 'fashion', name: 'Thời Trang & Đồ Dùng', icon: 'fa-shirt', color: 'from-blue-500 to-indigo-600', subs: [{ id: 'clothes', name: 'Quần Áo', items: ['Nam', 'Nữ'] }] },
+            { id: 'jobs', name: 'Việc Làm & Dịch Vụ', icon: 'fa-briefcase', color: 'from-teal-500 to-emerald-600', subs: [{ id: 'it', name: 'Công Nghệ IT', items: ['Dev', 'Design'] }] },
+            { id: 'auction', name: 'Đấu Giá Online', icon: 'fa-gavel', color: 'from-red-500 to-rose-600', subs: [{ id: 'rare', name: 'Đồ Cổ & Hiếm', items: ['Gốm sứ', 'Đồng hồ'] }] },
+            { id: 'travel', name: 'Du Lịch & Vé Máy Bay', icon: 'fa-plane', color: 'from-sky-500 to-cyan-600', subs: [{ id: 'tour', name: 'Tour Nội Địa', items: ['Cần Thơ', 'Phú Quốc'] }] },
+            { id: 'food', name: 'Ẩm Thực & Nông Sản', icon: 'fa-utensils', color: 'from-orange-500 to-amber-600', subs: [{ id: 'agri', name: 'Nông Sản Sạch', items: ['Trái cây', 'Gạo'] }] },
+            { id: 'forum', name: 'Diễn Đàn Cộng Đồng', icon: 'fa-comments', color: 'from-purple-500 to-indigo-600', subs: [{ id: 'chat', name: 'Hỏi Đáp', items: ['Kinh nghiệm', 'Rao vặt'] }] },
+            { id: 'mypage', name: 'Thư Mục Của Tôi', icon: 'fa-folder-user', color: 'from-violet-600 to-emerald-600', subs: [{ id: 'my_posts', name: 'Quản Lý Bài Đăng', items: ['Tin đã đăng', 'Tin nháp'] }] }
         ];
 
         const initialPosts = [
-            {
-                id: 'post-1', author: 'user_mine', title: 'Bán xe Toyota Camry 2.5Q sản xuất 2023, màu đen cực mới',
-                mainCat: 'auto', subCat: 'Toyota', itemCat: 'Camry', price: '980.000.000 VNĐ',
-                location: 'Cần Thơ', image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80',
-                desc: 'Xe chính chủ chạy 15.000 km, đỗ garage cẩn thận.', createdAt: '2026-03-28'
-            },
-            {
-                id: 'post-2', author: 'other_user', title: 'VinFast VF8 Plus 2024 - Bản pin CATL full option',
-                mainCat: 'auto', subCat: 'VinFast', itemCat: 'VF8', price: '1.050.000.000 VNĐ',
-                location: 'TP. Hồ Chí Minh', image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80',
-                desc: 'Cần nhượng lại xe VinFast VF8 màu trắng.', createdAt: '2026-03-27'
-            }
+            { id: 'post-1', author: 'user_mine', title: 'Bán xe Toyota Camry 2.5Q 2023 chính chủ màu đen', mainCat: 'auto', subCat: 'Toyota', itemCat: 'Camry', price: '980.000.000 VNĐ', location: 'Cần Thơ', images: ['https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80'], desc: 'Xe chính chủ chạy 15.000km, đỗ garage cẩn thận.', createdAt: '2026-03-28' },
+            { id: 'post-2', author: 'other_user', title: 'VinFast VF8 Plus 2024 - Bản pin CATL full option', mainCat: 'auto', subCat: 'VinFast', itemCat: 'VF8', price: '1.050.000.000 VNĐ', location: 'TP.HCM', images: ['https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80'], desc: 'Xe màu trắng mới 99%.', createdAt: '2026-03-27' },
+            { id: 'post-3', author: 'user_mine', title: 'Căn hộ Penthouse góc 3PN view sông Cần Thơ', mainCat: 'realestate', subCat: 'Căn Hộ', itemCat: 'Penthouse', price: '4,5 Tỷ VNĐ', location: 'Ninh Kiều, Cần Thơ', images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'], desc: 'Diện tích 120m2, full nội thất nhập khẩu.', createdAt: '2026-03-26' },
+            { id: 'post-4', author: 'other_user', title: 'MacBook Pro M3 Max 16 inch 36GB 1TB SSD', mainCat: 'electronics', subCat: 'Laptop', itemCat: 'MacBook', price: '62.000.000 VNĐ', location: 'Hà Nội', images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80'], desc: 'Máy đẹp như mới, pin 98%.', createdAt: '2026-03-25' }
         ];
 
         let posts = [];
+        let uploadedImages = [];
         let activeMainCat = null;
         let activeSubCat = null;
         let activeItemCat = null;
         let isMyPostsView = false;
         let currentModalMain = null;
         let currentModalSub = null;
-        let connectedWallet = null;
 
         function initApp() {
-            const savedPosts = localStorage.getItem('global_super_app_posts_light');
+            const savedPosts = localStorage.getItem('global_super_app_posts_light_v2');
             if (savedPosts) {
                 posts = JSON.parse(savedPosts);
             } else {
                 posts = initialPosts;
-                localStorage.setItem('global_super_app_posts_light', JSON.stringify(posts));
+                localStorage.setItem('global_super_app_posts_light_v2', JSON.stringify(posts));
             }
             renderCategories();
             renderPosts();
@@ -458,12 +428,11 @@
             const container = document.getElementById('mainCategoryList');
             container.innerHTML = categoriesTree.map(cat => `
                 <div onclick="openCategoryModal('${cat.id}')" 
-                     class="glass-card-light p-4 rounded-2xl hover:border-cyan-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center group">
-                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr ${cat.color} flex items-center justify-center text-white text-xl font-bold shadow-md mb-2 group-hover:scale-110 transition-transform">
+                     class="glass-card-light p-2.5 rounded-xl hover:border-cyan-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center group">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr ${cat.color} flex items-center justify-center text-white text-sm font-bold shadow-sm mb-1.5 group-hover:scale-110 transition-transform">
                         <i class="fa-solid ${cat.icon}"></i>
                     </div>
-                    <h3 class="font-bold text-slate-800 text-sm group-hover:text-cyan-600 transition-colors">${cat.name}</h3>
-                    <span class="text-[10px] text-slate-500 mt-1">${cat.subs.length} nhóm phân loại</span>
+                    <h3 class="font-bold text-slate-800 text-xs line-clamp-1 group-hover:text-cyan-600 transition-colors">${cat.name}</h3>
                 </div>
             `).join('');
         }
@@ -488,20 +457,17 @@
 
             if (!currentModalSub) {
                 titleEl.innerText = currentModalMain.name;
-                subtitleEl.innerText = 'Chọn thương hiệu / loại hình để mở cửa sổ chi tiết';
+                subtitleEl.innerText = 'Chọn thương hiệu / loại hình để xem chi tiết';
                 breadcrumbEl.innerHTML = `<span>Trang chủ</span> <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> <span class="text-cyan-600 font-bold">${currentModalMain.name}</span>`;
                 backBtn.classList.add('hidden');
 
                 listContainer.innerHTML = currentModalMain.subs.map(sub => `
-                    <div onclick="selectModalSubCat('${sub.id}')" class="p-3.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-cyan-400 flex items-center justify-between cursor-pointer transition shadow-sm">
+                    <div onclick="selectModalSubCat('${sub.id}')" class="p-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-cyan-400 flex items-center justify-between cursor-pointer transition shadow-sm">
                         <div class="flex items-center gap-3">
                             <i class="fa-solid fa-folder-tree text-cyan-600"></i>
-                            <span class="font-bold text-sm text-slate-800">${sub.name}</span>
+                            <span class="font-bold text-xs text-slate-800">${sub.name}</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-slate-500">${sub.items.length} dòng</span>
-                            <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
-                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
                     </div>
                 `).join('');
             } else {
@@ -510,23 +476,21 @@
                 breadcrumbEl.innerHTML = `
                     <span class="cursor-pointer hover:underline" onclick="categoryBackStep()">Trang chủ</span> 
                     <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> 
-                    <span class="cursor-pointer hover:underline" onclick="categoryBackStep()">${currentModalMain.name}</span> 
-                    <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> 
                     <span class="text-cyan-600 font-bold">${currentModalSub.name}</span>
                 `;
                 backBtn.classList.remove('hidden');
 
                 listContainer.innerHTML = `
-                    <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', null)" class="mb-4 p-3 rounded-xl bg-cyan-50 border border-cyan-200 hover:bg-cyan-100 cursor-pointer flex items-center justify-between">
-                        <span class="font-bold text-sm text-cyan-800"><i class="fa-solid fa-filter mr-2"></i> Lọc tất cả bài thuộc ${currentModalSub.name}</span>
-                        <i class="fa-solid fa-arrow-right text-cyan-700"></i>
+                    <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', null)" class="mb-3 p-2.5 rounded-xl bg-cyan-50 border border-cyan-200 hover:bg-cyan-100 cursor-pointer flex items-center justify-between">
+                        <span class="font-bold text-xs text-cyan-800"><i class="fa-solid fa-filter mr-1.5"></i> Lọc tất cả bài thuộc ${currentModalSub.name}</span>
+                        <i class="fa-solid fa-arrow-right text-cyan-700 text-xs"></i>
                     </div>
-                    <div class="grid grid-cols-2 gap-2.5">
+                    <div class="grid grid-cols-2 gap-2">
                         ${currentModalSub.items.map(item => `
                             <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', '${item}')" 
-                                 class="p-3 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 hover:bg-slate-50 cursor-pointer transition flex items-center justify-between group shadow-sm">
+                                 class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 hover:bg-slate-50 cursor-pointer transition flex items-center justify-between group shadow-sm">
                                 <span class="text-xs font-semibold text-slate-700 group-hover:text-emerald-700">${item}</span>
-                                <i class="fa-solid fa-circle-dot text-[10px] text-slate-400 group-hover:text-emerald-600"></i>
+                                <i class="fa-solid fa-circle-dot text-[8px] text-slate-400 group-hover:text-emerald-600"></i>
                             </div>
                         `).join('')}
                     </div>
@@ -576,7 +540,7 @@
             filterBar.classList.remove('hidden');
 
             renderPosts();
-            window.scrollTo({top: 200, behavior: 'smooth'});
+            window.scrollTo({top: 180, behavior: 'smooth'});
         }
 
         function resetFilter() {
@@ -614,53 +578,57 @@
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center space-y-3">
-                        <div class="w-16 h-16 mx-auto rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 text-2xl shadow-sm">
+                    <div class="col-span-full py-12 text-center space-y-2">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 text-xl shadow-sm">
                             <i class="fa-solid fa-box-open"></i>
                         </div>
-                        <p class="text-slate-500 text-sm">Không tìm thấy bài đăng phù hợp.</p>
+                        <p class="text-slate-500 text-xs">Không tìm thấy bài đăng phù hợp.</p>
                         <button onclick="resetFilter()" class="text-xs text-cyan-600 hover:underline">Xem tất cả bài đăng</button>
                     </div>
                 `;
                 return;
             }
 
-            grid.innerHTML = filtered.map(post => `
-                <div class="glass-card-light rounded-2xl overflow-hidden hover:border-cyan-400 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 overflow-hidden bg-slate-100 cursor-pointer" onclick="openDetailModal('${post.id}')">
-                            <img src="${post.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'}" 
-                                 alt="${post.title}" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur-md text-cyan-700 border border-cyan-200 shadow-sm">
-                                ${post.subCat}
-                            </span>
+            grid.innerHTML = filtered.map(post => {
+                const mainImg = (post.images && post.images.length > 0) ? post.images[0] : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+                const imgCountBadge = (post.images && post.images.length > 1) ? `<span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-slate-950/70 text-white text-[9px] font-bold"><i class="fa-solid fa-images mr-1"></i>${post.images.length}</span>` : '';
+
+                return `
+                    <div class="glass-card-light rounded-xl overflow-hidden hover:border-cyan-400 transition-all duration-300 hover:-translate-y-0.5 flex flex-col justify-between group">
+                        <div>
+                            <div class="relative h-32 sm:h-36 overflow-hidden bg-slate-100 cursor-pointer" onclick="openDetailModal('${post.id}')">
+                                <img src="${mainImg}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold bg-white/90 backdrop-blur-md text-cyan-700 border border-cyan-200 shadow-sm">
+                                    ${post.subCat}
+                                </span>
+                                ${imgCountBadge}
+                            </div>
+
+                            <div class="p-2.5 space-y-1">
+                                <h3 onclick="openDetailModal('${post.id}')" class="font-bold text-xs text-slate-800 line-clamp-2 hover:text-cyan-600 cursor-pointer transition-colors leading-snug">
+                                    ${post.title}
+                                </h3>
+                                <div class="text-xs font-extrabold text-emerald-600">${post.price}</div>
+                                <p class="text-[10px] text-slate-500 truncate flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot text-rose-500"></i> ${post.location}
+                                </p>
+                            </div>
                         </div>
 
-                        <div class="p-4 space-y-2">
-                            <h3 onclick="openDetailModal('${post.id}')" class="font-bold text-sm text-slate-800 line-clamp-2 hover:text-cyan-600 cursor-pointer transition-colors">
-                                ${post.title}
-                            </h3>
-                            <div class="text-base font-extrabold text-emerald-600">${post.price}</div>
-                            <p class="text-xs text-slate-500 flex items-center gap-1">
-                                <i class="fa-solid fa-location-dot text-rose-500"></i> ${post.location}
-                            </p>
+                        <div class="p-2 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-[11px]">
+                            <button onclick="openDetailModal('${post.id}')" class="text-slate-500 hover:text-cyan-600 font-medium">Chi tiết</button>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openEditPost('${post.id}')" title="Sửa" class="w-6 h-6 rounded-md bg-white border border-slate-200 hover:bg-violet-50 text-slate-600 hover:text-violet-600 flex items-center justify-center transition shadow-sm">
+                                    <i class="fa-solid fa-pen text-[10px]"></i>
+                                </button>
+                                <button onclick="deletePost('${post.id}')" title="Xóa" class="w-6 h-6 rounded-md bg-white border border-slate-200 hover:bg-rose-50 text-slate-600 hover:text-rose-600 flex items-center justify-center transition shadow-sm">
+                                    <i class="fa-solid fa-trash text-[10px]"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="p-3 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-xs">
-                        <button onclick="openDetailModal('${post.id}')" class="text-slate-500 hover:text-cyan-600 transition">Chi tiết</button>
-                        <div class="flex items-center gap-2">
-                            <button onclick="openEditPost('${post.id}')" title="Sửa" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-violet-50 text-slate-600 hover:text-violet-600 flex items-center justify-center transition shadow-sm">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                            <button onclick="deletePost('${post.id}')" title="Xóa" class="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-rose-50 text-slate-600 hover:text-rose-600 flex items-center justify-center transition shadow-sm">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function populateFormCategories() {
@@ -678,24 +646,51 @@
             }
         }
 
-        function handleImageUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('postImage').value = e.target.result;
-                    document.getElementById('imagePreview').src = e.target.result;
-                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
-                };
-                reader.readAsDataURL(file);
+        // XỬ LÝ UPLOAD TỐI ĐA 5 HÌNH ẢNH
+        function handleMultipleImagesUpload(event) {
+            const files = Array.from(event.target.files);
+            
+            if (uploadedImages.length + files.length > 5) {
+                alert('Bạn chỉ được chọn tối đa 5 hình ảnh cho một bài đăng!');
+                return;
             }
+
+            files.forEach(file => {
+                if (uploadedImages.length < 5) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        uploadedImages.push(e.target.result);
+                        renderImagePreviews();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            renderImagePreviews();
+        }
+
+        function renderImagePreviews() {
+            const container = document.getElementById('imagePreviewContainer');
+            document.getElementById('imageCountBadge').innerText = `${uploadedImages.length}/5 ảnh`;
+
+            container.innerHTML = uploadedImages.map((imgSrc, idx) => `
+                <div class="relative group">
+                    <img src="${imgSrc}" class="w-full h-16 object-cover rounded-lg border border-slate-300">
+                    <button type="button" onclick="removeImage(${idx})" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] shadow hover:bg-rose-600">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            `).join('');
         }
 
         function openPostModal() {
             document.getElementById('postForm').reset();
             document.getElementById('editPostId').value = '';
-            document.getElementById('postImage').value = '';
-            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            uploadedImages = [];
+            renderImagePreviews();
             document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-violet-600"></i> Đăng Bán Mới';
             document.getElementById('postModal').classList.remove('hidden');
         }
@@ -711,13 +706,10 @@
             document.getElementById('postSubCat').value = post.subCat;
             document.getElementById('postPrice').value = post.price;
             document.getElementById('postLocation').value = post.location;
-            document.getElementById('postImage').value = post.image || '';
             document.getElementById('postDesc').value = post.desc || '';
 
-            if (post.image) {
-                document.getElementById('imagePreview').src = post.image;
-                document.getElementById('imagePreviewContainer').classList.remove('hidden');
-            }
+            uploadedImages = post.images ? [...post.images] : [];
+            renderImagePreviews();
 
             document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-600"></i> Chỉnh Sửa Bài Đăng';
             document.getElementById('postModal').classList.remove('hidden');
@@ -730,11 +722,9 @@
         function savePost(event) {
             event.preventDefault();
             const editId = document.getElementById('editPostId').value;
-            let imgVal = document.getElementById('postImage').value;
-            if (!imgVal) {
-                imgVal = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
-            }
             
+            let finalImages = uploadedImages.length > 0 ? uploadedImages : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'];
+
             const newPostData = {
                 id: editId || 'post-' + Date.now(),
                 author: 'user_mine',
@@ -744,7 +734,7 @@
                 itemCat: '',
                 price: document.getElementById('postPrice').value,
                 location: document.getElementById('postLocation').value,
-                image: imgVal,
+                images: finalImages,
                 desc: document.getElementById('postDesc').value,
                 createdAt: new Date().toISOString().split('T')[0]
             };
@@ -756,7 +746,7 @@
                 posts.unshift(newPostData);
             }
 
-            localStorage.setItem('global_super_app_posts_light', JSON.stringify(posts));
+            localStorage.setItem('global_super_app_posts_light_v2', JSON.stringify(posts));
             closePostModal();
             renderPosts();
         }
@@ -764,7 +754,7 @@
         function deletePost(postId) {
             if (confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
                 posts = posts.filter(p => p.id !== postId);
-                localStorage.setItem('global_super_app_posts_light', JSON.stringify(posts));
+                localStorage.setItem('global_super_app_posts_light_v2', JSON.stringify(posts));
                 renderPosts();
             }
         }
@@ -773,13 +763,25 @@
             const post = posts.find(p => p.id === postId);
             if (!post) return;
 
-            document.getElementById('detailImg').src = post.image;
+            const mainImg = (post.images && post.images.length > 0) ? post.images[0] : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+            
+            document.getElementById('detailImg').src = mainImg;
             document.getElementById('detailBadge').innerText = post.subCat;
             document.getElementById('detailDate').innerText = `Ngày đăng: ${post.createdAt}`;
             document.getElementById('detailTitle').innerText = post.title;
             document.getElementById('detailPrice').innerText = post.price;
             document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${post.location}`;
             document.getElementById('detailDesc').innerText = post.desc || 'Không có mô tả chi tiết.';
+
+            // Thumbnail bộ sưu tập nhiều ảnh
+            const thumbsContainer = document.getElementById('detailThumbs');
+            if (post.images && post.images.length > 1) {
+                thumbsContainer.innerHTML = post.images.map(img => `
+                    <img src="${img}" onclick="document.getElementById('detailImg').src='${img}'" class="w-10 h-10 object-cover rounded border-2 border-white cursor-pointer hover:scale-105 transition">
+                `).join('');
+            } else {
+                thumbsContainer.innerHTML = '';
+            }
 
             document.getElementById('detailModal').classList.remove('hidden');
         }
