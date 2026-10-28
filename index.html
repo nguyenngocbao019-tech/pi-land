@@ -105,7 +105,7 @@
             </button>
         </section>
 
-        <!-- POSTS / MARKETPLACE LIST (LƯỚI NHỎ GỌN NHÌN THẤY NHIỀU SẢN PHẨM) -->
+        <!-- POSTS / MARKETPLACE LIST -->
         <section class="space-y-4">
             <div class="flex items-center justify-between">
                 <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
@@ -190,7 +190,7 @@
         </div>
     </div>
 
-    <!-- 2. MODAL ĐĂNG BÀI / CHỈNH SỬA (GẮN TỐI ĐA 5 ẢNH) -->
+    <!-- 2. MODAL ĐĂNG BÀI / CHỈNH SỬA (GẮN 5 ẢNH + DÁN VÍ + PHƯƠNG THỨC THANH TOÁN) -->
     <div id="postModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-card-light w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white/80">
@@ -228,7 +228,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Giá bán *</label>
-                        <input type="text" id="postPrice" required placeholder="VD: 850.000.000 VNĐ" 
+                        <input type="text" id="postPrice" required placeholder="VD: 850.000.000 VNĐ hoặc 50 PI" 
                             class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-violet-500">
                     </div>
                     <div>
@@ -238,7 +238,27 @@
                     </div>
                 </div>
 
-                <!-- Ô GẮN TỐI ĐA 5 HÌNH ẢNH (MULTIPLE FILE UPLOAD) -->
+                <!-- BỔ SUNG: DÁN ĐỊA CHỈ VÍ & PHƯƠNG THỨC THANH TOÁN -->
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                    <div class="text-xs font-bold text-violet-700 flex items-center gap-1">
+                        <i class="fa-solid fa-wallet"></i> Thông Tin Thanh Toán & Chuyển Giao Dịch
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Địa chỉ ví nhận tiền của người bán (Dán địa chỉ ví Pi/Sidra/USDT...)</label>
+                        <input type="text" id="postSellerWallet" placeholder="VD: GDK3P89... hoặc 0x71C3A9..." 
+                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-violet-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-700 mb-1">Hình thức giao dịch chấp nhận *</label>
+                        <select id="postPaymentMethod" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-violet-500">
+                            <option value="Thanh toán khi nhận hàng (COD)">🚚 Thanh toán khi nhận hàng (COD / Đặt cọc)</option>
+                            <option value="Thanh toán trước khi nhận hàng">💳 Thanh toán trước khi nhận hàng (Chuyển khoản / Web3)</option>
+                            <option value="Linh hoạt (Thỏa thuận người mua & người bán)">🤝 Thỏa thuận trực tiếp khi giao dịch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Ô GẮN TỐI ĐA 5 HÌNH ẢNH -->
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="block text-xs font-semibold text-slate-700">Hình ảnh sản phẩm (Chọn tối đa 5 ảnh)</label>
@@ -247,7 +267,6 @@
                     <input type="file" id="postImageFiles" accept="image/*" multiple onchange="handleMultipleImagesUpload(event)" 
                         class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 border border-slate-300 rounded-xl bg-white cursor-pointer">
                     
-                    <!-- Khung Preview 5 ảnh -->
                     <div id="imagePreviewContainer" class="mt-3 grid grid-cols-5 gap-2"></div>
                 </div>
 
@@ -267,7 +286,7 @@
         </div>
     </div>
 
-    <!-- 3. MODAL XEM CHI TIẾT SẢN PHẨM (CÓ BỘ SƯU TẬP 5 ẢNH) -->
+    <!-- 3. MODAL XEM CHI TIẾT SẢN PHẨM (HIỂN THỊ ĐỊA CHỈ VÍ & NÚT SAO CHÉP VÍ) -->
     <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="glass-card-light w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div class="relative bg-slate-900">
@@ -275,7 +294,6 @@
                 <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 text-slate-800 flex items-center justify-center hover:bg-white shadow">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                <!-- Thumbnail bar khi có nhiều ảnh -->
                 <div id="detailThumbs" class="absolute bottom-2 left-2 right-2 flex gap-1.5 overflow-x-auto justify-center"></div>
             </div>
             <div class="p-5 space-y-3 overflow-y-auto">
@@ -288,6 +306,24 @@
                 <p id="detailLocation" class="text-xs text-slate-600 flex items-center gap-1">
                     <i class="fa-solid fa-location-dot text-rose-500"></i> Địa điểm
                 </p>
+
+                <!-- KHUNG THÔNG TIN VÍ & GIAO DỊCH DÀNH CHO NGƯỜI MUA -->
+                <div class="p-3 bg-violet-50 border border-violet-200 rounded-xl space-y-2">
+                    <div class="text-xs font-bold text-violet-800 flex items-center justify-between">
+                        <span><i class="fa-solid fa-shield-halved mr-1"></i> Phương Thức Giao Dịch:</span>
+                        <span id="detailPaymentMethod" class="text-slate-800 bg-white px-2 py-0.5 rounded border border-violet-200 font-normal">--</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-2 pt-1 border-t border-violet-200/60">
+                        <div class="text-xs text-slate-600">
+                            <span class="font-semibold text-slate-800">Địa chỉ ví nhận tiền:</span>
+                            <div id="detailSellerWallet" class="font-mono text-[11px] text-violet-700 break-all">Chưa cung cấp</div>
+                        </div>
+                        <button onclick="copySellerWallet()" id="copyWalletBtn" class="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-700 text-white text-xs font-bold shrink-0 shadow-sm transition">
+                            <i class="fa-solid fa-copy mr-1"></i> Sao chép ví
+                        </button>
+                    </div>
+                </div>
+
                 <div class="border-t border-slate-200 pt-3">
                     <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-1">Mô Tả Chi Tiết</h4>
                     <p id="detailDesc" class="text-xs text-slate-700 leading-relaxed whitespace-pre-line"></p>
@@ -379,7 +415,6 @@
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // 12+ Danh mục tiện ích hiển thị nhiều ngoài màn hình chính
         const categoriesTree = [
             { id: 'auto', name: 'Xe Ô Tô & Xe Máy', icon: 'fa-car', color: 'from-cyan-500 to-blue-600', subs: [{ id: 'toyota', name: 'Toyota', items: ['Camry', 'Fortuner', 'Corolla Cross'] }, { id: 'vinfast', name: 'VinFast', items: ['VF8', 'VF9', 'VF5'] }] },
             { id: 'realestate', name: 'Bất Động Sản', icon: 'fa-building-user', color: 'from-emerald-500 to-teal-600', subs: [{ id: 'apartment', name: 'Căn Hộ', items: ['Chung cư', 'Penthouse'] }, { id: 'house', name: 'Biệt Thự & Nhà Phố', items: ['Shophouse', 'Nhà mặt tiền'] }] },
@@ -396,10 +431,8 @@
         ];
 
         const initialPosts = [
-            { id: 'post-1', author: 'user_mine', title: 'Bán xe Toyota Camry 2.5Q 2023 chính chủ màu đen', mainCat: 'auto', subCat: 'Toyota', itemCat: 'Camry', price: '980.000.000 VNĐ', location: 'Cần Thơ', images: ['https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80'], desc: 'Xe chính chủ chạy 15.000km, đỗ garage cẩn thận.', createdAt: '2026-03-28' },
-            { id: 'post-2', author: 'other_user', title: 'VinFast VF8 Plus 2024 - Bản pin CATL full option', mainCat: 'auto', subCat: 'VinFast', itemCat: 'VF8', price: '1.050.000.000 VNĐ', location: 'TP.HCM', images: ['https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80'], desc: 'Xe màu trắng mới 99%.', createdAt: '2026-03-27' },
-            { id: 'post-3', author: 'user_mine', title: 'Căn hộ Penthouse góc 3PN view sông Cần Thơ', mainCat: 'realestate', subCat: 'Căn Hộ', itemCat: 'Penthouse', price: '4,5 Tỷ VNĐ', location: 'Ninh Kiều, Cần Thơ', images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80'], desc: 'Diện tích 120m2, full nội thất nhập khẩu.', createdAt: '2026-03-26' },
-            { id: 'post-4', author: 'other_user', title: 'MacBook Pro M3 Max 16 inch 36GB 1TB SSD', mainCat: 'electronics', subCat: 'Laptop', itemCat: 'MacBook', price: '62.000.000 VNĐ', location: 'Hà Nội', images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80'], desc: 'Máy đẹp như mới, pin 98%.', createdAt: '2026-03-25' }
+            { id: 'post-1', author: 'user_mine', title: 'Bán xe Toyota Camry 2.5Q 2023 chính chủ màu đen', mainCat: 'auto', subCat: 'Toyota', itemCat: 'Camry', price: '980.000.000 VNĐ hoặc 500 PI', sellerWallet: 'GDK3P89WXYZ123456789PI', paymentMethod: 'Thanh toán khi nhận hàng (COD)', location: 'Cần Thơ', images: ['https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80'], desc: 'Xe chính chủ chạy 15.000km, đỗ garage cẩn thận.', createdAt: '2026-03-28' },
+            { id: 'post-2', author: 'other_user', title: 'VinFast VF8 Plus 2024 - Bản pin CATL full option', mainCat: 'auto', subCat: 'VinFast', itemCat: 'VF8', price: '1.050.000.000 VNĐ', sellerWallet: '0x71C3A9B48102938475839281', paymentMethod: 'Thanh toán trước khi nhận hàng', location: 'TP.HCM', images: ['https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80'], desc: 'Xe màu trắng mới 99%.', createdAt: '2026-03-27' }
         ];
 
         let posts = [];
@@ -410,14 +443,15 @@
         let isMyPostsView = false;
         let currentModalMain = null;
         let currentModalSub = null;
+        let currentDetailWallet = '';
 
         function initApp() {
-            const savedPosts = localStorage.getItem('global_super_app_posts_light_v2');
+            const savedPosts = localStorage.getItem('global_super_app_posts_light_v3');
             if (savedPosts) {
                 posts = JSON.parse(savedPosts);
             } else {
                 posts = initialPosts;
-                localStorage.setItem('global_super_app_posts_light_v2', JSON.stringify(posts));
+                localStorage.setItem('global_super_app_posts_light_v3', JSON.stringify(posts));
             }
             renderCategories();
             renderPosts();
@@ -646,10 +680,8 @@
             }
         }
 
-        // XỬ LÝ UPLOAD TỐI ĐA 5 HÌNH ẢNH
         function handleMultipleImagesUpload(event) {
             const files = Array.from(event.target.files);
-            
             if (uploadedImages.length + files.length > 5) {
                 alert('Bạn chỉ được chọn tối đa 5 hình ảnh cho một bài đăng!');
                 return;
@@ -706,6 +738,8 @@
             document.getElementById('postSubCat').value = post.subCat;
             document.getElementById('postPrice').value = post.price;
             document.getElementById('postLocation').value = post.location;
+            document.getElementById('postSellerWallet').value = post.sellerWallet || '';
+            document.getElementById('postPaymentMethod').value = post.paymentMethod || 'Thanh toán khi nhận hàng (COD)';
             document.getElementById('postDesc').value = post.desc || '';
 
             uploadedImages = post.images ? [...post.images] : [];
@@ -722,7 +756,6 @@
         function savePost(event) {
             event.preventDefault();
             const editId = document.getElementById('editPostId').value;
-            
             let finalImages = uploadedImages.length > 0 ? uploadedImages : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'];
 
             const newPostData = {
@@ -734,6 +767,8 @@
                 itemCat: '',
                 price: document.getElementById('postPrice').value,
                 location: document.getElementById('postLocation').value,
+                sellerWallet: document.getElementById('postSellerWallet').value,
+                paymentMethod: document.getElementById('postPaymentMethod').value,
                 images: finalImages,
                 desc: document.getElementById('postDesc').value,
                 createdAt: new Date().toISOString().split('T')[0]
@@ -746,7 +781,7 @@
                 posts.unshift(newPostData);
             }
 
-            localStorage.setItem('global_super_app_posts_light_v2', JSON.stringify(posts));
+            localStorage.setItem('global_super_app_posts_light_v3', JSON.stringify(posts));
             closePostModal();
             renderPosts();
         }
@@ -754,7 +789,7 @@
         function deletePost(postId) {
             if (confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
                 posts = posts.filter(p => p.id !== postId);
-                localStorage.setItem('global_super_app_posts_light_v2', JSON.stringify(posts));
+                localStorage.setItem('global_super_app_posts_light_v3', JSON.stringify(posts));
                 renderPosts();
             }
         }
@@ -771,9 +806,14 @@
             document.getElementById('detailTitle').innerText = post.title;
             document.getElementById('detailPrice').innerText = post.price;
             document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> ${post.location}`;
+            
+            // Cập nhật Địa chỉ Ví & Phương thức thanh toán
+            currentDetailWallet = post.sellerWallet || 'Chưa cung cấp';
+            document.getElementById('detailSellerWallet').innerText = currentDetailWallet;
+            document.getElementById('detailPaymentMethod').innerText = post.paymentMethod || 'Giao dịch trực tiếp';
+
             document.getElementById('detailDesc').innerText = post.desc || 'Không có mô tả chi tiết.';
 
-            // Thumbnail bộ sưu tập nhiều ảnh
             const thumbsContainer = document.getElementById('detailThumbs');
             if (post.images && post.images.length > 1) {
                 thumbsContainer.innerHTML = post.images.map(img => `
@@ -784,6 +824,22 @@
             }
 
             document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function copySellerWallet() {
+            if (!currentDetailWallet || currentDetailWallet === 'Chưa cung cấp') {
+                alert('Người bán chưa cung cấp địa chỉ ví!');
+                return;
+            }
+            navigator.clipboard.writeText(currentDetailWallet).then(() => {
+                const btn = document.getElementById('copyWalletBtn');
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Đã chép ví!';
+                btn.classList.replace('bg-violet-600', 'bg-emerald-600');
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fa-solid fa-copy mr-1"></i> Sao chép ví';
+                    btn.classList.replace('bg-emerald-600', 'bg-violet-600');
+                }, 2000);
+            });
         }
 
         function closeDetailModal() {
