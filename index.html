@@ -2,868 +2,916 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pi Global Super App - Siêu Ứng Dụng TMĐT Đa Tầng Toàn Cầu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Super App - Marketplace & Web3 Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        oceanBlue: {
-                            500: '#0284c7',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            900: '#0c4a6e'
-                        },
-                        goldAcc: {
-                            400: '#facc15',
-                            500: '#eab308',
-                            600: '#ca8a04'
-                        },
-                        lightPurple: {
-                            50: '#faf5ff',
-                            100: '#f3e8ff',
-                            500: '#a855f7',
-                            600: '#9333ea'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { -webkit-tap-highlight-color: transparent; user-select: none; font-family: system-ui, -apple-system, sans-serif; }
-        .view-screen { display: none; opacity: 0; transition: opacity 0.2s ease-in-out; }
-        .view-screen.active { display: block; opacity: 1; }
-        .touch-action { touch-action: manipulation; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Custom Glowing & Glassmorphism Effects */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.35);
+        }
+        .neon-glow-violet {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.35);
+        }
+        .neon-glow-emerald {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 pb-20">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-cyan-500 selection:text-white">
 
-    <!-- HEADER / THANH TIÊU ĐỀ -->
-    <header class="sticky top-0 z-40 bg-oceanBlue-600 text-white shadow-md border-b-2 border-goldAcc-400">
-        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <button id="btn-back" onclick="goBack()" class="hidden text-white p-1 touch-action">
-                    <i class="fa-solid fa-arrow-left text-xl"></i>
-                </button>
-                <h1 id="header-title" class="font-bold text-lg tracking-wide">Pi Global Super App</h1>
-            </div>
-            <div class="flex items-center gap-2">
-                <button onclick="openFilterModal()" class="bg-oceanBlue-700 hover:bg-oceanBlue-900 text-xs px-2.5 py-1.5 rounded-none border border-goldAcc-400 text-goldAcc-400 font-bold touch-action shadow-sm">
-                    <i class="fa-solid fa-filter"></i> Lọc
-                </button>
-                <button onclick="switchTab('profile')" class="bg-oceanBlue-700 hover:bg-oceanBlue-900 text-xs px-2.5 py-1.5 rounded-none border border-goldAcc-400 touch-action shadow-sm">
-                    <i class="fa-solid fa-wallet text-goldAcc-400"></i>
-                    <span id="wallet-status">Nối ví</span>
-                </button>
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-4">
+                
+                <!-- Logo & App Title -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilter()">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-violet-500 to-emerald-400 flex items-center justify-center font-bold text-slate-950 text-xl shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-[#06b6d4] fa-globe"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold bg-gradient-to-r from-cyan-400 via-violet-400 to-emerald-400 bg-clip-text text-transparent">
+                            GLOBAL SUPER APP
+                        </span>
+                        <span class="block text-[10px] tracking-widest text-slate-400 font-semibold uppercase">Tất Cả Trong Một</span>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-xl hidden md:block">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm kiếm xe, bất động sản, đồ điện tử, dịch vụ..." 
+                            class="w-full bg-slate-800/80 border border-slate-700 rounded-full pl-10 pr-4 py-2 text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-3">
+                    <button onclick="openPostModal()" class="px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 font-bold text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span class="hidden sm:inline">Đăng tin mới</span>
+                    </button>
+                    
+                    <button onclick="openWalletModal()" class="px-4 py-2 rounded-full bg-slate-800 border border-violet-500/50 hover:border-violet-400 text-violet-300 font-semibold text-sm transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-wallet text-violet-400"></i>
+                        <span id="walletBtnText" class="hidden sm:inline">Kết nối Ví</span>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- CONTAINER CHÍNH -->
-    <main class="max-w-md mx-auto px-4 pt-3">
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
 
-        <!-- 1. MÀN HÌNH TRANG CHỦ & HỆ THỐNG DANH MỤC ĐẦY ĐỦ CHUYÊN SÂU -->
-        <section id="view-home" class="view-screen active">
-            <div class="bg-gradient-to-r from-oceanBlue-600 via-indigo-600 to-goldAcc-600 rounded-none p-4 text-white shadow-md mb-4 border-2 border-goldAcc-400">
-                <div class="flex items-center justify-between">
-                    <span class="text-[10px] bg-goldAcc-400 text-slate-900 font-bold px-2 py-0.5 rounded-none shadow"><i class="fa-solid fa-earth-americas"></i> Siêu Ứng Dụng Toàn Cầu VIP</span>
-                    <span class="text-[10px] bg-white text-slate-900 font-bold px-2 py-0.5 rounded-none">Cloud Active</span>
-                </div>
-                <h2 class="text-xl font-bold mt-2">Hệ Sinh Thái Giao Dịch Toàn Cầu Pi</h2>
-                <p class="text-xs text-oceanBlue-100 mt-1">Mở sâu đa tầng chuyên nghiệp - Giao thương xuyên biên giới</p>
+        <!-- CATEGORIES BAR (Mở cửa sổ con chuyên sâu) -->
+        <section class="space-y-3">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-cyan-400"></i>
+                    Danh Mục Sản Phẩm & Tiện Ích
+                </h2>
+                <span class="text-xs text-slate-400">Bấm vào nhóm để mở danh mục con</span>
             </div>
 
-            <!-- HỆ THỐNG THƯ MỤC CHÍNH (ĐẦY ĐỦ 8 NHÓM CHUYÊN SÂU) -->
-            <div class="flex items-center justify-between mb-3">
-                <h3 class="font-bold text-slate-800 text-base border-l-4 border-oceanBlue-600 pl-2">Danh mục tiện ích siêu cấp</h3>
-                <span class="text-xs text-goldAcc-600 font-bold cursor-pointer" onclick="openCategory('Tất cả danh mục', 'all')">Xem tất cả</span>
-            </div>
-            
-            <div class="grid grid-cols-4 gap-2 mb-4">
-                <button onclick="openSubFoldersScreen('goods', 'Chợ Hàng Hóa & Điện Tử')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-lightPurple-500 transition touch-action">
-                    <div class="w-10 h-10 bg-lightPurple-50 text-lightPurple-600 rounded-none flex items-center justify-center text-base mb-1 border border-lightPurple-200"><i class="fa-solid fa-basket-shopping"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Hàng Hóa</span>
-                </button>
-                <button onclick="openSubFoldersScreen('realestate', 'Bất Động Sản Toàn Cầu')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
-                    <div class="w-10 h-10 bg-amber-50 text-goldAcc-600 rounded-none flex items-center justify-center text-base mb-1 border border-goldAcc-300"><i class="fa-solid fa-city"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">BĐS</span>
-                </button>
-                <button onclick="openSubFoldersScreen('vehicles', 'Phương Tiện & Xe Cộ')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-oceanBlue-500 transition touch-action">
-                    <div class="w-10 h-10 bg-oceanBlue-50 text-oceanBlue-600 rounded-none flex items-center justify-center text-base mb-1 border border-oceanBlue-200"><i class="fa-solid fa-car-side"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Xe Cộ</span>
-                </button>
-                <button onclick="openSubFoldersScreen('services', 'Dịch Vụ & Việc Làm Web3')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-purple-500 transition touch-action">
-                    <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-none flex items-center justify-center text-base mb-1 border border-purple-200"><i class="fa-solid fa-briefcase"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Việc Làm</span>
-                </button>
-                <button onclick="openSubFoldersScreen('auction', 'Đấu Giá Pi & NFT')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-lightPurple-500 transition touch-action">
-                    <div class="w-10 h-10 bg-lightPurple-50 text-lightPurple-600 rounded-none flex items-center justify-center text-base mb-1 border border-lightPurple-200"><i class="fa-solid fa-gavel"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Đấu Giá</span>
-                </button>
-                <button onclick="openSubFoldersScreen('forum', 'Tin Tức & Cộng Đồng')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-cyan-500 transition touch-action">
-                    <div class="w-10 h-10 bg-cyan-50 text-cyan-600 rounded-none flex items-center justify-center text-base mb-1 border border-cyan-200"><i class="fa-solid fa-newspaper"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Diễn Đàn</span>
-                </button>
-                <button onclick="openSubFoldersScreen('antiques', 'Đồ Sưu Tầm & Cổ Vật')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-goldAcc-500 transition touch-action">
-                    <div class="w-10 h-10 bg-yellow-50 text-goldAcc-500 rounded-none flex items-center justify-center text-base mb-1 border border-goldAcc-300"><i class="fa-solid fa-gem"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Sưu Tầm</span>
-                </button>
-                <button onclick="openCategory('Tất cả dịch vụ', 'all')" class="bg-white p-2.5 rounded-none shadow-sm border-2 border-slate-200 flex flex-col items-center justify-center hover:border-slate-500 transition touch-action">
-                    <div class="w-10 h-10 bg-slate-100 text-slate-600 rounded-none flex items-center justify-center text-base mb-1 border border-slate-300"><i class="fa-solid fa-border-all"></i></div>
-                    <span class="text-[10px] font-bold text-slate-700 text-center truncate w-full">Xem Thêm</span>
-                </button>
-            </div>
-
-            <div class="flex items-center justify-between mb-3">
-                <h3 class="font-bold text-slate-800 text-base border-l-4 border-goldAcc-500 pl-2">Sản phẩm toàn cầu nổi bật</h3>
-                <button onclick="loadListingsData()" class="text-xs text-oceanBlue-600 font-bold"><i class="fa-solid fa-rotate"></i> Làm mới</button>
-            </div>
-            <div id="home-listings-grid" class="grid grid-cols-2 gap-3 mb-6"></div>
-        </section>
-
-        <!-- 2. MÀN HÌNH MỞ SÂU THƯ MỤC CON CÓ HÌNH ẢNH (DEEP NAVIGATION) -->
-        <section id="view-sub-categories" class="view-screen">
-            <div class="flex items-center justify-between mb-3">
-                <h3 id="subcat-header-title" class="font-bold text-slate-800 text-lg border-l-4 border-oceanBlue-600 pl-2">Danh mục chi tiết</h3>
-                <span class="text-xs bg-lightPurple-100 text-lightPurple-600 px-2 py-0.5 font-bold border border-lightPurple-300">Global SuperApp</span>
-            </div>
-            <p class="text-xs text-slate-500 mb-3">Chọn phân mục chuyên sâu bên dưới để mở cửa sổ danh sách sản phẩm:</p>
-            <div id="subcat-cards-grid" class="grid grid-cols-2 gap-3"></div>
-        </section>
-
-        <!-- 3. MÀN HÌNH DANH SÁCH SẢN PHẨM -->
-        <section id="view-list" class="view-screen">
-            <div class="flex items-center justify-between mb-3">
-                <h3 id="category-title" class="font-bold text-slate-800 text-lg border-l-4 border-goldAcc-500 pl-2">Danh sách sản phẩm</h3>
-                <span id="category-count" class="text-xs bg-oceanBlue-100 text-oceanBlue-700 px-2.5 py-1 rounded-none font-bold border border-oceanBlue-300">0 bài</span>
-            </div>
-            <div id="category-listings-grid" class="grid grid-cols-2 gap-3"></div>
-        </section>
-
-        <!-- 4. MÀN HÌNH CHI TIẾT SẢN PHẨM -->
-        <section id="view-detail" class="view-screen">
-            <div class="bg-white rounded-none shadow-sm overflow-hidden border-2 border-slate-200 mb-4">
-                <div class="relative h-64 bg-slate-900 border-b-2 border-slate-200">
-                    <img id="detail-img" src="" class="w-full h-full object-cover" alt="Sản phẩm">
-                    <span class="absolute top-3 left-3 bg-lightPurple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-none shadow">Giao dịch toàn cầu</span>
-                </div>
-                <div id="detail-gallery" class="flex gap-2 p-2 overflow-x-auto no-scrollbar bg-slate-50 border-b border-slate-200"></div>
-                
-                <div class="p-4">
-                    <div class="flex items-center justify-between gap-2 mb-1">
-                        <span id="detail-category" class="text-[10px] font-bold text-oceanBlue-600 bg-oceanBlue-50 uppercase tracking-wider px-2 py-0.5 rounded-none border border-oceanBlue-200">Danh mục</span>
-                        <span class="text-xs text-slate-500"><i class="fa-solid fa-earth-americas text-lightPurple-600"></i> <span id="detail-location">Global (Toàn cầu)</span></span>
-                    </div>
-                    <h2 id="detail-title" class="text-lg font-bold text-slate-800 leading-snug mb-2">Tiêu đề</h2>
-                    <div class="flex items-baseline gap-1 mb-3">
-                        <span id="detail-price" class="text-2xl font-extrabold text-oceanBlue-600">0</span>
-                        <span class="text-sm font-bold text-goldAcc-600">π (Pi)</span>
-                    </div>
-
-                    <div id="detail-specs" class="grid grid-cols-2 gap-2 p-2.5 bg-slate-50 rounded-none mb-3 text-xs border-2 border-slate-200 hidden">
-                        <div><span class="text-slate-500">Thông số:</span> <strong id="spec-area" class="text-slate-800">--</strong></div>
-                        <div><span class="text-slate-500">Chi tiết:</span> <strong id="spec-rooms" class="text-slate-800">--</strong></div>
-                    </div>
-
-                    <div class="border-t border-slate-200 pt-3">
-                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Mô tả chi tiết</h4>
-                        <p id="detail-desc" class="text-sm text-slate-600 leading-relaxed">...</p>
-                    </div>
-
-                    <!-- THÔNG TIN NGƯỜI BÁN & AVATAR -->
-                    <div class="border-t border-slate-200 pt-3 mt-3 cursor-pointer hover:bg-slate-50 p-2 rounded-none transition border-2 border-dashed border-goldAcc-400" onclick="openSellerProfile()">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div id="seller-avatar" class="w-10 h-10 bg-lightPurple-100 text-lightPurple-600 rounded-none flex items-center justify-center font-bold text-base border-2 border-lightPurple-500 shadow-sm">S</div>
-                                <div>
-                                    <h4 id="seller-name" class="text-xs font-bold text-slate-800">Cửa hàng Người Bán</h4>
-                                    <p class="text-[10px] text-goldAcc-600 font-bold"><i class="fa-solid fa-star"></i> <span id="seller-rating">4.9 / 5.0</span> (Global Web3)</p>
-                                </div>
-                            </div>
-                            <span class="text-xs text-oceanBlue-600 font-bold">Xem Shop <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
-                        </div>
-                    </div>
-
-                    <!-- NÚT CHỈNH SỬA BÀI ĐĂNG -->
-                    <div id="owner-actions" class="mt-3 pt-3 border-t border-slate-200 hidden space-y-2">
-                        <button onclick="openEditScreen()" class="w-full bg-goldAcc-500 hover:bg-goldAcc-600 text-slate-900 font-bold py-2 rounded-none text-xs flex items-center justify-center gap-1.5 touch-action shadow border border-goldAcc-600">
-                            <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa bài đăng này
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="handlePayment('Pi')" class="flex-1 bg-oceanBlue-600 hover:bg-oceanBlue-700 text-white font-bold py-3 px-4 rounded-none shadow-md flex items-center justify-center gap-2 touch-action border-2 border-goldAcc-400">
-                    <i class="fa-brands fa-pi text-goldAcc-400"></i> Thanh toán Ví Pi
-                </button>
-                <button onclick="handlePayment('COD')" class="flex-1 bg-lightPurple-600 hover:bg-lightPurple-500 text-white font-bold py-3 px-4 rounded-none shadow-md flex items-center justify-center gap-2 touch-action border-2 border-lightPurple-500">
-                    <i class="fa-solid fa-handshake"></i> Thanh toán COD Quốc Tế
-                </button>
+            <div id="mainCategoryList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <!-- Javascript sẽ Render Danh mục Chính ở đây -->
             </div>
         </section>
 
-        <!-- 5. MÀN HÌNH SHOP PROFILE -->
-        <section id="view-shop" class="view-screen">
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 mb-4 text-center">
-                <div id="shop-avatar-lg" class="w-20 h-20 bg-lightPurple-100 text-lightPurple-600 rounded-none flex items-center justify-center text-3xl font-bold mx-auto mb-2 border-2 border-lightPurple-500 shadow-sm">S</div>
-                <h2 id="shop-name-lg" class="font-bold text-slate-800 text-lg">Tên Cửa Hàng</h2>
-                <p class="text-xs text-slate-400 mb-2">Giao dịch toàn cầu - Web3 Ecosystem</p>
-                <div class="inline-flex items-center gap-1 bg-amber-50 text-goldAcc-600 text-xs px-3 py-1 rounded-none font-bold border-2 border-goldAcc-400">
-                    <i class="fa-solid fa-award"></i> Điểm uy tín: <span id="shop-score">99/100</span>
-                </div>
+        <!-- BREADCRUMB & ACTIVE FILTERS BAR -->
+        <section id="activeFilterBar" class="hidden bg-slate-900/60 border border-cyan-500/30 rounded-xl p-3 flex items-center justify-between">
+            <div class="flex items-center gap-2 text-sm text-slate-300">
+                <span class="text-slate-400">Đang xem:</span>
+                <span id="breadcrumbPath" class="font-semibold text-cyan-400">...</span>
             </div>
-
-            <h3 class="font-bold text-slate-800 text-base mb-3 border-l-4 border-goldAcc-500 pl-2">Tất cả sản phẩm của Shop</h3>
-            <div id="shop-listings-grid" class="grid grid-cols-2 gap-3"></div>
+            <button onclick="resetFilter()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+                <i class="fa-solid fa-xmark mr-1"></i> Xóa bộ lọc
+            </button>
         </section>
 
-        <!-- 6. MÀN HÌNH ĐĂNG TIN MỚI TOÀN CẦU -->
-        <section id="view-create" class="view-screen">
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-oceanBlue-600 pl-2">Đăng sản phẩm siêu ứng dụng</h2>
-                <form id="form-create" onsubmit="submitNewListing(event)">
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Tên bài đăng</label>
-                        <input type="text" id="inp-title" required placeholder="Nhập tên..." class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-oceanBlue-600 bg-slate-50">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Chọn Danh mục chính</label>
-                        <select id="inp-category" class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-oceanBlue-600 bg-slate-50">
-                            <option value="goods">Chợ Hàng Hóa & Điện Tử</option>
-                            <option value="realestate">Bất Động Sản Toàn Cầu</option>
-                            <option value="vehicles">Phương Tiện & Xe Cộ</option>
-                            <option value="services">Dịch Vụ & Việc Làm Web3</option>
-                            <option value="auction">Đấu Giá Pi & NFT</option>
-                            <option value="forum">Tin Tức & Cộng Đồng</option>
-                            <option value="antiques">Đồ Sưu Tầm & Cổ Vật</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Khu vực / Quốc gia giao dịch</label>
-                        <select id="inp-location" class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                            <option value="Global (Toàn cầu)">Global (Toàn cầu - Xuyên biên giới)</option>
-                            <option value="Vietnam">Vietnam (Việt Nam)</option>
-                            <option value="USA">USA (Hoa Kỳ)</option>
-                            <option value="Europe">Europe (Châu Âu)</option>
-                            <option value="Asia">Asia (Châu Á)</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Giá bán (Pi)</label>
-                        <input type="number" step="0.001" id="inp-price" required placeholder="Số Pi" class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-oceanBlue-600 bg-slate-50">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Chọn nhiều ảnh từ thiết bị</label>
-                        <input type="file" id="inp-files" multiple accept="image/*" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50 file:mr-3 file:py-1.5 file:px-3 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-oceanBlue-50 file:text-oceanBlue-700">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Mô tả chi tiết</label>
-                        <textarea id="inp-desc" rows="3" required placeholder="Thông tin vận chuyển và chi tiết..." class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none focus:outline-none focus:border-oceanBlue-600 bg-slate-50"></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-oceanBlue-600 hover:bg-oceanBlue-700 text-white font-bold py-3 rounded-none shadow-md touch-action border-2 border-goldAcc-400">Đăng Lên Siêu Ứng Dụng</button>
-                </form>
+        <!-- POSTS / MARKETPLACE LIST -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-store text-emerald-400"></i>
+                    Bài Đăng Rao Bán & Tin Mới
+                </h2>
+                <span id="itemCount" class="text-sm font-medium text-slate-400">0 bài đăng</span>
+            </div>
+
+            <!-- Grid bài đăng -->
+            <div id="postsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- JavaScript sẽ nạp các bài đăng ở đây -->
             </div>
         </section>
-
-        <!-- 7. MÀN HÌNH CHỈNH SỬA BÀI ĐĂNG (CÓ HỖ TRỢ ĐỔI ẢNH MỚI) -->
-        <section id="view-edit" class="view-screen">
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200">
-                <h2 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-goldAcc-500 pl-2">Chỉnh sửa bài đăng & Đổi ảnh</h2>
-                <form id="form-edit" onsubmit="submitEditListing(event)">
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Tên bài đăng</label>
-                        <input type="text" id="edit-title" required class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Chọn Danh mục</label>
-                        <select id="edit-category" class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                            <option value="goods">Chợ Hàng Hóa & Điện Tử</option>
-                            <option value="realestate">Bất Động Sản Toàn Cầu</option>
-                            <option value="vehicles">Phương Tiện & Xe Cộ</option>
-                            <option value="services">Dịch Vụ & Việc Làm Web3</option>
-                            <option value="auction">Đấu Giá Pi & NFT</option>
-                            <option value="forum">Tin Tức & Cộng Đồng</option>
-                            <option value="antiques">Đồ Sưu Tầm & Cổ Vật</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Giá bán (Pi)</label>
-                        <input type="number" step="0.001" id="edit-price" required class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                    </div>
-                    <div class="mb-3">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Thay đổi / Chọn ảnh mới (Tùy chọn)</label>
-                        <input type="file" id="edit-files" multiple accept="image/*" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Mô tả chi tiết</label>
-                        <textarea id="edit-desc" rows="3" required class="w-full text-sm p-2.5 border-2 border-slate-300 rounded-none bg-slate-50"></textarea>
-                    </div>
-                    <div class="flex gap-2">
-                        <button type="submit" class="flex-1 bg-oceanBlue-600 text-white font-bold py-3 rounded-none shadow border-2 border-goldAcc-400">Lưu thay đổi</button>
-                        <button type="button" onclick="goBack()" class="bg-slate-200 text-slate-700 font-bold px-4 py-3 rounded-none border border-slate-300">Hủy</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <!-- 8. MÀN HÌNH ĐƠN HÀNG (TxID) -->
-        <section id="view-orders" class="view-screen">
-            <h2 class="font-bold text-slate-800 text-lg mb-3 border-l-4 border-lightPurple-600 pl-2">Lịch sử Đơn hàng Toàn Cầu</h2>
-            <div id="orders-list" class="space-y-3"></div>
-        </section>
-
-        <!-- 9. MÀN HÌNH CÁ NHÂN & THAY ĐỔI ẢNH ĐẠI DIỆN HỒ SƠ -->
-        <section id="view-profile" class="view-screen">
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 mb-4 text-center">
-                <!-- KHUNG ẢNH ĐẠI DIỆN HỒ SƠ (CÓ THỂ THAY ĐỔI ẢNH TRỰC TIẾP) -->
-                <div class="relative w-20 h-20 mx-auto mb-2">
-                    <img id="profile-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200" class="w-full h-full object-cover border-2 border-oceanBlue-500 shadow-md">
-                    <label for="profile-avatar-file" class="absolute bottom-0 right-0 bg-goldAcc-500 hover:bg-goldAcc-600 text-slate-900 w-7 h-7 flex items-center justify-center cursor-pointer shadow border border-white text-xs">
-                        <i class="fa-solid fa-camera"></i>
-                    </label>
-                    <input type="file" id="profile-avatar-file" accept="image/*" class="hidden" onchange="updateProfileAvatar(event)">
-                </div>
-                <h2 class="font-bold text-slate-800 text-base">Thành viên Siêu Ứng Dụng Pi</h2>
-                <p class="text-xs text-slate-400">Tài khoản Web3 đã kích hoạt toàn cầu</p>
-            </div>
-
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 mb-4">
-                <h3 class="font-bold text-slate-800 text-sm mb-1"><i class="fa-solid fa-wallet text-goldAcc-600"></i> My Pi Wallet Address</h3>
-                <p class="text-[11px] text-slate-500 mb-3">Địa chỉ ví công khai bắt đầu bằng chữ **G** đúng 56 ký tự.</p>
-                <input type="text" id="user-wallet-input" maxlength="56" placeholder="GXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" class="w-full font-mono text-xs p-3 border-2 border-slate-300 rounded-none mb-3 bg-slate-50 focus:outline-none focus:border-oceanBlue-600">
-                <button onclick="saveUserWallet()" class="w-full bg-oceanBlue-600 hover:bg-oceanBlue-700 text-white font-bold py-2.5 rounded-none shadow touch-action text-sm border-2 border-goldAcc-400">Lưu Địa Chỉ Ví</button>
-            </div>
-
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200 space-y-2">
-                <button onclick="openSupportCenter()" class="w-full flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-none transition touch-action border border-slate-100">
-                    <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-headset text-oceanBlue-600 mr-2"></i> Trung tâm hỗ trợ toàn cầu</span>
-                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
-                </button>
-                <button onclick="openSafetyRules()" class="w-full flex items-center justify-between p-2.5 hover:bg-slate-50 rounded-none transition touch-action border border-slate-100">
-                    <span class="text-xs font-bold text-slate-700"><i class="fa-solid fa-shield-cat text-goldAcc-600 mr-2"></i> Quy định an toàn giao dịch</span>
-                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
-                </button>
-            </div>
-        </section>
-
-        <!-- 10. TRANG THÔNG TIN -->
-        <section id="view-info-page" class="view-screen">
-            <div class="bg-white p-4 rounded-none shadow-sm border-2 border-slate-200">
-                <h2 id="info-page-title" class="font-bold text-slate-800 text-lg mb-3 border-l-4 border-oceanBlue-600 pl-2">Tiêu đề</h2>
-                <div id="info-page-content" class="text-xs text-slate-600 leading-relaxed space-y-3"></div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- CỬA SỔ LỌC NÂNG CAO -->
-    <div id="modal-filter" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center hidden">
-        <div class="bg-white w-full max-w-md rounded-none border-t-4 border-goldAcc-500 p-4 shadow-2xl">
-            <div class="flex items-center justify-between mb-4 border-b-2 border-slate-200 pb-2">
-                <h3 class="font-bold text-slate-800 text-base">Bộ lọc siêu ứng dụng toàn cầu</h3>
-                <button onclick="closeFilterModal()" class="text-slate-400 hover:text-slate-800"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-            <div class="mb-3">
-                <label class="block text-xs font-bold text-slate-700 mb-1">Khoảng giá Pi</label>
-                <div class="flex gap-2 items-center">
-                    <input type="number" id="filter-min-price" placeholder="Từ Pi" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                    <span class="text-slate-400">-</span>
-                    <input type="number" id="filter-max-price" placeholder="Đến Pi" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <p class="text-slate-400 text-sm">Global Super App Platform &copy; 2026. Tất cả trong một giao diện duy nhất.</p>
+            <p class="text-xs text-slate-500">Tích hợp Chợ mua bán, Bất động sản, Ô tô, Dịch vụ tiện ích & Web3 Wallet.</p>
+        </div>
+    </footer>
+
+    <!-- ================= MODALS / CỬA SỔ CON ================= -->
+
+    <!-- 1. MODAL CỬA SỔ CON DANH MỤC CHUYÊN SÂU (Tree View Modal) -->
+    <div id="categoryModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-2xl rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <!-- Header -->
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+                <div class="flex items-center gap-3">
+                    <div id="modalCatIcon" class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <div>
+                        <h3 id="modalCatTitle" class="font-bold text-slate-100">Cửa sổ danh mục</h3>
+                        <p id="modalCatSubtitle" class="text-xs text-slate-400">Chọn nhóm hoặc loại hình bên dưới</p>
+                    </div>
                 </div>
+                <button onclick="closeCategoryModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 transition flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="mb-4">
-                <label class="block text-xs font-bold text-slate-700 mb-1">Khu vực / Quốc gia</label>
-                <select id="filter-location" class="w-full text-xs p-2.5 border-2 border-slate-300 rounded-none bg-slate-50">
-                    <option value="all">Tất cả khu vực (Global)</option>
-                    <option value="Global (Toàn cầu)">Global (Toàn cầu)</option>
-                    <option value="Vietnam">Vietnam (Việt Nam)</option>
-                    <option value="USA">USA (Hoa Kỳ)</option>
-                    <option value="Europe">Europe (Châu Âu)</option>
-                </select>
+            <!-- Breadcrumb Navigation inside Modal -->
+            <div class="bg-slate-950/50 px-4 py-2 border-b border-slate-800/80 text-xs text-cyan-300 flex items-center gap-1 overflow-x-auto" id="modalBreadcrumb">
+                <!-- Đã chọn: Trang chủ > ... -->
             </div>
-            <button onclick="applyAdvancedFilter()" class="w-full bg-oceanBlue-600 hover:bg-oceanBlue-700 text-white font-bold py-3 rounded-none shadow touch-action border-2 border-goldAcc-400">Áp dụng bộ lọc</button>
+            <!-- Content List -->
+            <div class="p-6 overflow-y-auto space-y-3 flex-1" id="modalSubcategoryList">
+                <!-- Nội dung các cửa sổ con sẽ tự động nạp ở đây -->
+            </div>
+            <!-- Footer -->
+            <div class="p-4 border-t border-slate-800 bg-slate-900/50 flex justify-between items-center">
+                <button id="modalBackBtn" onclick="categoryBackStep()" class="hidden px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Quay lại
+                </button>
+                <button onclick="closeCategoryModal()" class="ml-auto px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium transition">
+                    Đóng
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- THANH ĐIỀU HƯỚNG DƯỚI CÙNG -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-300 z-40 shadow-lg">
-        <div class="max-w-md mx-auto flex justify-around py-2">
-            <button onclick="switchTab('home')" class="nav-btn text-oceanBlue-600 flex flex-col items-center touch-action" id="nav-home">
-                <i class="fa-solid fa-house text-lg"></i>
-                <span class="text-[10px] font-bold mt-0.5">Trang chủ</span>
-            </button>
-            <button onclick="switchTab('create')" class="nav-btn text-slate-400 flex flex-col items-center touch-action" id="nav-create">
-                <i class="fa-solid fa-circle-plus text-lg"></i>
-                <span class="text-[10px] font-bold mt-0.5">Đăng tin</span>
-            </button>
-            <button onclick="switchTab('orders')" class="nav-btn text-slate-400 flex flex-col items-center touch-action" id="nav-orders">
-                <i class="fa-solid fa-receipt text-lg"></i>
-                <span class="text-[10px] font-bold mt-0.5">Đơn hàng</span>
-            </button>
-            <button onclick="switchTab('profile')" class="nav-btn text-slate-400 flex flex-col items-center touch-action" id="nav-profile">
-                <i class="fa-solid fa-user text-lg"></i>
-                <span class="text-[10px] font-bold mt-0.5">Cá nhân</span>
-            </button>
+    <!-- 2. MODAL ĐĂNG BÀI / CHỈNH SỬA TẠO BÀI ĐĂNG (Post Modal) -->
+    <div id="postModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-xl rounded-2xl border border-violet-500/30 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+                <h3 id="postModalTitle" class="font-bold text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-violet-400"></i>
+                    Đăng Bài Mới
+                </h3>
+                <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="postForm" onsubmit="savePost(event)" class="p-6 space-y-4 overflow-y-auto flex-1">
+                <input type="hidden" id="editPostId" value="">
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Tiêu đề bài đăng *</label>
+                    <input type="text" id="postTitle" required placeholder="VD: Bán xe Toyota Camry 2023 chính chủ..." 
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Danh mục chính *</label>
+                        <select id="postMainCat" onchange="updateSubCatDropdown()" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Thương hiệu / Loại hình *</label>
+                        <select id="postSubCat" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500">
+                            <option value="">-- Chọn thương hiệu --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Giá bán ($ / VNĐ / Web3) *</label>
+                        <input type="text" id="postPrice" required placeholder="VD: 850.000.000 VNĐ hoặc 500 SDA" 
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Khu vực / Địa điểm *</label>
+                        <input type="text" id="postLocation" required placeholder="VD: Cần Thơ, TP.HCM, Toàn quốc" 
+                            class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Đường dẫn Hình ảnh (URL)</label>
+                    <input type="url" id="postImage" placeholder="https://images.unsplash.com/..." 
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Mô tả chi tiết bài đăng</label>
+                    <textarea id="postDesc" rows="3" placeholder="Mô tả thông số, tình trạng, giấy tờ pháp lý..." 
+                        class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-violet-500"></textarea>
+                </div>
+
+                <div class="pt-2 flex justify-end gap-3">
+                    <button type="button" onclick="closePostModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm font-medium hover:bg-slate-700">Hủy</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-violet-500 to-cyan-500 text-white font-bold text-sm hover:brightness-110 shadow-lg shadow-violet-500/20">
+                        Lưu Bài Đăng
+                    </button>
+                </div>
+            </form>
         </div>
-    </nav>
+    </div>
 
-    <!-- JAVASCRIPT XỬ LÝ SIÊU ỨNG DỤNG -->
+    <!-- 3. MODAL XEM CHI TIẾT SẢN PHẨM (Detail Modal) -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-2xl rounded-2xl border border-emerald-500/30 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="relative">
+                <img id="detailImg" src="" alt="" class="w-full h-64 object-cover">
+                <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-900/80 text-white flex items-center justify-center hover:bg-slate-900">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 overflow-y-auto">
+                <div class="flex items-center justify-between">
+                    <span id="detailBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Danh mục</span>
+                    <span id="detailDate" class="text-xs text-slate-400">Đăng hôm nay</span>
+                </div>
+                <h2 id="detailTitle" class="text-2xl font-bold text-slate-100">Tên bài đăng</h2>
+                <div class="text-xl font-extrabold text-emerald-400" id="detailPrice">0 VNĐ</div>
+                <p id="detailLocation" class="text-xs text-slate-300 flex items-center gap-1">
+                    <i class="fa-solid fa-location-dot text-rose-400"></i> Địa điểm
+                </p>
+                <div class="border-t border-slate-800 pt-3">
+                    <h4 class="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2">Mô Tả Chi Tiết</h4>
+                    <p id="detailDesc" class="text-sm text-slate-300 leading-relaxed whitespace-pre-line"></p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-800 bg-slate-900/50 flex gap-3 justify-end">
+                <button onclick="closeDetailModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-sm font-medium">Đóng</button>
+                <button onclick="alert('Đã gửi yêu cầu liên hệ người bán!')" class="px-5 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-sm hover:brightness-110">
+                    <i class="fa-solid fa-phone mr-1"></i> Liên Hệ Người Bán
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. MODAL KẾT NỐI VÍ WEB3 (Web3 Wallet Modal) -->
+    <div id="walletModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card w-full max-w-md rounded-2xl border border-violet-500/40 shadow-2xl p-6 space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="font-bold text-lg text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-violet-400"></i>
+                    Kết Nối Ví Web3
+                </h3>
+                <button onclick="closeWalletModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Dashboard hiển thị số dư ví khi đã kết nối -->
+            <div id="walletDashboard" class="hidden space-y-4">
+                <div class="p-4 rounded-xl bg-gradient-to-r from-violet-900/50 to-slate-900 border border-violet-500/30 space-y-2">
+                    <div class="flex items-center justify-between text-xs text-slate-400">
+                        <span>Trạng thái kết nối</span>
+                        <span class="text-emerald-400 flex items-center gap-1 font-semibold">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Đã kết nối
+                        </span>
+                    </div>
+                    <div class="text-xs text-slate-300 font-mono break-all" id="walletAddressDisplay">0x71C...3A9</div>
+                    <div class="pt-2 border-t border-slate-800 flex justify-between items-center">
+                        <span class="text-xs text-slate-400">Số dư ví:</span>
+                        <span class="text-sm font-bold text-cyan-400">1,250 SDA / 45 PI</span>
+                    </div>
+                </div>
+                <button onclick="disconnectWallet()" class="w-full py-2.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 hover:bg-rose-500/30 text-xs font-bold transition">
+                    Ngắt kết nối ví
+                </button>
+            </div>
+
+            <!-- Danh sách lựa chọn các ví -->
+            <div id="walletOptions" class="space-y-3">
+                <p class="text-xs text-slate-400">Chọn một trong các ví điện tử được hỗ trợ để thanh toán và giao dịch tài sản số:</p>
+                
+                <button onclick="connectWallet('MetaMask', '0x8F3...9B2')" class="w-full p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 flex items-center justify-between transition group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-fox"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-sm font-bold text-slate-200">MetaMask Wallet</div>
+                            <div class="text-[10px] text-slate-400">Mạng Ethereum, BSC, Polygon</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-cyan-400"></i>
+                </button>
+
+                <button onclick="connectWallet('Pi Network Wallet', 'GDK3...P89')" class="w-full p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 flex items-center justify-between transition group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-p"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-sm font-bold text-slate-200">Pi Network Wallet</div>
+                            <div class="text-[10px] text-slate-400">Mainnet Pi Ecosystem</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-cyan-400"></i>
+                </button>
+
+                <button onclick="connectWallet('Sidra Web3 Wallet', '0x1A4...C51')" class="w-full p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 flex items-center justify-between transition group">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-cubes"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-sm font-bold text-slate-200">Sidra Web3 Wallet</div>
+                            <div class="text-[10px] text-slate-400">Islamic DeFi Chain</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-cyan-400"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // HỆ THỐNG THƯ MỤC CON MỞ SÂU ĐA TẦNG CỰC KỲ PHONG PHÚ & CHUYÊN SÂU
-        const subFoldersData = {
-            goods: [
-                { key: 'phone', name: 'Điện thoại & Tablet Quốc tế', img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300' },
-                { key: 'laptop', name: 'Laptop & Phụ kiện Global', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300' },
-                { key: 'fashion', name: 'Thời trang cao cấp xuất khẩu', img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=300' },
-                { key: 'home_appliances', name: 'Đồ gia dụng thông minh Smart Home', img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300' },
-                { key: 'cosmetics', name: 'Mỹ phẩm & Làm đẹp cao cấp', img: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300' },
-                { key: 'watches', name: 'Đồng hồ & Trang sức chính hãng', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300' }
-            ],
-            realestate: [
-                { key: 'house', name: 'Biệt thự & BĐS nghỉ dưỡng quốc tế', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300' },
-                { key: 'land', name: 'Đất nền & Dự án toàn cầu', img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=300' },
-                { key: 'apartment', name: 'Căn hộ chung cư cao cấp', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=300' },
-                { key: 'commercial', name: 'Mặt bằng thương mại & Khách sạn', img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=300' }
-            ],
-            vehicles: [
-                { key: 'car_suv', name: 'Ô tô SUV & Sedan nhập khẩu', img: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=300' },
-                { key: 'motorbike', name: 'Mô tô phân khối lớn & Xe máy', img: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=300' },
-                { key: 'electric_bike', name: 'Xe điện thông minh Eco', img: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=300' },
-                { key: 'yacht', name: 'Du thuyền & Tàu thuyền cao cấp', img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=300' }
-            ],
-            services: [
-                { key: 'it_service', name: 'Lập trình Web3 & Global DApp', img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300' },
-                { key: 'marketing', name: 'Marketing & Quảng cáo xuyên biên giới', img: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=300' },
-                { key: 'legal', name: 'Tư vấn pháp lý & Định cư quốc tế', img: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300' },
-                { key: 'logistics', name: 'Dịch vụ vận chuyển logistics toàn cầu', img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=300' }
-            ],
-            auction: [
-                { key: 'rare_item', name: 'Vật phẩm đấu giá độc quyền quốc tế', img: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300' },
-                { key: 'nft_art', name: 'Tác phẩm nghệ thuật kỹ thuật số NFT', img: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=300' }
-            ],
-            forum: [
-                { key: 'pioneer_news', name: 'Tin tức Pi Network toàn cầu', img: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=300' },
-                { key: 'sdk_dev', name: 'Thảo luận kỹ thuật Pi Payment SDK', img: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300' }
-            ],
-            antiques: [
-                { key: 'ceramic', name: 'Cổ vật gốm sứ & Gốm nghệ thuật', img: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=300' },
-                { key: 'bronze', name: 'Đồ đồng xưa & Sưu tầm phong thủy', img: 'https://images.unsplash.com/photo-1544816155-12df9643f363?w=300' }
-            ]
-        };
-
-        const sampleListings = [
-            { id: 901, title: 'Biệt thự nghỉ dưỡng cao cấp Global', price: 350, category: 'house', categoryName: 'Biệt thự & BĐS nghỉ dưỡng quốc tế', area: '300m2', rooms: '5 Phòng', location: 'Global (Toàn cầu)', seller: 'Global Pioneer Club', sellerWallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6', rating: '5.0', imgs: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=500'], desc: 'Hỗ trợ pháp lý và giao dịch xuyên biên giới an toàn chuẩn Web3.' },
-            { id: 902, title: 'Ô tô điện thông minh Tesla Model Pi', price: 82, category: 'car_suv', categoryName: 'Ô tô SUV & Sedan nhập khẩu', location: 'USA', seller: 'US Pi Motors', sellerWallet: 'GBCX7Y2Z3A4B5C6D7E8F9G0H1I2J3K4L5M6N7O8P9Q0R1S2T3U4V5W6', rating: '4.9', imgs: ['https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=500'], desc: 'Giao hàng tận nơi toàn cầu, thanh toán trực tiếp bằng Ví Pi.' }
+        /* -------------------------------------------------------------
+           1. CẤU TRÚC DỮ LIỆU DANH MỤC CHUYÊN SÂU
+        ------------------------------------------------------------- */
+        const categoriesTree = [
+            {
+                id: 'auto',
+                name: 'Xe Ô Tô & Phương Tiện',
+                icon: 'fa-car',
+                color: 'from-cyan-500 to-blue-600',
+                subs: [
+                    {
+                        id: 'toyota',
+                        name: 'Toyota',
+                        items: ['Camry', 'Fortuner', 'Corolla Cross', 'Hilux', 'Vios', 'RAV4']
+                    },
+                    {
+                        id: 'vinfast',
+                        name: 'VinFast',
+                        items: ['VF8', 'VF9', 'VF e34', 'VF5 Plus', 'VF6', 'VF7']
+                    },
+                    {
+                        id: 'tesla',
+                        name: 'Tesla',
+                        items: ['Model 3', 'Model Y', 'Model S', 'Model X', 'Cybertruck']
+                    },
+                    {
+                        id: 'bmw',
+                        name: 'BMW',
+                        items: ['3 Series', '5 Series', '7 Series', 'X5', 'X7']
+                    },
+                    {
+                        id: 'mercedes',
+                        name: 'Mercedes-Benz',
+                        items: ['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE']
+                    }
+                ]
+            },
+            {
+                id: 'realestate',
+                name: 'Bất Động Sản',
+                icon: 'fa-building-user',
+                color: 'from-emerald-500 to-teal-600',
+                subs: [
+                    {
+                        id: 'apartment',
+                        name: 'Căn Hộ & Chung Cư',
+                        items: ['Căn hộ cao cấp', 'Penthouse', 'Studio', 'Duplex', 'Chung cư giá rẻ']
+                    },
+                    {
+                        id: 'house',
+                        name: 'Nhà Phố & Biệt Thự',
+                        items: ['Biệt thự đơn lập', 'Nhà liền kề', 'Shophouse', 'Nhà hẻm ngõ']
+                    },
+                    {
+                        id: 'land',
+                        name: 'Đất Nền & Trang Trại',
+                        items: ['Đất thổ cư', 'Đất dự án', 'Đất vườn', 'Trang trại nghỉ dưỡng']
+                    }
+                ]
+            },
+            {
+                id: 'electronics',
+                name: 'Chợ Điện Máy & Đồ Cũ',
+                icon: 'fa-laptop',
+                color: 'from-violet-500 to-purple-600',
+                subs: [
+                    {
+                        id: 'mobile',
+                        name: 'Điện Thoại & Tablet',
+                        items: ['iPhone', 'Samsung Galaxy', 'iPad', 'Xiaomi', 'OPPO']
+                    },
+                    {
+                        id: 'computer',
+                        name: 'Laptop & Máy Tính Bàn',
+                        items: ['MacBook', 'Dell XPS', 'ASUS ROG', 'PC Custom Gaming']
+                    },
+                    {
+                        id: 'homeapp',
+                        name: 'Đồ Gia Dụng Thông Minh',
+                        items: ['Tủ lạnh', 'Máy giặt', 'Robot hút bụi', 'Điều hòa inverter']
+                    }
+                ]
+            },
+            {
+                id: 'services',
+                name: 'Dịch Vụ & Tiện Ích',
+                icon: 'fa-screwdriver-wrench',
+                color: 'from-amber-500 to-orange-600',
+                subs: [
+                    {
+                        id: 'repair',
+                        name: 'Chăm Sóc & Sửa Chữa',
+                        items: ['Sửa xe tận nơi', 'Bảo dưỡng nhà cửa', 'Cứu hộ 24/7']
+                    },
+                    {
+                        id: 'rental',
+                        name: 'Cho Thuê Tài Sản',
+                        items: ['Cho thuê xe tự lái', 'Cho thuê căn hộ du lịch', 'Cho thuê thiết bị số']
+                    }
+                ]
+            },
+            {
+                id: 'web3',
+                name: 'Tài Sản Số & Web3',
+                icon: 'fa-cubes',
+                color: 'from-pink-500 to-rose-600',
+                subs: [
+                    {
+                        id: 'nft',
+                        name: 'Bộ Sưu Tập NFT',
+                        items: ['Digital Artworks', 'Virtual Real Estate', 'Domain Names']
+                    },
+                    {
+                        id: 'utility',
+                        name: 'Tài Khoản Game & Utility',
+                        items: ['Tài khoản VIP Game', 'Metaverse Pass', 'Node Delegation']
+                    }
+                ]
+            }
         ];
 
-        let allListingsCache = [];
-        let historyStack = ['home'];
-        let currentDetailListing = null;
+        /* -------------------------------------------------------------
+           2. DỮ LIỆU BÀI ĐĂNG MẪU BAN ĐẦU
+        ------------------------------------------------------------- */
+        const initialPosts = [
+            {
+                id: 'post-1',
+                title: 'Bán xe Toyota Camry 2.5Q sản xuất 2023, màu đen cực mới',
+                mainCat: 'auto',
+                subCat: 'Toyota',
+                itemCat: 'Camry',
+                price: '980.000.000 VNĐ',
+                location: 'Cần Thơ',
+                image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80',
+                desc: 'Xe chính chủ chạy 15.000 km, đỗ garage cẩn thận. Đầy đủ lịch sử bảo dưỡng chính hãng.',
+                createdAt: '2026-03-28'
+            },
+            {
+                id: 'post-2',
+                title: 'VinFast VF8 Plus 2024 - Bản pin CATL full option',
+                mainCat: 'auto',
+                subCat: 'VinFast',
+                itemCat: 'VF8',
+                price: '1.050.000.000 VNĐ',
+                location: 'TP. Hồ Chí Minh',
+                image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80',
+                desc: 'Cần nhượng lại xe VinFast VF8 màu trắng, đã dán phim cách nhiệt cao cấp. Pin mua đứt.',
+                createdAt: '2026-03-27'
+            },
+            {
+                id: 'post-3',
+                title: 'Căn hộ Duplex góc 3 Phòng Ngủ dự án cao cấp sát sông',
+                mainCat: 'realestate',
+                subCat: 'Căn Hộ & Chung Cư',
+                itemCat: 'Duplex',
+                price: '4,5 Tỷ VNĐ (~ 180,000 USD)',
+                location: 'Ninh Kiều, Cần Thơ',
+                image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80',
+                desc: 'Diện tích 120m2, view toàn cảnh sông thơ mộng. Nội thất nhập khẩu hoàn thiện.',
+                createdAt: '2026-03-25'
+            },
+            {
+                id: 'post-4',
+                title: 'Bán MacBook Pro M3 Max 16 inch 36GB RAM 1TB SSD',
+                mainCat: 'electronics',
+                subCat: 'Laptop & Máy Tính Bàn',
+                itemCat: 'MacBook',
+                price: '62.000.000 VNĐ',
+                location: 'Hà Nội',
+                image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80',
+                desc: 'Máy đẹp 99%, hàng Apple Store xịn. Pin còn 98%, sạc ít lần.',
+                createdAt: '2026-03-24'
+            }
+        ];
 
-        async function loadListingsData() {
-            let data = [...sampleListings];
-            const localStored = JSON.parse(localStorage.getItem('pi_superapp_db') || '[]');
-            allListingsCache = [...localStored, ...data];
-            renderHomeListings();
-            renderOrdersList();
-            loadProfileAvatar();
+        // Biến lưu trữ state toàn cục
+        let posts = [];
+        let activeMainCat = null;
+        let activeSubCat = null;
+        let activeItemCat = null;
+        let currentModalMain = null;
+        let currentModalSub = null;
+        let connectedWallet = null;
+
+        /* -------------------------------------------------------------
+           3. LƯU TRỮ VÀ KHỞI TẠO DỮ LIỆU (LocalStorage)
+        ------------------------------------------------------------- */
+        function initApp() {
+            const savedPosts = localStorage.getItem('global_super_app_posts');
+            if (savedPosts) {
+                posts = JSON.parse(savedPosts);
+            } else {
+                posts = initialPosts;
+                localStorage.setItem('global_super_app_posts', JSON.stringify(posts));
+            }
+            renderCategories();
+            renderPosts();
+            populateFormCategories();
         }
 
-        // HÀM MỞ SÂU TRANG THƯ MỤC CON CÓ HÌNH ẢNH (DEEP NAVIGATION)
-        function openSubFoldersScreen(folderKey, folderTitle) {
-            historyStack.push('sub-categories');
-            showScreen('view-sub-categories');
-            document.getElementById('subcat-header-title').innerText = `Danh mục: ${folderTitle}`;
-            
-            const grid = document.getElementById('subcat-cards-grid');
-            grid.innerHTML = '';
-            
-            const subs = subFoldersData[folderKey] || [];
-            subs.forEach(sub => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-none shadow-sm overflow-hidden border-2 border-slate-200 cursor-pointer hover:border-oceanBlue-500 transition flex flex-col';
-                card.onclick = () => openCategory(sub.name, sub.key);
-                card.innerHTML = `
-                    <div class="h-28 bg-slate-100 overflow-hidden relative border-b border-slate-200">
-                        <img src="${sub.img}" class="w-full h-full object-cover">
+        /* -------------------------------------------------------------
+           4. RENDER DANH MỤC TRÊN MÀN HÌNH CHÍNH
+        ------------------------------------------------------------- */
+        function renderCategories() {
+            const container = document.getElementById('mainCategoryList');
+            container.innerHTML = categoriesTree.map(cat => `
+                <div onclick="openCategoryModal('${cat.id}')" 
+                     class="glass-card p-4 rounded-2xl hover:border-cyan-400/60 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-tr ${cat.color} flex items-center justify-center text-white text-xl font-bold shadow-md mb-2 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid ${cat.icon}"></i>
                     </div>
-                    <div class="p-2.5">
-                        <h4 class="text-xs font-bold text-slate-800 line-clamp-2">${sub.name}</h4>
-                        <span class="text-[10px] text-oceanBlue-600 font-bold mt-1 inline-block">Khám phá ngay <i class="fa-solid fa-arrow-right text-[9px]"></i></span>
+                    <h3 class="font-bold text-slate-100 text-sm group-hover:text-cyan-300 transition-colors">${cat.name}</h3>
+                    <span class="text-[10px] text-slate-400 mt-1">${cat.subs.length} nhóm phân loại</span>
+                </div>
+            `).join('');
+        }
+
+        /* -------------------------------------------------------------
+           5. ĐIỀU HƯỚNG CỬA SỔ CON DANH MỤC
+        ------------------------------------------------------------- */
+        function openCategoryModal(mainCatId) {
+            currentModalMain = categoriesTree.find(c => c.id === mainCatId);
+            currentModalSub = null;
+            renderModalContent();
+            document.getElementById('categoryModal').classList.remove('hidden');
+        }
+
+        function closeCategoryModal() {
+            document.getElementById('categoryModal').classList.add('hidden');
+        }
+
+        function renderModalContent() {
+            const listContainer = document.getElementById('modalSubcategoryList');
+            const titleEl = document.getElementById('modalCatTitle');
+            const subtitleEl = document.getElementById('modalCatSubtitle');
+            const breadcrumbEl = document.getElementById('modalBreadcrumb');
+            const backBtn = document.getElementById('modalBackBtn');
+
+            if (!currentModalSub) {
+                // Đang ở cửa sổ cấp 1
+                titleEl.innerText = currentModalMain.name;
+                subtitleEl.innerText = 'Bấm chọn thương hiệu / loại hình để mở cửa sổ chi tiết';
+                breadcrumbEl.innerHTML = `<span>Trang chủ</span> <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> <span class="text-cyan-400 font-bold">${currentModalMain.name}</span>`;
+                backBtn.classList.add('hidden');
+
+                listContainer.innerHTML = currentModalMain.subs.map(sub => `
+                    <div onclick="selectModalSubCat('${sub.id}')" class="p-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-cyan-500/50 flex items-center justify-between cursor-pointer transition">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-folder-tree text-cyan-400"></i>
+                            <span class="font-bold text-sm text-slate-200">${sub.name}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-slate-400">${sub.items.length} dòng sản phẩm</span>
+                            <i class="fa-solid fa-chevron-right text-xs text-slate-500"></i>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                // Đang ở cửa sổ cấp 2
+                titleEl.innerText = `${currentModalMain.name} > ${currentModalSub.name}`;
+                subtitleEl.innerText = 'Chọn dòng sản phẩm hoặc lọc nhanh bài đăng ngay bên dưới';
+                breadcrumbEl.innerHTML = `
+                    <span class="cursor-pointer hover:underline" onclick="categoryBackStep()">Trang chủ</span> 
+                    <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> 
+                    <span class="cursor-pointer hover:underline" onclick="categoryBackStep()">${currentModalMain.name}</span> 
+                    <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> 
+                    <span class="text-cyan-400 font-bold">${currentModalSub.name}</span>
+                `;
+                backBtn.classList.remove('hidden');
+
+                listContainer.innerHTML = `
+                    <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', null)" class="mb-4 p-3 rounded-xl bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 border border-cyan-500/40 hover:brightness-110 cursor-pointer flex items-center justify-between">
+                        <span class="font-bold text-sm text-cyan-200"><i class="fa-solid fa-filter mr-2"></i> Lọc tất cả bài viết thuộc ${currentModalSub.name}</span>
+                        <i class="fa-solid fa-arrow-right text-cyan-300"></i>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        ${currentModalSub.items.map(item => `
+                            <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', '${item}')" 
+                                 class="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-400/60 hover:bg-slate-800 cursor-pointer transition flex items-center justify-between group">
+                                <span class="text-xs font-semibold text-slate-300 group-hover:text-emerald-300">${item}</span>
+                                <i class="fa-solid fa-circle-dot text-[10px] text-slate-600 group-hover:text-emerald-400"></i>
+                            </div>
+                        `).join('')}
                     </div>
                 `;
-                grid.appendChild(card);
-            });
-        }
-
-        function showScreen(screenId) {
-            document.querySelectorAll('.view-screen').forEach(el => el.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            const backBtn = document.getElementById('btn-back');
-            if (screenId !== 'view-home') backBtn.classList.remove('hidden');
-            else backBtn.classList.add('hidden');
-        }
-
-        function switchTab(tabName) {
-            historyStack = [tabName];
-            showScreen('view-' + tabName);
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.replace('text-oceanBlue-600', 'text-slate-400'));
-            document.getElementById('nav-' + tabName).classList.replace('text-slate-400', 'text-oceanBlue-600');
-        }
-
-        function goBack() {
-            if (historyStack.length > 1) {
-                historyStack.pop();
-                showScreen('view-' + historyStack[historyStack.length - 1]);
-            } else {
-                switchTab('home');
             }
         }
 
-        function openCategory(catName, catKey) {
-            historyStack.push('list');
-            showScreen('view-list');
-            document.getElementById('category-title').innerText = catName;
-            const grid = document.getElementById('category-listings-grid');
-            grid.innerHTML = '';
-            const filtered = (catKey === 'all') ? allListingsCache : allListingsCache.filter(item => item.category === catKey);
-            document.getElementById('category-count').innerText = `${filtered.length} bài`;
-            filtered.forEach(item => grid.appendChild(createCard(item)));
+        function selectModalSubCat(subId) {
+            currentModalSub = currentModalMain.subs.find(s => s.id === subId);
+            renderModalContent();
         }
 
-        function openDetail(id) {
-            const found = allListingsCache.find(item => item.id == id);
-            if (!found) return;
-            currentDetailListing = found;
-            historyStack.push('detail');
-            showScreen('view-detail');
+        function categoryBackStep() {
+            currentModalSub = null;
+            renderModalContent();
+        }
 
-            const imgList = found.imgs && found.imgs.length > 0 ? found.imgs : ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500'];
+        /* -------------------------------------------------------------
+           6. LỌC BÀI ĐĂNG & HIỂN THỊ
+        ------------------------------------------------------------- */
+        function applyFilter(mainId, subName, itemName) {
+            activeMainCat = mainId;
+            activeSubCat = subName;
+            activeItemCat = itemName;
+
+            // Cập nhật thanh Breadcrumb hiển thị bộ lọc ngoài trang chủ
+            const filterBar = document.getElementById('activeFilterBar');
+            const pathEl = document.getElementById('breadcrumbPath');
             
-            document.getElementById('detail-img').src = imgList[0];
-            document.getElementById('detail-title').innerText = found.title;
-            document.getElementById('detail-price').innerText = found.price;
-            document.getElementById('detail-category').innerText = found.categoryName || found.category;
-            document.getElementById('detail-location').innerText = found.location || 'Global (Toàn cầu)';
-            document.getElementById('detail-desc').innerText = found.desc;
+            const mainObj = categoriesTree.find(c => c.id === mainId);
+            let pathText = mainObj ? mainObj.name : '';
+            if (subName) pathText += ` > ${subName}`;
+            if (itemName) pathText += ` > ${itemName}`;
 
-            const specsEl = document.getElementById('detail-specs');
-            if (found.area || found.rooms) {
-                specsEl.classList.remove('hidden');
-                document.getElementById('spec-area').innerText = found.area || 'Tiêu chuẩn';
-                document.getElementById('spec-rooms').innerText = found.rooms || 'Chi tiết';
-            } else {
-                specsEl.classList.add('hidden');
-            }
+            pathEl.innerText = pathText;
+            filterBar.classList.remove('hidden');
 
-            document.getElementById('seller-name').innerText = found.seller || 'Cửa hàng Pi';
-            document.getElementById('seller-rating').innerText = `${found.rating || '4.9'} / 5.0`;
-            document.getElementById('seller-avatar').innerText = (found.seller || 'S').charAt(0).toUpperCase();
+            closeCategoryModal();
+            renderPosts();
+        }
 
-            const myWallet = localStorage.getItem('user_pi_wallet');
-            const ownerActions = document.getElementById('owner-actions');
-            if (myWallet && found.sellerWallet === myWallet) ownerActions.classList.remove('hidden');
-            else ownerActions.classList.add('hidden');
+        function resetFilter() {
+            activeMainCat = null;
+            activeSubCat = null;
+            activeItemCat = null;
+            document.getElementById('activeFilterBar').classList.add('hidden');
+            document.getElementById('searchInput').value = '';
+            renderPosts();
+        }
 
-            const gallery = document.getElementById('detail-gallery');
-            gallery.innerHTML = '';
-            imgList.forEach(url => {
-                const thumb = document.createElement('img');
-                thumb.src = url;
-                thumb.className = 'w-14 h-14 object-cover rounded-none border-2 border-slate-300 cursor-pointer hover:border-goldAcc-500';
-                thumb.onclick = () => { document.getElementById('detail-img').src = url; };
-                gallery.appendChild(thumb);
+        function handleSearch() {
+            renderPosts();
+        }
+
+        function renderPosts() {
+            const grid = document.getElementById('postsGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            let filtered = posts.filter(p => {
+                if (activeMainCat && p.mainCat !== activeMainCat) return false;
+                if (activeSubCat && p.subCat !== activeSubCat) return false;
+                if (activeItemCat && p.itemCat !== activeItemCat) return false;
+                if (searchTerm) {
+                    const matchTitle = p.title.toLowerCase().includes(searchTerm);
+                    const matchLocation = p.location.toLowerCase().includes(searchTerm);
+                    const matchDesc = p.desc.toLowerCase().includes(searchTerm);
+                    if (!matchTitle && !matchLocation && !matchDesc) return false;
+                }
+                return true;
             });
-        }
 
-        function openSellerProfile() {
-            if (!currentDetailListing) return;
-            historyStack.push('shop');
-            showScreen('view-shop');
+            document.getElementById('itemCount').innerText = `${filtered.length} bài đăng`;
 
-            document.getElementById('shop-name-lg').innerText = currentDetailListing.seller || 'Cửa hàng Pi';
-            document.getElementById('shop-avatar-lg').innerText = (currentDetailListing.seller || 'S').charAt(0).toUpperCase();
-            const grid = document.getElementById('shop-listings-grid');
-            grid.innerHTML = '';
-            const shopItems = allListingsCache.filter(item => item.seller === currentDetailListing.seller);
-            shopItems.forEach(item => grid.appendChild(createCard(item)));
-        }
-
-        function createCard(item) {
-            const card = document.createElement('div');
-            card.className = 'bg-white rounded-none shadow-sm overflow-hidden border-2 border-slate-200 flex flex-col justify-between cursor-pointer touch-action hover:border-oceanBlue-500 transition';
-            card.onclick = () => openDetail(item.id);
-            const mainImg = item.imgs && item.imgs.length > 0 ? item.imgs[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500';
-            card.innerHTML = `
-                <div class="h-28 bg-slate-100 overflow-hidden relative border-b border-slate-200">
-                    <img src="${mainImg}" class="w-full h-full object-cover">
-                    <span class="absolute top-2 right-2 bg-lightPurple-600 text-white text-[9px] px-1.5 py-0.5 rounded-none font-bold">${item.location || 'Global'}</span>
-                </div>
-                <div class="p-2.5">
-                    <h4 class="text-xs font-bold text-slate-800 line-clamp-2 mb-1">${item.title}</h4>
-                    <div class="flex items-baseline gap-0.5">
-                        <span class="text-sm font-extrabold text-oceanBlue-600">${item.price}</span>
-                        <span class="text-[10px] font-bold text-goldAcc-600">π</span>
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center space-y-3">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 text-2xl">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <p class="text-slate-400 text-sm">Không tìm thấy bài đăng phù hợp.</p>
+                        <button onclick="resetFilter()" class="text-xs text-cyan-400 hover:underline">Xóa tất cả bộ lọc</button>
                     </div>
-                </div>
-            `;
-            return card;
-        }
-
-        function renderHomeListings() {
-            const grid = document.getElementById('home-listings-grid');
-            grid.innerHTML = '';
-            allListingsCache.slice(0, 6).forEach(item => grid.appendChild(createCard(item)));
-        }
-
-        // TÍNH NĂNG THAY ĐỔI ẢNH ĐẠI DIỆN HỒ SƠ TRỰC TIẾP
-        function updateProfileAvatar(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const base64Img = event.target.result;
-                    localStorage.setItem('user_profile_avatar', base64Img);
-                    document.getElementById('profile-avatar-img').src = base64Img;
-                    alert('Đã cập nhật ảnh đại diện hồ sơ thành công!');
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function loadProfileAvatar() {
-            const savedAvatar = localStorage.getItem('user_profile_avatar');
-            if (savedAvatar) {
-                document.getElementById('profile-avatar-img').src = savedAvatar;
-            }
-        }
-
-        function openFilterModal() { document.getElementById('modal-filter').classList.remove('hidden'); }
-        function closeFilterModal() { document.getElementById('modal-filter').classList.add('hidden'); }
-        
-        function applyAdvancedFilter() {
-            closeFilterModal();
-            const minPrice = parseFloat(document.getElementById('filter-min-price').value) || 0;
-            const maxPrice = parseFloat(document.getElementById('filter-max-price').value) || 999999;
-            const loc = document.getElementById('filter-location').value;
-
-            historyStack.push('list');
-            showScreen('view-list');
-            document.getElementById('category-title').innerText = 'Kết quả lọc toàn cầu';
-
-            const filtered = allListingsCache.filter(item => {
-                const p = item.price;
-                const matchLoc = (loc === 'all') || (item.location === loc);
-                return p >= minPrice && p <= maxPrice && matchLoc;
-            });
-
-            document.getElementById('category-count').innerText = `${filtered.length} bài`;
-            const grid = document.getElementById('category-listings-grid');
-            grid.innerHTML = '';
-            filtered.forEach(item => grid.appendChild(createCard(item)));
-        }
-
-        function submitNewListing(e) {
-            e.preventDefault();
-            const myWallet = localStorage.getItem('user_pi_wallet');
-            if (!myWallet) {
-                alert('Vui lòng vào mục "Cá nhân" dán My Pi Wallet Address trước!');
-                switchTab('profile');
+                `;
                 return;
             }
 
-            const fileInput = document.getElementById('inp-files');
-            const catSelect = document.getElementById('inp-category');
-            const locSelect = document.getElementById('inp-location');
+            grid.innerHTML = filtered.map(post => `
+                <div class="glass-card rounded-2xl overflow-hidden border border-slate-800 hover:border-cyan-500/40 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group">
+                    <div>
+                        <!-- Image Container -->
+                        <div class="relative h-48 overflow-hidden bg-slate-900 cursor-pointer" onclick="openDetailModal('${post.id}')">
+                            <img src="${post.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'}" 
+                                 alt="${post.title}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-950/80 backdrop-blur-md text-cyan-300 border border-cyan-500/30">
+                                ${post.subCat}
+                            </span>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="p-4 space-y-2">
+                            <h3 onclick="openDetailModal('${post.id}')" class="font-bold text-sm text-slate-100 line-clamp-2 hover:text-cyan-300 cursor-pointer transition-colors">
+                                ${post.title}
+                            </h3>
+                            <div class="text-base font-extrabold text-emerald-400">${post.price}</div>
+                            <p class="text-xs text-slate-400 flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot text-rose-400"></i> ${post.location}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Actions Bar (Sửa / Xóa) -->
+                    <div class="p-3 border-t border-slate-800/80 bg-slate-950/40 flex items-center justify-between text-xs">
+                        <button onclick="openDetailModal('${post.id}')" class="text-slate-400 hover:text-cyan-300 transition">Chi tiết</button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="openEditPost('${post.id}')" title="Chỉnh sửa" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-violet-500/20 text-slate-300 hover:text-violet-300 flex items-center justify-center transition">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                            <button onclick="deletePost('${post.id}')" title="Xóa bài" class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-rose-500/20 text-slate-300 hover:text-rose-400 flex items-center justify-center transition">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* -------------------------------------------------------------
+           7. THÊM / CHỈNH SỬA / XÓA BÀI ĐĂNG (CRUD)
+        ------------------------------------------------------------- */
+        function populateFormCategories() {
+            const mainSelect = document.getElementById('postMainCat');
+            mainSelect.innerHTML = categoriesTree.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            updateSubCatDropdown();
+        }
+
+        function updateSubCatDropdown() {
+            const mainId = document.getElementById('postMainCat').value;
+            const subSelect = document.getElementById('postSubCat');
+            const mainObj = categoriesTree.find(c => c.id === mainId);
             
-            const saveNewData = (imageArray) => {
-                const newListing = {
-                    id: Date.now(),
-                    title: document.getElementById('inp-title').value,
-                    category: catSelect.value,
-                    categoryName: catSelect.options[catSelect.selectedIndex].text,
-                    price: parseFloat(document.getElementById('inp-price').value),
-                    location: locSelect.value,
-                    imgs: imageArray,
-                    desc: document.getElementById('inp-desc').value,
-                    seller: 'Tôi (Super App Pioneer)',
-                    sellerWallet: myWallet,
-                    rating: '5.0',
-                    area: 'Tiêu chuẩn',
-                    rooms: 'Mới'
-                };
+            if (mainObj) {
+                subSelect.innerHTML = mainObj.subs.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+            }
+        }
 
-                const existing = JSON.parse(localStorage.getItem('pi_superapp_db') || '[]');
-                existing.unshift(newListing);
-                localStorage.setItem('pi_superapp_db', JSON.stringify(existing));
+        function openPostModal() {
+            document.getElementById('postForm').reset();
+            document.getElementById('editPostId').value = '';
+            document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-violet-400"></i> Đăng Bán Mới';
+            document.getElementById('postModal').classList.remove('hidden');
+        }
 
-                alert('Đăng tin siêu ứng dụng thành công!');
-                document.getElementById('form-create').reset();
-                loadListingsData();
-                switchTab('home');
+        function openEditPost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            document.getElementById('editPostId').value = post.id;
+            document.getElementById('postTitle').value = post.title;
+            document.getElementById('postMainCat').value = post.mainCat;
+            updateSubCatDropdown();
+            document.getElementById('postSubCat').value = post.subCat;
+            document.getElementById('postPrice').value = post.price;
+            document.getElementById('postLocation').value = post.location;
+            document.getElementById('postImage').value = post.image || '';
+            document.getElementById('postDesc').value = post.desc || '';
+
+            document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-400"></i> Chỉnh Sửa Bài Đăng';
+            document.getElementById('postModal').classList.remove('hidden');
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').classList.add('hidden');
+        }
+
+        function savePost(event) {
+            event.preventDefault();
+            const editId = document.getElementById('editPostId').value;
+            
+            const newPostData = {
+                id: editId || 'post-' + Date.now(),
+                title: document.getElementById('postTitle').value,
+                mainCat: document.getElementById('postMainCat').value,
+                subCat: document.getElementById('postSubCat').value,
+                itemCat: '',
+                price: document.getElementById('postPrice').value,
+                location: document.getElementById('postLocation').value,
+                image: document.getElementById('postImage').value || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80',
+                desc: document.getElementById('postDesc').value,
+                createdAt: new Date().toISOString().split('T')[0]
             };
 
-            if (fileInput.files && fileInput.files.length > 0) {
-                let readers = [];
-                let results = [];
-                Array.from(fileInput.files).forEach((file, index) => {
-                    let reader = new FileReader();
-                    readers.push(new Promise((resolve) => {
-                        reader.onload = function(e) { results[index] = e.target.result; resolve(); };
-                        reader.readAsDataURL(file);
-                    }));
-                });
-                Promise.all(readers).then(() => saveNewData(results));
+            if (editId) {
+                // Cập nhật
+                const index = posts.findIndex(p => p.id === editId);
+                if (index !== -1) posts[index] = newPostData;
             } else {
-                saveNewData(['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500']);
+                // Thêm mới
+                posts.unshift(newPostData);
+            }
+
+            localStorage.setItem('global_super_app_posts', JSON.stringify(posts));
+            closePostModal();
+            renderPosts();
+        }
+
+        function deletePost(postId) {
+            if (confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
+                posts = posts.filter(p => p.id !== postId);
+                localStorage.setItem('global_super_app_posts', JSON.stringify(posts));
+                renderPosts();
             }
         }
 
-        function openEditScreen() {
-            if (!currentDetailListing) return;
-            historyStack.push('edit');
-            showScreen('view-edit');
+        /* -------------------------------------------------------------
+           8. XEM CHI TIẾT BÀI ĐĂNG
+        ------------------------------------------------------------- */
+        function openDetailModal(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
 
-            document.getElementById('edit-title').value = currentDetailListing.title;
-            document.getElementById('edit-category').value = currentDetailListing.category;
-            document.getElementById('edit-price').value = currentDetailListing.price;
-            document.getElementById('edit-desc').value = currentDetailListing.desc;
+            document.getElementById('detailImg').src = post.image;
+            document.getElementById('detailBadge').innerText = `${post.subCat}`;
+            document.getElementById('detailDate').innerText = `Ngày đăng: ${post.createdAt}`;
+            document.getElementById('detailTitle').innerText = post.title;
+            document.getElementById('detailPrice').innerText = post.price;
+            document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot text-rose-400 mr-1"></i> ${post.location}`;
+            document.getElementById('detailDesc').innerText = post.desc || 'Không có mô tả chi tiết.';
+
+            document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        function submitEditListing(e) {
-            e.preventDefault();
-            if (!currentDetailListing) return;
-
-            const fileInput = document.getElementById('edit-files');
-            const catSelect = document.getElementById('edit-category');
-
-            const updateData = (imageArray) => {
-                currentDetailListing.title = document.getElementById('edit-title').value;
-                currentDetailListing.category = catSelect.value;
-                currentDetailListing.categoryName = catSelect.options[catSelect.selectedIndex].text;
-                currentDetailListing.price = parseFloat(document.getElementById('edit-price').value);
-                if (imageArray) {
-                    currentDetailListing.imgs = imageArray;
-                }
-                currentDetailListing.desc = document.getElementById('edit-desc').value;
-
-                let existing = JSON.parse(localStorage.getItem('pi_superapp_db') || '[]');
-                existing = existing.map(item => item.id === currentDetailListing.id ? currentDetailListing : item);
-                localStorage.setItem('pi_superapp_db', JSON.stringify(existing));
-
-                alert('Cập nhật bài đăng và thay đổi ảnh thành công!');
-                loadListingsData();
-                openDetail(currentDetailListing.id);
-            };
-
-            if (fileInput.files && fileInput.files.length > 0) {
-                let readers = [];
-                let results = [];
-                Array.from(fileInput.files).forEach((file, index) => {
-                    let reader = new FileReader();
-                    readers.push(new Promise((resolve) => {
-                        reader.onload = function(e) { results[index] = e.target.result; resolve(); };
-                        reader.readAsDataURL(file);
-                    }));
-                });
-                Promise.all(readers).then(() => updateData(results));
-            } else {
-                updateData(null);
-            }
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
         }
 
-        function handlePayment(type) {
-            if (!currentDetailListing) return;
-            if (type === 'Pi') {
-                const txid = prompt("Nhập Mã giao dịch (TxID) chuẩn chuỗi khối sau khi thanh toán Ví Pi:");
-                if (txid && txid.trim().length > 10) {
-                    addOrderRecord(currentDetailListing, 'Thanh toán Ví Pi', txid.trim());
-                } else {
-                    alert('Mã TxID không hợp lệ!');
-                }
-            } else {
-                addOrderRecord(currentDetailListing, 'Thanh toán COD Quốc Tế', 'N/A (Global Direct)');
-            }
+        /* -------------------------------------------------------------
+           9. TÍCH HỢP VÍ WEB3 (Wallet Management)
+        ------------------------------------------------------------- */
+        function openWalletModal() {
+            document.getElementById('walletModal').classList.remove('hidden');
         }
 
-        function addOrderRecord(item, method, txid) {
-            const order = {
-                id: 'ORD-' + Date.now(),
-                title: item.title,
-                price: item.price,
-                method: method,
-                txid: txid,
-                status: 'Đang xử lý vận chuyển toàn cầu'
-            };
-            const orders = JSON.parse(localStorage.getItem('pi_superapp_orders') || '[]');
-            orders.unshift(order);
-            localStorage.setItem('pi_superapp_orders', JSON.stringify(orders));
-            alert('Tạo đơn hàng toàn cầu thành công!');
-            renderOrdersList();
-            switchTab('orders');
+        function closeWalletModal() {
+            document.getElementById('walletModal').classList.add('hidden');
         }
 
-        function renderOrdersList() {
-            const orders = JSON.parse(localStorage.getItem('pi_superapp_orders') || '[]');
-            const container = document.getElementById('orders-list');
-            if (orders.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-6">Chưa có đơn hàng nào.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            orders.forEach(ord => {
-                const div = document.createElement('div');
-                div.className = 'bg-white p-3 rounded-none border-2 border-slate-200 shadow-sm text-xs space-y-1';
-                div.innerHTML = `
-                    <div class="flex justify-between items-center"><strong class="text-slate-800">${ord.id}</strong><span class="text-oceanBlue-600 font-bold bg-oceanBlue-50 px-2 py-0.5 rounded-none border border-oceanBlue-200">${ord.status}</span></div>
-                    <p class="text-slate-700 font-medium">${ord.title}</p>
-                    <p class="text-slate-500">Giá: <strong class="text-oceanBlue-600">${ord.price} π</strong> - PTTT: ${ord.method}</p>
-                    <p class="font-mono text-[10px] text-slate-400 bg-slate-50 p-1.5 rounded-none border border-slate-200 truncate">TxID: ${ord.txid}</p>
-                `;
-                container.appendChild(div);
-            });
+        function connectWallet(walletName, addr) {
+            connectedWallet = { name: walletName, address: addr };
+            document.getElementById('walletBtnText').innerText = addr.substring(0, 6) + '...';
+            document.getElementById('walletAddressDisplay').innerText = `${walletName}: ${addr}`;
+            document.getElementById('walletOptions').classList.add('hidden');
+            document.getElementById('walletDashboard').classList.remove('hidden');
+            alert(`Đã kết nối thành công với ${walletName}!`);
         }
 
-        function saveUserWallet() {
-            const val = document.getElementById('user-wallet-input').value.trim();
-            if (val.length === 56 && val.startsWith('G')) {
-                localStorage.setItem('user_pi_wallet', val);
-                document.getElementById('wallet-status').innerText = 'Đã nối ví';
-                alert('Đã lưu My Pi Wallet Address thành công!');
-            } else {
-                alert('Ví Pi phải bắt đầu bằng chữ "G" và đúng 56 ký tự!');
-            }
+        function disconnectWallet() {
+            connectedWallet = null;
+            document.getElementById('walletBtnText').innerText = 'Kết nối Ví';
+            document.getElementById('walletOptions').classList.remove('hidden');
+            document.getElementById('walletDashboard').classList.add('hidden');
         }
 
-        function openSupportCenter() {
-            historyStack.push('info-page');
-            showScreen('view-info-page');
-            document.getElementById('info-page-title').innerText = 'Trung Tâm Hỗ Trợ Toàn Cầu';
-            document.getElementById('info-page-content').innerHTML = `<p>Hỗ trợ giải quyết tranh chấp giao dịch quốc tế 24/7 qua cộng đồng Pi Network Global.</p>`;
-        }
-
-        function openSafetyRules() {
-            historyStack.push('info-page');
-            showScreen('view-info-page');
-            document.getElementById('info-page-title').innerText = 'Quy Định An Toàn Giao Dịch';
-            document.getElementById('info-page-content').innerHTML = `<p>Luôn xác thực mã TxID trên chuỗi khối chính thức trước khi xác nhận hoàn tất đơn hàng toàn cầu.</p>`;
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            loadListingsData();
-            const savedWallet = localStorage.getItem('user_pi_wallet');
-            if (savedWallet) {
-                document.getElementById('user-wallet-input').value = savedWallet;
-                document.getElementById('wallet-status').innerText = 'Đã nối ví';
-            }
-        });
+        // Chạy ứng dụng khi trang web nạp xong
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
