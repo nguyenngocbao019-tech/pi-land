@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -22,19 +22,20 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans pb-24">
 
-    <!-- HEADER / TOP BAR -->
+    <!-- HEADER / TOP BAR WITH APP ICON / AVATAR -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 px-4 py-3 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-3">
             <button onclick="toggleSidebar()" class="text-slate-600 hover:text-slate-900 p-2 rounded-xl hover:bg-slate-100 transition">
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-400 flex items-center justify-center shadow-md shadow-emerald-500/20">
-                    <i class="fa-solid fa-globe text-white font-bold"></i>
+            <div class="flex items-center space-x-2.5 cursor-pointer" onclick="switchTab('home')">
+                <!-- App Avatar / Icon -->
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-green-400 flex items-center justify-center shadow-lg shadow-emerald-500/30 border-2 border-white">
+                    <i class="fa-solid fa-globe text-white text-lg font-bold"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-base leading-tight bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">GlobalX Super App</h1>
-                    <span class="text-[10px] text-slate-500 uppercase tracking-wider">Hệ Thống Giao Dịch Toàn Cầu</span>
+                    <h1 class="font-bold text-base leading-tight bg-gradient-to-r from-emerald-700 to-green-600 bg-clip-text text-transparent">GlobalX App</h1>
+                    <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Super Marketplace</span>
                 </div>
             </div>
         </div>
@@ -98,7 +99,6 @@
 
         <!-- TAB 1: HOMEPAGE / MARKETPLACE -->
         <section id="tab-home" class="space-y-6">
-            <!-- Hero Banner -->
             <div class="bg-gradient-to-r from-white via-slate-50 to-emerald-50 border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden">
                 <div class="relative z-10 space-y-4">
                     <div class="inline-flex items-center space-x-2 bg-emerald-100 border border-emerald-200 px-3 py-1 rounded-full text-emerald-700 text-xs font-medium">
@@ -123,11 +123,11 @@
                 </div>
             </div>
 
-            <!-- MEGA CATEGORY GRID (FULL WINDOW SHORTCUTS) -->
+            <!-- MEGA CATEGORY GRID -->
             <div>
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="font-bold text-lg text-slate-900"><i class="fa-solid fa-shapes text-emerald-600 mr-2"></i>Danh Mục Siêu Ứng Dụng (Mở Tất Cả Cửa Sổ)</h3>
-                    <span class="text-xs text-slate-500">Chạm để lọc nhanh danh mục</span>
+                    <h3 class="font-bold text-lg text-slate-900"><i class="fa-solid fa-shapes text-emerald-600 mr-2"></i>Danh Mục Siêu Ứng Dụng</h3>
+                    <span class="text-xs text-slate-500">Chạm để mở cửa sổ danh mục</span>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
                     <button onclick="filterByCategory('Bất Động Sản')" class="category-btn bg-white border border-slate-200 hover:border-emerald-500 p-4 rounded-xl text-center transition group shadow-sm hover:shadow-md">
@@ -171,7 +171,7 @@
             </div>
         </section>
 
-        <!-- TAB 2: MY LISTINGS & EDIT MANAGEMENT -->
+        <!-- TAB 2: MY LISTINGS -->
         <section id="tab-listings" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
                 <div>
@@ -185,7 +185,7 @@
             <div id="myListingsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- TAB 3: WEB3 WALLET & QR CENTER -->
+        <!-- TAB 3: WEB3 WALLET -->
         <section id="tab-wallet" class="space-y-6 hidden">
             <div class="bg-gradient-to-r from-white to-slate-50 border border-slate-200 p-6 rounded-2xl space-y-6 shadow-sm">
                 <div class="flex items-center justify-between">
@@ -220,96 +220,26 @@
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
-                <h3 class="font-bold text-lg text-slate-900"><i class="fa-solid fa-wallet text-yellow-500 mr-2"></i>Danh Sách Tài Sản & Token</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center font-bold">Pi</div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-900">Pi Network Token</h4>
-                                <span class="text-xs text-slate-500">Pi Mainnet</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-bold text-sm text-slate-900">1,250.00 Pi</span>
-                            <span class="text-xs text-emerald-600 block">~ $45.00 USD</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">SDA</div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-900">Sidra Chain (SDA)</h4>
-                                <span class="text-xs text-slate-500">Sidra Network</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-bold text-sm text-slate-900">5,000.00 SDA</span>
-                            <span class="text-xs text-emerald-600 block">~ $120.00 USD</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
-        <!-- TAB 4: ESCROW ORDERS -->
+        <!-- TAB 4: ORDERS -->
         <section id="tab-orders" class="space-y-6 hidden">
             <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
                 <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-receipt text-blue-500 mr-2"></i>Quản Lý Đơn Hàng & Ký Quỹ Escrow</h2>
-                <p class="text-slate-500 text-sm">Theo dõi các giao dịch mua bán toàn cầu, trạng thái khóa quỹ an toàn.</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-700">
-                        <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
-                            <tr>
-                                <th class="p-3 rounded-l-lg">Mã Đơn</th>
-                                <th class="p-3">Sản Phẩm</th>
-                                <th class="p-3">Giá Trị</th>
-                                <th class="p-3">Trạng Thái Ký Quỹ</th>
-                                <th class="p-3 rounded-r-lg text-right">Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr>
-                                <td class="p-3 font-mono text-xs text-emerald-600">#ORD-9842</td>
-                                <td class="p-3 font-medium text-slate-900">Ferrari 488 Spider</td>
-                                <td class="p-3 font-bold text-emerald-600">12,500 Pi</td>
-                                <td class="p-3"><span class="bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-full">Đang Ký Quỹ Escrow</span></td>
-                                <td class="p-3 text-right">
-                                    <button onclick="alert('Đang chờ xác nhận.')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-lg text-xs">Chi tiết</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <p class="text-slate-500 text-sm">Theo dõi các giao dịch mua bán toàn cầu.</p>
             </div>
         </section>
 
         <!-- TAB 5: SETTINGS -->
         <section id="tab-settings" class="space-y-6 hidden">
             <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-6 shadow-sm">
-                <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-gear text-slate-500 mr-2"></i>Cài Đặt Hệ Thống & Hồ Sơ</h2>
-                <div class="space-y-4 max-w-xl">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">Tên Hiển Thị / Chủ Tài Khoản</label>
-                        <input type="text" value="Bảo Pi (Cần Thơ)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">Trạng Thái Xác Thực KYC Toàn Cầu</label>
-                        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-300 rounded-xl">
-                            <span class="text-sm text-emerald-600 font-semibold"><i class="fa-solid fa-circle-check mr-2"></i>Đã xác thực danh tính (KYC Verified)</span>
-                            <span class="text-xs text-slate-500 font-mono">ID: #86-CT</span>
-                        </div>
-                    </div>
-                    <button onclick="alert('Đã lưu cài đặt thành công!')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition shadow-md shadow-emerald-600/20">Lưu Thay Đổi</button>
-                </div>
+                <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-gear text-slate-500 mr-2"></i>Cài Đặt Hệ Thống</h2>
             </div>
         </section>
 
     </main>
 
-    <!-- FIXED BOTTOM NAVIGATION BAR WITH CENTER POST BUTTON (+) -->
+    <!-- FIXED BOTTOM NAVIGATION BAR -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-slate-200 px-4 py-2 z-40 flex items-center justify-around shadow-lg">
         <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-emerald-600 transition" id="nav-btn-home">
             <i class="fa-solid fa-store text-lg"></i>
@@ -337,7 +267,7 @@
         </button>
     </nav>
 
-    <!-- MODAL: POST / EDIT PRODUCT WITH WALLET ADDRESS INPUT -->
+    <!-- MODAL: POST / EDIT PRODUCT WITH MAX 5 IMAGES & WALLET ADDRESS -->
     <div id="postModal" class="fixed inset-0 bg-black/40 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 space-y-4 relative my-8 shadow-2xl">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -389,6 +319,11 @@
                     <input type="text" id="pWalletAddr" required placeholder="Nhập địa chỉ ví nhận thanh toán (0x... hoặc Pi Wallet)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-emerald-500 font-mono text-xs">
                 </div>
                 <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">Dán Link Ảnh Sản Phẩm (Tối đa 5 ảnh, mỗi dòng một URL)</label>
+                    <textarea id="pImageUrls" rows="3" placeholder="Dán các đường dẫn ảnh (mỗi dòng 1 link)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-emerald-500 font-mono text-xs"></textarea>
+                    <span class="text-[10px] text-slate-400 mt-1 block">Hệ thống sẽ lấy tối đa 5 ảnh đầu tiên để tạo bộ sưu tập.</span>
+                </div>
+                <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">Mô Tả Chi Tiết</label>
                     <textarea id="pDesc" rows="3" placeholder="Thông tin chi tiết tình trạng, giấy tờ, bảo hành..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-emerald-500"></textarea>
                 </div>
@@ -403,12 +338,12 @@
     <!-- JAVASCRIPT APPLICATION LOGIC -->
     <script>
         let products = [
-            { id: 1, name: 'Ferrari 488 Spider V8', category: 'Xe Cộ', price: '12,500', currency: 'Pi', location: 'Hồ Chí Minh', walletAddr: '0x71b8...84a2', image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=600&q=80', desc: 'Siêu xe thể thao đỉnh cao, nhập khẩu chính hãng.' },
-            { id: 2, name: 'Toyota Land Cruiser VXR 3.5L', category: 'Xe Cộ', price: '4.2 Tỷ', currency: 'VND', location: 'Cần Thơ', walletAddr: '0x99a1...12c4', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=600&q=80', desc: 'Xe mới 100%, full option, giao ngay.' },
-            { id: 3, name: 'Mercedes-Benz S450 Luxury', category: 'Xe Cộ', price: '4,800', currency: 'USD', location: 'Hà Nội', walletAddr: '0x44f2...77e9', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80', desc: 'Đẳng cấp thương gia, nội thất da cao cấp.' },
-            { id: 4, name: 'Nhà Phố Thương Mại Ninh Kiều', category: 'Bất Động Sản', price: '2,500', currency: 'Pi', location: 'Cần Thơ', walletAddr: '0x71b8...84a2', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80', desc: 'Sổ hồng riêng, mặt tiền kinh doanh sầm uất.' },
-            { id: 5, name: 'Lư Hương Đồ Cổ Minh Triều', category: 'Đồ Cổ & Đá Quý', price: '350', currency: 'USD', location: 'Hà Nội', walletAddr: '0x88b2...11f3', image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80', desc: 'Đồ sưu tầm quý hiếm, hoa văn tinh xảo.' },
-            { id: 6, name: 'Gạo Sạch Hữu Cơ Miền Tây 50kg', category: 'Nông Sản & Hàng Sỉ', price: '1,200,000', currency: 'VND', location: 'An Giang', walletAddr: '0x55c3...99a1', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80', desc: 'Gạo thơm đặc sản, chuẩn tiêu chuẩn xuất khẩu.' }
+            { id: 1, name: 'Ferrari 488 Spider V8', category: 'Xe Cộ', price: '12,500', currency: 'Pi', location: 'Hồ Chí Minh', walletAddr: '0x71b8...84a2', images: ['https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=600&q=80'], desc: 'Siêu xe thể thao đỉnh cao, nhập khẩu chính hãng.' },
+            { id: 2, name: 'Toyota Land Cruiser VXR 3.5L', category: 'Xe Cộ', price: '4.2 Tỷ', currency: 'VND', location: 'Cần Thơ', walletAddr: '0x99a1...12c4', images: ['https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=600&q=80'], desc: 'Xe mới 100%, full option, giao ngay.' },
+            { id: 3, name: 'Mercedes-Benz S450 Luxury', category: 'Xe Cộ', price: '4,800', currency: 'USD', location: 'Hà Nội', walletAddr: '0x44f2...77e9', images: ['https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80'], desc: 'Đẳng cấp thương gia, nội thất da cao cấp.' },
+            { id: 4, name: 'Nhà Phố Thương Mại Ninh Kiều', category: 'Bất Động Sản', price: '2,500', currency: 'Pi', location: 'Cần Thơ', walletAddr: '0x71b8...84a2', images: ['https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80'], desc: 'Sổ hồng riêng, mặt tiền kinh doanh sầm uất.' },
+            { id: 5, name: 'Lư Hương Đồ Cổ Minh Triều', category: 'Đồ Cổ & Đá Quý', price: '350', currency: 'USD', location: 'Hà Nội', walletAddr: '0x88b2...11f3', images: ['https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80'], desc: 'Đồ sưu tầm quý hiếm, hoa văn tinh xảo.' },
+            { id: 6, name: 'Gạo Sạch Hữu Cơ Miền Tây 50kg', category: 'Nông Sản & Hàng Sỉ', price: '1,200,000', currency: 'VND', location: 'An Giang', walletAddr: '0x55c3...99a1', images: ['https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80'], desc: 'Gạo thơm đặc sản, chuẩn tiêu chuẩn xuất khẩu.' }
         ];
 
         let currentFilterCategory = 'all';
@@ -476,53 +411,59 @@
                 return;
             }
 
-            grid.innerHTML = filtered.map(p => `
-                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition flex flex-col group shadow-sm">
-                    <div class="relative h-48 overflow-hidden bg-slate-100">
-                        <img src="${p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur border border-slate-200 text-emerald-600 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
-                    </div>
-                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm line-clamp-1 group-hover:text-emerald-600 transition">${p.name}</h4>
-                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.desc}</p>
-                            <span class="text-[10px] font-mono text-slate-400 mt-2 block"><i class="fa-solid fa-wallet mr-1"></i>Ví: ${p.walletAddr || '0x71...84a2'}</span>
+            grid.innerHTML = filtered.map(p => {
+                const mainImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80';
+                return `
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition flex flex-col group shadow-sm">
+                        <div class="relative h-48 overflow-hidden bg-slate-100">
+                            <img src="${mainImg}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur border border-slate-200 text-emerald-600 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
                         </div>
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div>
-                                <span class="text-xs text-slate-400 block">Giá niêm yết</span>
-                                <span class="font-extrabold text-emerald-600 text-sm">${p.price} ${p.currency}</span>
+                                <h4 class="font-bold text-slate-900 text-sm line-clamp-1 group-hover:text-emerald-600 transition">${p.name}</h4>
+                                <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.desc}</p>
+                                <span class="text-[10px] font-mono text-slate-400 mt-2 block"><i class="fa-solid fa-wallet mr-1"></i>Ví: ${p.walletAddr || '0x71...84a2'}</span>
                             </div>
-                            <button onclick="alert('Đã kết nối Ký quỹ Escrow cho: ${p.name}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 text-xs px-3 py-1.5 rounded-xl transition font-medium">
-                                Mua Ngay
-                            </button>
+                            <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Giá niêm yết</span>
+                                    <span class="font-extrabold text-emerald-600 text-sm">${p.price} ${p.currency}</span>
+                                </div>
+                                <button onclick="alert('Đã kết nối Ký quỹ Escrow cho: ${p.name}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 text-xs px-3 py-1.5 rounded-xl transition font-medium">
+                                    Mua Ngay
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function renderMyListings() {
             const container = document.getElementById('myListingsContainer');
-            container.innerHTML = products.map(p => `
-                <div class="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-sm">
-                    <div class="flex space-x-3">
-                        <img src="${p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80'}" class="w-16 h-16 rounded-xl object-cover bg-slate-100 border border-slate-200">
-                        <div class="flex-1 min-w-0">
-                            <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">${p.category}</span>
-                            <h4 class="font-bold text-sm text-slate-900 truncate mt-1">${p.name}</h4>
-                            <p class="text-xs text-emerald-600 font-bold">${p.price} ${p.currency}</p>
+            container.innerHTML = products.map(p => {
+                const mainImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80';
+                return `
+                    <div class="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-sm">
+                        <div class="flex space-x-3">
+                            <img src="${mainImg}" class="w-16 h-16 rounded-xl object-cover bg-slate-100 border border-slate-200">
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">${p.category}</span>
+                                <h4 class="font-bold text-sm text-slate-900 truncate mt-1">${p.name}</h4>
+                                <p class="text-xs text-emerald-600 font-bold">${p.price} ${p.currency}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                            <span class="text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-red-500"></i>${p.location}</span>
+                            <div class="space-x-2">
+                                <button onclick="editProduct(${p.id})" class="text-amber-600 hover:underline"><i class="fa-solid fa-pen-to-square mr-1"></i>Sửa</button>
+                                <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Xóa</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
-                        <span class="text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-red-500"></i>${p.location}</span>
-                        <div class="space-x-2">
-                            <button onclick="editProduct(${p.id})" class="text-amber-600 hover:underline"><i class="fa-solid fa-pen-to-square mr-1"></i>Sửa</button>
-                            <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Xóa</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function updateCounts() {
@@ -546,6 +487,7 @@
                     document.getElementById('pPrice').value = item.price;
                     document.getElementById('pLocation').value = item.location;
                     document.getElementById('pWalletAddr').value = item.walletAddr || '';
+                    document.getElementById('pImageUrls').value = item.images ? item.images.join('\n') : '';
                     document.getElementById('pDesc').value = item.desc;
                 }
             } else {
@@ -562,6 +504,16 @@
         function handleProductSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
+            
+            const rawUrls = document.getElementById('pImageUrls').value;
+            let imageList = rawUrls.split(/[\n,]+/).map(url => url.trim()).filter(url => url.length > 0);
+            if(imageList.length === 0) {
+                imageList = ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'];
+            }
+            if(imageList.length > 5) {
+                imageList = imageList.slice(0, 5); // Tối đa 5 ảnh theo yêu cầu
+            }
+
             const newItem = {
                 id: editId ? parseInt(editId) : Date.now(),
                 name: document.getElementById('pName').value,
@@ -570,7 +522,7 @@
                 price: document.getElementById('pPrice').value,
                 location: document.getElementById('pLocation').value,
                 walletAddr: document.getElementById('pWalletAddr').value,
-                image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80',
+                images: imageList,
                 desc: document.getElementById('pDesc').value
             };
 
@@ -612,3 +564,4 @@
     </script>
 </body>
 </html>
+                  
