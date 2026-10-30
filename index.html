@@ -3,69 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Sinh Thái Toàn Cầu - Siêu Ứng Dụng 1201+ Thư Mục</title>
+    <title>Hệ Sinh Thái Toàn Cầu - Siêu Ứng Dụng Vạn Năng</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .ecosystem-glass {
-            background: rgba(255, 255, 255, 0.92);
+        .neo-card {
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(203, 213, 225, 0.9);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04);
         }
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #f8fafc;
+            background: #f1f5f9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: #94a3b8;
             border-radius: 4px;
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white pb-28">
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased selection:bg-emerald-500 selection:text-white pb-28">
 
-    <!-- HEADER / TOP NAVIGATION -->
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <!-- TOP HEADER BAR -->
+    <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-xl border-b border-slate-800 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 gap-3">
+            <div class="flex items-center justify-between h-18 gap-3 py-2">
                 
-                <!-- Logo & Brand Title -->
+                <!-- Brand Title -->
                 <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilter()">
-                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-cyan-500 to-emerald-400 flex items-center justify-center font-bold text-white text-xl shadow-md">
-                        <i class="fa-solid fa-earth-americas"></i>
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center font-bold text-white text-xl shadow-lg shadow-emerald-500/20">
+                        <i class="fa-solid fa-earth-asia"></i>
                     </div>
                     <div>
-                        <span class="text-lg font-extrabold bg-gradient-to-r from-indigo-700 via-cyan-700 to-emerald-700 bg-clip-text text-transparent">
+                        <span class="text-base sm:text-lg font-black tracking-wide bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
                             HỆ SINH THÁI TOÀN CẦU
                         </span>
-                        <span class="block text-[10px] tracking-wider text-slate-500 font-semibold uppercase">Super App • 1201+ Thư Mục</span>
+                        <span class="block text-[10px] tracking-widest text-slate-400 font-bold uppercase">Siêu Ứng Dụng • 1201+ Thư Mục</span>
                     </div>
                 </div>
 
-                <!-- Global Search Bar -->
+                <!-- Global Search -->
                 <div class="flex-1 max-w-xl hidden md:block">
                     <div class="relative">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm nhà cửa, xe cộ, dịch vụ, tài sản số trong 1201+ thư mục..." 
-                            class="w-full bg-slate-100 border border-slate-200 rounded-full pl-11 pr-4 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all">
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm nhà cửa, xe cộ, dịch vụ, tài sản số..." 
+                            class="w-full bg-slate-800 border border-slate-700 rounded-full pl-11 pr-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-all">
                     </div>
                 </div>
 
-                <!-- Quick Action Buttons -->
+                <!-- Action Buttons -->
                 <div class="flex items-center gap-2.5">
-                    <button onclick="openPostModal()" class="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-bold text-xs sm:text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-md shadow-indigo-500/20">
-                        <i class="fa-solid fa-plus-circle"></i>
-                        <span class="hidden sm:inline">Đăng tin ngay</span>
+                    <button onclick="openPostModal()" class="px-4 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs sm:text-sm hover:brightness-110 transition-all flex items-center gap-2 shadow-md shadow-emerald-500/20">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span class="hidden sm:inline">Đăng Tin Ngay</span>
                     </button>
                     
-                    <button onclick="openWalletModal()" class="px-3.5 py-2 rounded-full bg-white border border-indigo-200 hover:border-indigo-400 text-indigo-700 font-semibold text-xs sm:text-sm transition-all flex items-center gap-1.5 shadow-sm">
-                        <i class="fa-solid fa-wallet text-indigo-600"></i>
+                    <button onclick="openWalletModal()" class="px-3.5 py-2 rounded-full bg-slate-800 border border-slate-700 hover:border-emerald-500 text-emerald-400 font-semibold text-xs sm:text-sm transition-all flex items-center gap-1.5 shadow-sm">
+                        <i class="fa-solid fa-wallet text-emerald-400"></i>
                         <span id="walletBtnText">Ví & Dán Ví</span>
                     </button>
                 </div>
@@ -74,55 +74,54 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6 text-slate-800">
 
-        <!-- MOBILE SEARCH BAR -->
+        <!-- MOBILE SEARCH -->
         <div class="md:hidden">
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="mobileSearchInput" oninput="handleSearch()" placeholder="Tìm kiếm nhanh trong 1201+ thư mục..." 
-                    class="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 shadow-sm">
+                <input type="text" id="mobileSearchInput" oninput="handleSearch()" placeholder="Tìm nhanh nhà cửa, xe cộ, 1201+ thư mục..." 
+                    class="w-full bg-white border border-slate-300 rounded-2xl pl-11 pr-4 py-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-emerald-500 shadow-sm">
             </div>
         </div>
 
         <!-- MÀN HÌNH CHÍNH: TỔNG HỢP NHÀ CỬA, XE CỘ & 1201+ THƯ MỤC -->
         <section class="space-y-3">
-            <div class="flex items-center justify-between">
-                <h2 class="text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-layer-group text-indigo-600"></i>
-                    Khám Phá Hệ Sinh Thái (Nhà Cửa, Xe Cộ & 1201+ Danh Mục)
+            <div class="flex items-center justify-between bg-white/80 p-3 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-xs sm:text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-cubes text-emerald-600"></i>
+                    Danh Mục Trọng Điểm (Nhà Cửa, Xe Cộ & 1201+ Thư Mục)
                 </h2>
-                <span class="text-xs text-slate-500">Chạm để mở rộng</span>
+                <span class="text-[11px] text-emerald-600 font-bold">Chạm để mở rộng</span>
             </div>
 
-            <!-- Lưới hiển thị các nhóm danh mục lớn trên màn hình chính -->
-            <div id="mainCategoryList" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+            <!-- Lưới hiển thị danh mục lớn -->
+            <div id="mainCategoryList" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-6 gap-3">
                 <!-- Rendered by JS -->
             </div>
         </section>
 
         <!-- BREADCRUMB & ACTIVE FILTERS BAR -->
-        <section id="activeFilterBar" class="hidden bg-indigo-50 border border-indigo-200 rounded-2xl p-3 flex items-center justify-between shadow-sm">
+        <section id="activeFilterBar" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-3 flex items-center justify-between shadow-sm">
             <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
-                <span class="text-slate-500">Đang lọc danh mục:</span>
-                <span id="breadcrumbPath" class="font-semibold text-indigo-700">...</span>
+                <span class="text-slate-500">Đang chọn lọc:</span>
+                <span id="breadcrumbPath" class="font-bold text-emerald-700">...</span>
             </div>
             <button onclick="resetFilter()" class="text-xs bg-white hover:bg-slate-100 text-slate-700 px-3 py-1.5 rounded-xl border border-slate-200 transition shadow-sm">
                 <i class="fa-solid fa-xmark mr-1"></i> Xóa bộ lọc
             </button>
         </section>
 
-        <!-- LƯỚI SẢN PHẨM & BÀI ĐĂNG (HIỂN THỊ NHÀ CỬA, XE CỘ, TIỆN ÍCH) -->
+        <!-- LƯỚI BÀI ĐĂNG (HIỂN THỊ NHÀ CỬA, XE CỘ & SẢN PHẨM) -->
         <section class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-base sm:text-lg font-bold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-store text-emerald-600"></i>
-                    Bảng Tin & Giao Dịch Toàn Cầu
+            <div class="flex items-center justify-between bg-white/80 p-3 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-store text-teal-600"></i>
+                    Bảng Tin Giao Dịch Nhà Cửa, Xe Cộ & Tài Sán
                 </h2>
-                <span id="itemCount" class="text-xs font-medium text-slate-500">0 tin đăng</span>
+                <span id="itemCount" class="text-xs font-bold text-slate-600">0 tin đăng</span>
             </div>
 
-            <!-- Grid sản phẩm thu gọn nhìn thấy nhiều mục -->
             <div id="postsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
                 <!-- Rendered by JS -->
             </div>
@@ -130,103 +129,103 @@
     </main>
 
     <!-- THANH ĐIỀU HƯỚNG CỐ ĐỊNH GÓC DƯỚI MÀN HÌNH (BOTTOM NAVIGATION BAR) -->
-    <nav aria-label="Thanh điều hướng dưới" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg py-2 px-3">
-        <div class="max-w-md mx-auto flex items-center justify-around text-slate-600">
-            <button onclick="resetFilter(); window.scrollTo({top: 0, behavior: 'smooth'});" class="flex flex-col items-center gap-0.5 hover:text-indigo-600 transition group">
-                <i class="fa-solid fa-house text-base text-indigo-600"></i>
+    <nav aria-label="Thanh điều hướng dưới" class="fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 shadow-2xl py-2 px-3">
+        <div class="max-w-md mx-auto flex items-center justify-around text-slate-400">
+            <button onclick="resetFilter(); window.scrollTo({top: 0, behavior: 'smooth'});" class="flex flex-col items-center gap-0.5 hover:text-emerald-400 transition group">
+                <i class="fa-solid fa-house text-base text-emerald-400"></i>
                 <span class="text-[10px] font-semibold">Trang chủ</span>
             </button>
-            <button onclick="openCategoryModal('housing')" class="flex flex-col items-center gap-0.5 hover:text-indigo-600 transition group">
-                <i class="fa-solid fa-compass text-base text-slate-500 group-hover:text-indigo-600"></i>
+            <button onclick="openCategoryModal('housing')" class="flex flex-col items-center gap-0.5 hover:text-emerald-400 transition group">
+                <i class="fa-solid fa-compass text-base text-slate-400 group-hover:text-emerald-400"></i>
                 <span class="text-[10px] font-medium">Khám phá</span>
             </button>
-            <button onclick="openPostModal()" class="flex flex-col items-center gap-0.5 text-emerald-600 hover:scale-105 transition">
-                <div class="w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md -mt-3 border-2 border-white">
+            <button onclick="openPostModal()" class="flex flex-col items-center gap-0.5 text-emerald-400 hover:scale-105 transition">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 text-white flex items-center justify-center shadow-lg -mt-3.5 border-2 border-slate-900">
                     <i class="fa-solid fa-plus text-sm"></i>
                 </div>
                 <span class="text-[10px] font-bold">Đăng tin</span>
             </button>
-            <button onclick="filterMyPosts()" class="flex flex-col items-center gap-0.5 hover:text-violet-600 transition group">
-                <i class="fa-solid fa-folder-user text-base text-slate-500 group-hover:text-violet-600"></i>
+            <button onclick="filterMyPosts()" class="flex flex-col items-center gap-0.5 hover:text-teal-400 transition group">
+                <i class="fa-solid fa-folder-user text-base text-slate-400 group-hover:text-teal-400"></i>
                 <span class="text-[10px] font-medium">Thư mục tôi</span>
             </button>
-            <button onclick="openWalletModal()" class="flex flex-col items-center gap-0.5 hover:text-violet-600 transition group">
-                <i class="fa-solid fa-wallet text-base text-slate-500 group-hover:text-violet-600"></i>
+            <button onclick="openWalletModal()" class="flex flex-col items-center gap-0.5 hover:text-teal-400 transition group">
+                <i class="fa-solid fa-wallet text-base text-slate-400 group-hover:text-teal-400"></i>
                 <span class="text-[10px] font-medium">Ví & Dán Ví</span>
             </button>
         </div>
     </nav>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 mt-12 py-6">
+    <footer class="bg-slate-950 border-t border-slate-800 mt-12 py-6 text-slate-400">
         <div class="max-w-7xl mx-auto px-4 text-center space-y-1">
-            <p class="text-slate-600 text-xs">Hệ Sinh Thái Toàn Cầu &copy; 2026. Nền tảng Siêu Ứng Dụng vạn năng.</p>
-            <p class="text-[10px] text-slate-400">Tích hợp nhà cửa, xe cộ, giao dịch Web3 & 1201+ thư mục chuyên sâu.</p>
+            <p class="text-xs">Hệ Sinh Thái Toàn Cầu &copy; 2026. Siêu Ứng Dụng Vạn Năng.</p>
+            <p class="text-[10px] text-slate-500">Tích hợp nhà cửa, xe cộ, giao dịch ví Web3 & 1201+ thư mục chuyên sâu.</p>
         </div>
     </footer>
 
-    <!-- ================= MODALS / CỬA SỔ CON CHUYÊN SÂU ================= -->
+    <!-- ================= MODALS / CỬA SỔ CON ================= -->
 
-    <!-- 1. MODAL CỬA SỔ DANH MỤC (CHỨA HỆ THỐNG 1201+ THƯ MỤC) -->
-    <div id="categoryModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="ecosystem-glass w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white/80">
+    <!-- 1. MODAL CỬA SỔ DANH MỤC (1201+ THƯ MỤC) -->
+    <div id="categoryModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="neo-card w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white/90">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold">
-                        <i class="fa-solid fa-folder-tree"></i>
+                    <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-sitemap"></i>
                     </div>
                     <div>
-                        <h3 id="modalCatTitle" class="font-bold text-sm sm:text-base text-slate-800">Hệ Thống Thư Mục Chuyên Sâu</h3>
-                        <p id="modalCatSubtitle" class="text-xs text-slate-500">Chọn phân nhánh để lọc nhanh</p>
+                        <h3 id="modalCatTitle" class="font-bold text-sm sm:text-base text-slate-900">Hệ Thống Thư Mục Chuyên Sâu</h3>
+                        <p id="modalCatSubtitle" class="text-xs text-slate-500">Hơn 1201+ thư mục tích hợp</p>
                     </div>
                 </div>
-                <button onclick="closeCategoryModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 transition flex items-center justify-center">
+                <button onclick="closeCategoryModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 transition flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div class="bg-slate-50 px-4 py-2 border-b border-slate-200 text-xs text-indigo-700 flex items-center gap-1 overflow-x-auto" id="modalBreadcrumb"></div>
+            <div class="bg-slate-50 px-4 py-2 border-b border-slate-200 text-xs text-emerald-700 flex items-center gap-1 overflow-x-auto" id="modalBreadcrumb"></div>
             <div class="p-5 overflow-y-auto space-y-2.5 flex-1" id="modalSubcategoryList"></div>
             <div class="p-4 border-t border-slate-200 bg-white/50 flex justify-between items-center">
                 <button id="modalBackBtn" onclick="categoryBackStep()" class="hidden px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition">
                     <i class="fa-solid fa-arrow-left mr-1"></i> Quay lại
                 </button>
                 <button onclick="closeCategoryModal()" class="ml-auto px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition">
-                    Đóng cửa sổ
+                    Đóng
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 2. MODAL ĐĂNG BÀI / CHỈNH SỬA (CÓ Ô GẮN 5 ẢNH + DÁN VÍ VÀ THANH TOÁN) -->
-    <div id="postModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="ecosystem-glass w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white/80">
-                <h3 id="postModalTitle" class="font-bold text-sm sm:text-base text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-indigo-600"></i> Đăng Bài Giao Dịch Mới
+    <!-- 2. MODAL ĐĂNG BÀI (GẮN 5 ẢNH + DÁN VÍ + THANH TOÁN) -->
+    <div id="postModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="neo-card w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-white/90">
+                <h3 id="postModalTitle" class="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-emerald-600"></i> Đăng Bài Giao Dịch Mới
                 </h3>
-                <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center">
+                <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             
-            <form id="postForm" onsubmit="savePost(event)" class="p-5 space-y-3.5 overflow-y-auto flex-1">
+            <form id="postForm" onsubmit="savePost(event)" class="p-5 space-y-3.5 overflow-y-auto flex-1 text-slate-800">
                 <input type="hidden" id="editPostId" value="">
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tiêu đề bài đăng (Nhà cửa, xe cộ, sản phẩm...) *</label>
-                    <input type="text" id="postTitle" required placeholder="VD: Bán nhà phố liền kề hoặc xe ô tô chính chủ..." 
-                        class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tiêu đề (Nhà cửa, xe cộ, sản phẩm...) *</label>
+                    <input type="text" id="postTitle" required placeholder="VD: Bán nhà mặt tiền hoặc xe ô tô chính chủ..." 
+                        class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Lĩnh vực chính *</label>
-                        <select id="postMainCat" onchange="updateSubCatDropdown()" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500">
+                        <select id="postMainCat" onchange="updateSubCatDropdown()" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Phân nhánh chuyên sâu *</label>
-                        <select id="postSubCat" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500">
+                        <select id="postSubCat" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
                             <option value="">-- Chọn phân nhánh --</option>
                         </select>
                     </div>
@@ -236,28 +235,28 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Giá bán *</label>
                         <input type="text" id="postPrice" required placeholder="VD: 2.5 Tỷ VNĐ hoặc 100 PI" 
-                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500">
+                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Khu vực / Địa điểm *</label>
-                        <input type="text" id="postLocation" required placeholder="VD: Cần Thơ, TP.HCM, Toàn cầu" 
-                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500">
+                        <input type="text" id="postLocation" required placeholder="VD: Cần Thơ, TP.HCM, Toàn quốc" 
+                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
                     </div>
                 </div>
 
-                <!-- MỤC DÁN ĐỊA CHỈ VÍ & PHƯƠNG THỨC THANH TOÁN -->
-                <div class="p-3 bg-indigo-50/60 border border-indigo-200/80 rounded-2xl space-y-2.5">
-                    <div class="text-xs font-bold text-indigo-800 flex items-center gap-1.5">
-                        <i class="fa-solid fa-wallet"></i> Mục Thao Tác Ví & Giao Dịch Người Bán
+                <!-- MỤC THAO TÁC VÍ & THANH TOÁN -->
+                <div class="p-3.5 bg-emerald-50/80 border border-emerald-200 rounded-2xl space-y-2.5">
+                    <div class="text-xs font-bold text-emerald-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-wallet"></i> Thao Tác Ví & Phương Thức Thanh Toán
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-700 mb-1">Dán địa chỉ ví nhận tiền (Pi / Sidra / MetaMask / USDT...)</label>
                         <input type="text" id="postSellerWallet" placeholder="VD: GDK3P89... hoặc 0x71C3A9..." 
-                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 font-mono focus:outline-none focus:border-indigo-500">
+                            class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <label class="block text-[11px] font-semibold text-slate-700 mb-1">Hình thức thanh toán *</label>
-                        <select id="postPaymentMethod" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-indigo-500">
+                        <select id="postPaymentMethod" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-500">
                             <option value="Thanh toán khi nhận hàng (COD / Đặt cọc)">🚚 Thanh toán khi nhận hàng (COD / Đặt cọc)</option>
                             <option value="Thanh toán trước bằng chuyển khoản / Web3">💳 Thanh toán trước (Chuyển khoản / Web3 Wallet)</option>
                             <option value="Thỏa thuận trực tiếp">🤝 Thỏa thuận trực tiếp khi giao dịch</option>
@@ -265,26 +264,26 @@
                     </div>
                 </div>
 
-                <!-- Ô GẮN TỐI ĐA 5 HÌNH ẢNH TRỰC TIẾP -->
+                <!-- Ô GẮN TỐI ĐA 5 HÌNH ẢNH -->
                 <div>
                     <div class="flex items-center justify-between mb-1">
                         <label class="block text-xs font-semibold text-slate-700">Hình ảnh sản phẩm (Chọn tối đa 5 ảnh)</label>
-                        <span id="imageCountBadge" class="text-[10px] text-indigo-600 font-bold">0/5 ảnh</span>
+                        <span id="imageCountBadge" class="text-[10px] text-emerald-600 font-bold">0/5 ảnh</span>
                     </div>
                     <input type="file" id="postImageFiles" accept="image/*" multiple onchange="handleMultipleImagesUpload(event)" 
-                        class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 border border-slate-300 rounded-xl bg-white cursor-pointer">
+                        class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 border border-slate-300 rounded-xl bg-white cursor-pointer">
                     <div id="imagePreviewContainer" class="mt-2.5 grid grid-cols-5 gap-2"></div>
                 </div>
 
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Mô tả chi tiết</label>
-                    <textarea id="postDesc" rows="3" placeholder="Thông số kỹ thuật, tình trạng nhà cửa, xe cộ..." 
-                        class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-indigo-500"></textarea>
+                    <textarea id="postDesc" rows="3" placeholder="Thông số kỹ thuật nhà cửa, xe cộ..." 
+                        class="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-emerald-500"></textarea>
                 </div>
 
                 <div class="pt-2 flex justify-end gap-3">
                     <button type="button" onclick="closePostModal()" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-700 text-xs font-medium hover:bg-slate-200">Hủy</button>
-                    <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 text-white font-bold text-xs sm:text-sm hover:brightness-110 shadow-md">
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold text-xs sm:text-sm hover:brightness-110 shadow-md">
                         Lưu Bài Đăng
                     </button>
                 </div>
@@ -292,19 +291,19 @@
         </div>
     </div>
 
-    <!-- 3. MODAL XEM CHI TIẾT SẢN PHẨM & SAO CHÉP VÍ -->
-    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="ecosystem-glass w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+    <!-- 3. MODAL XEM CHI TIẾT & SAO CHÉP VÍ -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="neo-card w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col text-slate-800">
             <div class="relative bg-slate-900">
                 <img id="detailImg" src="" alt="" class="w-full h-60 sm:h-72 object-cover">
-                <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 text-slate-800 flex items-center justify-center hover:bg-white shadow">
+                <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 text-slate-900 flex items-center justify-center hover:bg-white shadow">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
                 <div id="detailThumbs" class="absolute bottom-2 left-2 right-2 flex gap-1.5 overflow-x-auto justify-center"></div>
             </div>
             <div class="p-5 space-y-3 overflow-y-auto">
                 <div class="flex items-center justify-between">
-                    <span id="detailBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 border border-indigo-200">Phân nhánh</span>
+                    <span id="detailBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Phân nhánh</span>
                     <span id="detailDate" class="text-xs text-slate-500">Đăng hôm nay</span>
                 </div>
                 <h2 id="detailTitle" class="text-lg sm:text-xl font-bold text-slate-900">Tiêu đề sản phẩm</h2>
@@ -313,18 +312,18 @@
                     <i class="fa-solid fa-location-dot text-rose-500 mr-1"></i> Địa điểm
                 </p>
 
-                <!-- KHUNG THAO TÁC VÍ & THANH TOÁN CHO NGƯỜI MUA -->
-                <div class="p-3.5 bg-indigo-50 border border-indigo-200 rounded-2xl space-y-2">
-                    <div class="text-xs font-bold text-indigo-900 flex items-center justify-between">
-                        <span><i class="fa-solid fa-shield-halved mr-1"></i> Hình thức thanh toán:</span>
-                        <span id="detailPaymentMethod" class="text-slate-800 bg-white px-2.5 py-0.5 rounded-lg border border-indigo-200 font-normal">--</span>
+                <!-- KHUNG VÍ & THANH TOÁN CHO NGƯỜI MUA -->
+                <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-2xl space-y-2">
+                    <div class="text-xs font-bold text-emerald-900 flex items-center justify-between">
+                        <span><i class="fa-solid fa-shield-halved mr-1"></i> Phương thức thanh toán:</span>
+                        <span id="detailPaymentMethod" class="text-slate-900 bg-white px-2.5 py-0.5 rounded-lg border border-emerald-200 font-normal">--</span>
                     </div>
-                    <div class="flex items-center justify-between gap-2 pt-1 border-t border-indigo-200/60">
+                    <div class="flex items-center justify-between gap-2 pt-1 border-t border-emerald-200/60">
                         <div class="text-xs text-slate-600">
-                            <span class="font-semibold text-slate-800">Địa chỉ ví nhận tiền:</span>
-                            <div id="detailSellerWallet" class="font-mono text-[11px] text-indigo-700 break-all">Chưa cung cấp</div>
+                            <span class="font-semibold text-slate-900">Địa chỉ ví nhận tiền:</span>
+                            <div id="detailSellerWallet" class="font-mono text-[11px] text-emerald-700 break-all">Chưa cung cấp</div>
                         </div>
-                        <button onclick="copySellerWallet()" id="copyWalletBtn" class="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shrink-0 shadow-sm transition">
+                        <button onclick="copySellerWallet()" id="copyWalletBtn" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shrink-0 shadow-sm transition">
                             <i class="fa-solid fa-copy mr-1"></i> Sao chép ví
                         </button>
                     </div>
@@ -344,30 +343,30 @@
         </div>
     </div>
 
-    <!-- 4. MODAL KẾT NỐI VÍ & QUẢN LÝ VÍ WEB3 CHUYÊN DỤNG -->
-    <div id="walletModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="ecosystem-glass w-full max-w-md rounded-3xl shadow-2xl p-6 space-y-5">
+    <!-- 4. MODAL VÍ & KẾT NỐI VÍ WEB3 -->
+    <div id="walletModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="neo-card w-full max-w-md rounded-3xl shadow-2xl p-6 space-y-5 text-slate-800">
             <div class="flex items-center justify-between">
                 <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
-                    <i class="fa-solid fa-wallet text-indigo-600"></i> Quản Lý & Kết Nối Ví Web3
+                    <i class="fa-solid fa-wallet text-emerald-600"></i> Quản Lý & Dán Địa Chỉ Ví
                 </h3>
-                <button onclick="closeWalletModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center">
+                <button onclick="closeWalletModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div id="walletDashboard" class="hidden space-y-3">
-                <div class="p-4 rounded-2xl bg-gradient-to-r from-indigo-50 to-cyan-50 border border-indigo-200 space-y-2 shadow-sm">
+                <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 space-y-2 shadow-sm">
                     <div class="flex items-center justify-between text-xs text-slate-500">
                         <span>Trạng thái kết nối</span>
                         <span class="text-emerald-600 flex items-center gap-1 font-semibold">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Đã kết nối
                         </span>
                     </div>
-                    <div class="text-xs text-slate-700 font-mono break-all bg-white p-2 rounded-xl border border-indigo-100" id="walletAddressDisplay">0x71C...3A9</div>
+                    <div class="text-xs text-slate-800 font-mono break-all bg-white p-2 rounded-xl border border-emerald-100" id="walletAddressDisplay">0x71C...3A9</div>
                     <div class="pt-1 flex justify-between items-center text-xs">
                         <span class="text-slate-500">Tài sản khả dụng:</span>
-                        <span class="font-bold text-indigo-600">1,250 SDA / 45 PI</span>
+                        <span class="font-bold text-emerald-600">1,250 SDA / 45 PI</span>
                     </div>
                 </div>
                 <button onclick="disconnectWallet()" class="w-full py-2.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 text-xs font-bold transition">
@@ -376,18 +375,18 @@
             </div>
 
             <div id="walletOptions" class="space-y-3">
-                <p class="text-xs text-slate-500">Chọn mạng lưới ví của bạn để thao tác giao dịch toàn cầu:</p>
+                <p class="text-xs text-slate-500">Chọn mạng lưới ví hoặc dán địa chỉ ví của bạn:</p>
                 <button onclick="connectWallet('Pi Network Wallet', 'GDK3P89WXYZ9999PI')" class="w-full p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-between transition group shadow-sm">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold">
                             <i class="fa-solid fa-p"></i>
                         </div>
                         <div class="text-left">
-                            <div class="text-xs sm:text-sm font-bold text-slate-800">Pi Network Wallet</div>
+                            <div class="text-xs sm:text-sm font-bold text-slate-900">Pi Network Wallet</div>
                             <div class="text-[10px] text-slate-500">Mainnet Pi Ecosystem</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-emerald-600"></i>
                 </button>
 
                 <button onclick="connectWallet('Sidra Web3 Wallet', '0x1A4C519999SDA')" class="w-full p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-between transition group shadow-sm">
@@ -396,11 +395,11 @@
                             <i class="fa-solid fa-cubes"></i>
                         </div>
                         <div class="text-left">
-                            <div class="text-xs sm:text-sm font-bold text-slate-800">Sidra Web3 Wallet</div>
+                            <div class="text-xs sm:text-sm font-bold text-slate-900">Sidra Web3 Wallet</div>
                             <div class="text-[10px] text-slate-500">Islamic DeFi Chain</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-emerald-600"></i>
                 </button>
 
                 <button onclick="connectWallet('MetaMask Wallet', '0x8F3B929999ETH')" class="w-full p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 flex items-center justify-between transition group shadow-sm">
@@ -409,35 +408,33 @@
                             <i class="fa-solid fa-fox"></i>
                         </div>
                         <div class="text-left">
-                            <div class="text-xs sm:text-sm font-bold text-slate-800">MetaMask Wallet</div>
+                            <div class="text-xs sm:text-sm font-bold text-slate-900">MetaMask Wallet</div>
                             <div class="text-[10px] text-slate-500">Ethereum, BSC, Polygon</div>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-emerald-600"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ================= JAVASCRIPT: 1201+ THƯ MỤC TỰ ĐỘNG ================= -->
+    <!-- ================= JAVASCRIPT: 1201+ THƯ MỤC ================= -->
     <script>
-        // Hệ thống danh mục lớn đặt trực tiếp ngoài màn hình chính (Tập trung Nhà cửa, Xe cộ & Siêu ứng dụng)
         const baseCategories = [
             { id: 'housing', name: 'Nhà Cửa & Đất Đai', icon: 'fa-house-chimney', color: 'from-emerald-500 to-teal-600', count: 180 },
-            { id: 'vehicles', name: 'Xe Cộ & Phương Tiện', icon: 'fa-car-side', color: 'from-indigo-500 to-blue-600', count: 160 },
+            { id: 'vehicles', name: 'Xe Cộ & Phương Tiện', icon: 'fa-car-side', color: 'from-teal-500 to-cyan-600', count: 160 },
             { id: 'realestate', name: 'Bất Động Sản Toàn Cầu', icon: 'fa-building', color: 'from-cyan-500 to-blue-500', count: 150 },
             { id: 'electronics', name: 'Điện Máy & Công Nghệ', icon: 'fa-laptop', color: 'from-violet-500 to-purple-600', count: 120 },
             { id: 'web3', name: 'Tài Sản Số & Web3', icon: 'fa-cubes', color: 'from-pink-500 to-rose-600', count: 110 },
-            { id: 'services', name: 'Dịch Vụ & Tiện Ích', icon: 'fa-screwdriver-wrench', color: 'from-amber-500 to-orange-600', count: 110 },
+            { id: 'services', name: 'Dịch Vụ Tiện Ích', icon: 'fa-screwdriver-wrench', color: 'from-amber-500 to-orange-600', count: 110 },
             { id: 'fashion', name: 'Thời Trang & Đồ Dùng', icon: 'fa-shirt', color: 'from-blue-500 to-indigo-600', count: 100 },
-            { id: 'jobs', name: 'Việc Làm & Nhân Sự', icon: 'fa-briefcase', color: 'from-teal-500 to-emerald-600', count: 90 },
+            { id: 'jobs', name: 'Việc Làm & Nhân Sự', icon: 'fa-briefcase', color: 'from-emerald-600 to-teal-700', count: 90 },
             { id: 'auction', name: 'Đấu Giá Trực Tuyến', icon: 'fa-gavel', color: 'from-red-500 to-rose-600', count: 70 },
             { id: 'travel', name: 'Du Lịch & Khách Sạn', icon: 'fa-plane-departure', color: 'from-sky-500 to-cyan-600', count: 80 },
             { id: 'food', name: 'Ẩm Thực & Nông Sản', icon: 'fa-utensils', color: 'from-orange-500 to-amber-600', count: 71 },
-            { id: 'mypage', name: 'Thư Mục Của Tôi', icon: 'fa-folder-user', color: 'from-violet-600 to-emerald-600', count: 60 }
+            { id: 'mypage', name: 'Thư Mục Của Tôi', icon: 'fa-folder-user', color: 'from-teal-600 to-indigo-600', count: 60 }
         ];
 
-        // Thuật toán sinh tự động đạt mốc 1.201+ thư mục chuyên sâu khi mở cửa sổ con
         const categoriesTree = baseCategories.map((cat, idx) => {
             let subs = [];
             for (let i = 1; i <= 10; i++) {
@@ -484,12 +481,12 @@
         let currentDetailWallet = '';
 
         function initApp() {
-            const savedPosts = localStorage.getItem('ecosystem_global_posts_v1201');
+            const savedPosts = localStorage.getItem('ecosystem_global_posts_v2026_pro');
             if (savedPosts) {
                 posts = JSON.parse(savedPosts);
             } else {
                 posts = initialPosts;
-                localStorage.setItem('ecosystem_global_posts_v1201', JSON.stringify(posts));
+                localStorage.setItem('ecosystem_global_posts_v2026_pro', JSON.stringify(posts));
             }
             renderCategories();
             renderPosts();
@@ -500,11 +497,11 @@
             const container = document.getElementById('mainCategoryList');
             container.innerHTML = categoriesTree.map(cat => `
                 <div onclick="openCategoryModal('${cat.id}')" 
-                     class="ecosystem-glass p-2.5 rounded-2xl hover:border-indigo-400 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center group">
+                     class="neo-card p-2.5 rounded-2xl hover:border-emerald-500 cursor-pointer transition-all duration-300 hover:-translate-y-1 flex flex-col items-center text-center group">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr ${cat.color} flex items-center justify-center text-white text-sm font-bold shadow-sm mb-1.5 group-hover:scale-110 transition-transform">
                         <i class="fa-solid ${cat.icon}"></i>
                     </div>
-                    <h3 class="font-bold text-slate-800 text-xs line-clamp-1 group-hover:text-indigo-600 transition-colors">${cat.name}</h3>
+                    <h3 class="font-bold text-slate-900 text-xs line-clamp-1 group-hover:text-emerald-600 transition-colors">${cat.name}</h3>
                     <span class="text-[9px] text-slate-400">${cat.count}+ mục</span>
                 </div>
             `).join('');
@@ -531,14 +528,14 @@
             if (!currentModalSub) {
                 titleEl.innerText = currentModalMain.name;
                 subtitleEl.innerText = 'Chọn phân nhánh chuyên sâu (1201+ thư mục)';
-                breadcrumbEl.innerHTML = `<span>Trang chủ</span> <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> <span class="text-indigo-600 font-bold">${currentModalMain.name}</span>`;
+                breadcrumbEl.innerHTML = `<span>Trang chủ</span> <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> <span class="text-emerald-600 font-bold">${currentModalMain.name}</span>`;
                 backBtn.classList.add('hidden');
 
                 listContainer.innerHTML = currentModalMain.subs.map(sub => `
-                    <div onclick="selectModalSubCat('${sub.id}')" class="p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-indigo-400 flex items-center justify-between cursor-pointer transition shadow-sm">
+                    <div onclick="selectModalSubCat('${sub.id}')" class="p-3 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-emerald-500 flex items-center justify-between cursor-pointer transition shadow-sm">
                         <div class="flex items-center gap-3">
-                            <i class="fa-solid fa-folder-tree text-indigo-600"></i>
-                            <span class="font-bold text-xs text-slate-800">${sub.name}</span>
+                            <i class="fa-solid fa-folder-tree text-emerald-600"></i>
+                            <span class="font-bold text-xs text-slate-900">${sub.name}</span>
                         </div>
                         <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
                     </div>
@@ -549,21 +546,21 @@
                 breadcrumbEl.innerHTML = `
                     <span class="cursor-pointer hover:underline" onclick="categoryBackStep()">Trang chủ</span> 
                     <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> 
-                    <span class="text-indigo-600 font-bold">${currentModalSub.name}</span>
+                    <span class="text-emerald-600 font-bold">${currentModalSub.name}</span>
                 `;
                 backBtn.classList.remove('hidden');
 
                 listContainer.innerHTML = `
-                    <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', null)" class="mb-3 p-2.5 rounded-2xl bg-indigo-50 border border-indigo-200 hover:bg-indigo-100 cursor-pointer flex items-center justify-between">
-                        <span class="font-bold text-xs text-indigo-800"><i class="fa-solid fa-filter mr-1.5"></i> Lọc tất cả bài thuộc ${currentModalSub.name}</span>
-                        <i class="fa-solid fa-arrow-right text-indigo-700 text-xs"></i>
+                    <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', null)" class="mb-3 p-2.5 rounded-2xl bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 cursor-pointer flex items-center justify-between">
+                        <span class="font-bold text-xs text-emerald-900"><i class="fa-solid fa-filter mr-1.5"></i> Lọc tất cả bài thuộc ${currentModalSub.name}</span>
+                        <i class="fa-solid fa-arrow-right text-emerald-700 text-xs"></i>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         ${currentModalSub.items.map(item => `
                             <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', '${item}')" 
-                                 class="p-2.5 rounded-2xl bg-white border border-slate-200 hover:border-emerald-500 hover:bg-slate-50 cursor-pointer transition flex items-center justify-between group shadow-sm">
-                                <span class="text-xs font-semibold text-slate-700 group-hover:text-emerald-700">${item}</span>
-                                <i class="fa-solid fa-circle-dot text-[8px] text-slate-400 group-hover:text-emerald-600"></i>
+                                 class="p-2.5 rounded-2xl bg-white border border-slate-200 hover:border-teal-500 hover:bg-slate-50 cursor-pointer transition flex items-center justify-between group shadow-sm">
+                                <span class="text-xs font-semibold text-slate-700 group-hover:text-teal-700">${item}</span>
+                                <i class="fa-solid fa-circle-dot text-[8px] text-slate-400 group-hover:text-teal-600"></i>
                             </div>
                         `).join('')}
                     </div>
@@ -657,12 +654,12 @@
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center space-y-2">
-                        <div class="w-12 h-12 mx-auto rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 text-xl shadow-sm">
+                    <div class="col-span-full py-12 text-center space-y-2 bg-white rounded-2xl border border-slate-200">
+                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-xl shadow-sm">
                             <i class="fa-solid fa-box-open"></i>
                         </div>
                         <p class="text-slate-500 text-xs">Không tìm thấy tin đăng phù hợp.</p>
-                        <button onclick="resetFilter()" class="text-xs text-indigo-600 hover:underline">Xem tất cả tin đăng</button>
+                        <button onclick="resetFilter()" class="text-xs text-emerald-600 hover:underline">Xem tất cả tin đăng</button>
                     </div>
                 `;
                 return;
@@ -673,18 +670,18 @@
                 const imgCountBadge = (post.images && post.images.length > 1) ? `<span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-slate-950/70 text-white text-[9px] font-bold"><i class="fa-solid fa-images mr-1"></i>${post.images.length}</span>` : '';
 
                 return `
-                    <div class="ecosystem-glass rounded-2xl overflow-hidden hover:border-indigo-400 transition-all duration-300 hover:-translate-y-0.5 flex flex-col justify-between group">
+                    <div class="neo-card rounded-2xl overflow-hidden hover:border-emerald-500 transition-all duration-300 hover:-translate-y-0.5 flex flex-col justify-between group">
                         <div>
                             <div class="relative h-32 sm:h-36 overflow-hidden bg-slate-100 cursor-pointer" onclick="openDetailModal('${post.id}')">
                                 <img src="${mainImg}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold bg-white/90 backdrop-blur-md text-indigo-700 border border-indigo-200 shadow-sm">
+                                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold bg-white/90 backdrop-blur-md text-emerald-700 border border-emerald-200 shadow-sm">
                                     ${post.subCat.replace('Nhóm chuyên sâu ', '')}
                                 </span>
                                 ${imgCountBadge}
                             </div>
 
                             <div class="p-2.5 space-y-1">
-                                <h3 onclick="openDetailModal('${post.id}')" class="font-bold text-xs text-slate-800 line-clamp-2 hover:text-indigo-600 cursor-pointer transition-colors leading-snug">
+                                <h3 onclick="openDetailModal('${post.id}')" class="font-bold text-xs text-slate-900 line-clamp-2 hover:text-emerald-600 cursor-pointer transition-colors leading-snug">
                                     ${post.title}
                                 </h3>
                                 <div class="text-xs font-extrabold text-emerald-600">${post.price}</div>
@@ -695,12 +692,12 @@
                         </div>
 
                         <div class="p-2 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-[11px]">
-                            <button onclick="openDetailModal('${post.id}')" class="text-slate-500 hover:text-indigo-600 font-medium">Chi tiết</button>
+                            <button onclick="openDetailModal('${post.id}')" class="text-slate-500 hover:text-emerald-600 font-medium">Chi tiết</button>
                             <div class="flex items-center gap-1.5">
-                                <button onclick="openEditPost('${post.id}')" title="Sửa" class="w-6 h-6 rounded-lg bg-white border border-slate-200 hover:bg-violet-50 text-slate-600 hover:text-violet-600 flex items-center justify-center transition shadow-sm">
+                                <button onclick="openEditPost('${post.id}')" title="Sửa" class="w-6 h-6 rounded-lg bg-white border border-slate-200 hover:bg-emerald-50 text-slate-700 hover:text-emerald-600 flex items-center justify-center transition shadow-sm">
                                     <i class="fa-solid fa-pen text-[10px]"></i>
                                 </button>
-                                <button onclick="deletePost('${post.id}')" title="Xóa" class="w-6 h-6 rounded-lg bg-white border border-slate-200 hover:bg-rose-50 text-slate-600 hover:text-rose-600 flex items-center justify-center transition shadow-sm">
+                                <button onclick="deletePost('${post.id}')" title="Xóa" class="w-6 h-6 rounded-lg bg-white border border-slate-200 hover:bg-rose-50 text-slate-700 hover:text-rose-600 flex items-center justify-center transition shadow-sm">
                                     <i class="fa-solid fa-trash text-[10px]"></i>
                                 </button>
                             </div>
@@ -768,7 +765,7 @@
             document.getElementById('editPostId').value = '';
             uploadedImages = [];
             renderImagePreviews();
-            document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-indigo-600"></i> Đăng Bài Giao Dịch Mới';
+            document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-circle-plus text-emerald-600"></i> Đăng Bài Giao Dịch Mới';
             document.getElementById('postModal').classList.remove('hidden');
         }
 
@@ -790,7 +787,7 @@
             uploadedImages = post.images ? [...post.images] : [];
             renderImagePreviews();
 
-            document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-cyan-600"></i> Chỉnh Sửa Bài Đăng';
+            document.getElementById('postModalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-emerald-600"></i> Chỉnh Sửa Bài Đăng';
             document.getElementById('postModal').classList.remove('hidden');
         }
 
@@ -826,7 +823,7 @@
                 posts.unshift(newPostData);
             }
 
-            localStorage.setItem('ecosystem_global_posts_v1201', JSON.stringify(posts));
+            localStorage.setItem('ecosystem_global_posts_v2026_pro', JSON.stringify(posts));
             closePostModal();
             renderPosts();
         }
@@ -834,7 +831,7 @@
         function deletePost(postId) {
             if (confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
                 posts = posts.filter(p => p.id !== postId);
-                localStorage.setItem('ecosystem_global_posts_v1201', JSON.stringify(posts));
+                localStorage.setItem('ecosystem_global_posts_v2026_pro', JSON.stringify(posts));
                 renderPosts();
             }
         }
@@ -877,10 +874,10 @@
             navigator.clipboard.writeText(currentDetailWallet).then(() => {
                 const btn = document.getElementById('copyWalletBtn');
                 btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Đã chép ví!';
-                btn.classList.replace('bg-indigo-600', 'bg-emerald-600');
+                btn.classList.replace('bg-emerald-600', 'bg-teal-600');
                 setTimeout(() => {
                     btn.innerHTML = '<i class="fa-solid fa-copy mr-1"></i> Sao chép ví';
-                    btn.classList.replace('bg-emerald-600', 'bg-indigo-600');
+                    btn.classList.replace('bg-teal-600', 'bg-emerald-600');
                 }, 2000);
             });
         }
