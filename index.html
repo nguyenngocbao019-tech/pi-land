@@ -1,656 +1,659 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siêu Ứng Dụng Toàn Cầu</title>
-    <!-- Tailwind CSS -->
+    <title>GlobalX - Siêu Ứng Dụng Giao Dịch Toàn Cầu</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#f0fdf4', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
+                        darkBg: '#0f172a',
+                        cardBg: '#1e293b'
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .app-card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-        }
-        .app-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.12);
-        }
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-    </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen font-sans antialiased pb-28">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans pb-24">
 
-    <!-- TOP HEADER -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 gap-3">
-                <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilter()">
-                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white text-lg shadow-md">
-                        <i class="fa-solid fa-globe"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-base sm:text-lg font-black tracking-tight text-slate-900">SIÊU ỨNG DỤNG TOÀN CẦU</h1>
-                        <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">1201+ Thư Mục & Tiện Ích Vạn Năng</span>
-                    </div>
+    <!-- HEADER / TOP BAR -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <div class="flex items-center space-x-2">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-green-500 to-emerald-400 flex items-center justify-center shadow-lg shadow-green-500/30">
+                    <i class="fa-solid fa-globe text-slate-950 font-bold"></i>
                 </div>
-
-                <div class="flex-1 max-w-md hidden md:block">
-                    <div class="relative">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tìm nhà cửa, xe cộ, dịch vụ, tài sản số..." 
-                            class="w-full bg-slate-100 border border-slate-200 rounded-full pl-11 pr-4 py-2 text-xs text-slate-900 focus:outline-none focus:border-violet-500">
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <button onclick="openPostModal()" class="px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-violet-500/20 transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-plus"></i>
-                        <span class="hidden sm:inline">Đăng tin</span>
-                    </button>
-                    <button onclick="openWalletModal()" class="px-3.5 py-2 rounded-full bg-slate-100 border border-slate-200 text-slate-700 hover:border-violet-500 font-bold text-xs sm:text-sm transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-wallet text-violet-600"></i>
-                        <span id="walletBtnText">Ví & Dán Ví</span>
-                    </button>
+                <div>
+                    <h1 class="font-bold text-base leading-tight bg-gradient-to-r from-green-400 to-emerald-200 bg-clip-text text-transparent">GlobalX</h1>
+                    <span class="text-[10px] text-slate-400 uppercase tracking-wider">Super App v3.5</span>
                 </div>
             </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <!-- Wallet quick badge -->
+            <button onclick="switchTab('wallet')" class="hidden sm:flex items-center space-x-2 bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-full text-xs hover:border-green-500 transition">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span id="headerWalletAddr" class="font-mono text-slate-300">0x71...84a2</span>
+                <span class="text-green-400 font-semibold" id="headerBalance">1,250.00 Pi</span>
+            </button>
+            <button onclick="toggleDarkMode()" class="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-
-        <!-- MOBILE SEARCH -->
-        <div class="md:hidden">
-            <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                <input type="text" id="mobileSearchInput" oninput="handleSearch()" placeholder="Tìm kiếm nhanh nhà cửa, xe cộ, dịch vụ..." 
-                    class="w-full bg-white border border-slate-200 rounded-2xl pl-11 pr-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-violet-500 shadow-sm">
+    <!-- SIDEBAR DIRECTORY TREE (Drawer) -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 z-50 hidden backdrop-blur-sm transition-opacity"></div>
+    <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 w-80 bg-slate-900 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+            <h3 class="font-bold text-lg text-green-400"><i class="fa-solid fa-folder-tree mr-2"></i>Thư Mục Toàn Cầu</h3>
+            <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+        </div>
+        <div class="p-4 overflow-y-auto flex-1 space-y-4 text-sm">
+            <div class="space-y-1">
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Danh Mục Cấp 1</span>
+                <a href="#" onclick="filterByCategory('all'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-layer-group w-6 text-green-400"></i> Tất cả danh mục</span>
+                    <span class="text-xs bg-slate-800 px-2 py-0.5 rounded-full text-slate-400" id="countAll">0</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Bất Động Sản'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-house-chimney w-6 text-blue-400"></i> Nhà Cửa & BĐS</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Xe Cộ'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-car w-6 text-amber-400"></i> Xe Cộ & Phương Tiện</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Đồ Cổ & Đá Quý'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-gem w-6 text-purple-400"></i> Đồ Cổ & Đá Quý</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Nông Sản & Hàng Sỉ'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-wheat-awn w-6 text-emerald-400"></i> Nông Sản & Lương Thực</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Chợ Tạp Hóa'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-store w-6 text-orange-400"></i> Chợ Tạp Hóa & Tiêu Dùng</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Dịch Vụ & Việc Làm'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-briefcase w-6 text-cyan-400"></i> Dịch Vụ & Lao Động</span>
+                </a>
+                <a href="#" onclick="filterByCategory('Crypto & Web3'); toggleSidebar();" class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-800 text-slate-200">
+                    <span><i class="fa-solid fa-coins w-6 text-yellow-400"></i> Crypto & Tài Sản Số</span>
+                </a>
+            </div>
+            <div class="border-t border-slate-800 pt-4 space-y-2">
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Hệ Thống & Kho Lưu Trữ</span>
+                <button onclick="switchTab('wallet'); toggleSidebar();" class="w-full text-left p-2 rounded-lg hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-wallet mr-2 text-green-400"></i> Ví Đa Chuỗi Web3</button>
+                <button onclick="switchTab('orders'); toggleSidebar();" class="w-full text-left p-2 rounded-lg hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-receipt mr-2 text-blue-400"></i> Quản Lý Ký Quỹ & Đơn Hàng</button>
+                <button onclick="switchTab('settings'); toggleSidebar();" class="w-full text-left p-2 rounded-lg hover:bg-slate-800 text-slate-300"><i class="fa-solid fa-gear mr-2 text-slate-400"></i> Cài Đặt Hệ Thống</button>
             </div>
         </div>
+    </aside>
 
-        <!-- MÀN HÌNH CHÍNH: Ô MÀU SẮC RÕ RÀNG CHO CÁC SẢN PHẨM & THƯ MỤC -->
-        <section class="space-y-3">
-            <div class="flex items-center justify-between">
-                <h2 class="text-sm font-extrabold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-grip text-violet-600"></i> Danh Mục & Thư Mục Trọng Điểm
-                </h2>
-                <span class="text-xs text-slate-500">Hơn 1201+ danh mục vạn năng</span>
-            </div>
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4">
 
-            <!-- Các ô màu sắc rõ ràng cho từng ngành hàng -->
-            <div id="mainCategoryList" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5">
-                <!-- Rendered by JS -->
-            </div>
-        </section>
-
-        <!-- ACTIVE FILTER BAR -->
-        <section id="activeFilterBar" class="hidden bg-violet-50 border border-violet-200 rounded-2xl p-3 flex items-center justify-between">
-            <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700">
-                <span class="text-slate-500">Đang xem:</span>
-                <span id="breadcrumbPath" class="font-bold text-violet-700">...</span>
-            </div>
-            <button onclick="resetFilter()" class="text-xs bg-white text-slate-700 px-3 py-1.5 rounded-xl border border-slate-200 shadow-sm">
-                Xóa bộ lọc
-            </button>
-        </section>
-
-        <!-- LƯỚI SẢN PHẨM / BÀI ĐĂNG -->
-        <section class="space-y-4">
-            <div class="flex items-center justify-between">
-                <h2 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
-                    <i class="fa-solid fa-store text-emerald-600"></i> Bảng Tin Giao Dịch & Sản Phẩm Mới
-                </h2>
-                <span id="itemCount" class="text-xs font-bold text-slate-500">0 tin</span>
-            </div>
-
-            <div id="postsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
-                <!-- Rendered by JS -->
-            </div>
-        </section>
-    </main>
-
-    <!-- BOTTOM NAVIGATION BAR -->
-    <nav aria-label="Thanh điều hướng dưới" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg py-2 px-3">
-        <div class="max-w-md mx-auto flex items-center justify-around text-slate-600">
-            <button onclick="resetFilter(); window.scrollTo({top: 0, behavior: 'smooth'});" class="flex flex-col items-center gap-0.5 hover:text-violet-600 transition">
-                <i class="fa-solid fa-house text-base text-violet-600"></i>
-                <span class="text-[10px] font-semibold">Trang chủ</span>
-            </button>
-            <button onclick="openCategoryModal('housing')" class="flex flex-col items-center gap-0.5 hover:text-violet-600 transition">
-                <i class="fa-solid fa-compass text-base text-slate-500"></i>
-                <span class="text-[10px] font-medium">Khám phá</span>
-            </button>
-            <button onclick="openPostModal()" class="flex flex-col items-center gap-0.5 text-emerald-600 hover:scale-105 transition">
-                <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md -mt-3.5 border-2 border-white">
-                    <i class="fa-solid fa-plus text-sm"></i>
+        <!-- TAB 1: HOMEPAGE / MARKETPLACE -->
+        <section id="tab-home" class="space-y-6">
+            <!-- Hero Search & Welcome Banner -->
+            <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-green-500/10 to-transparent pointer-events-none"></div>
+                <div class="relative z-10 space-y-4">
+                    <div class="inline-flex items-center space-x-2 bg-green-500/10 border border-green-500/20 px-3 py-1 rounded-full text-green-400 text-xs font-medium">
+                        <i class="fa-solid fa-shield-halved"></i> <span>Escrow Đảm Bảo Toàn Cầu 24/7</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Chợ Giao Dịch Toàn Cầu & Mọi Tài Sản</h2>
+                    <p class="text-slate-400 text-sm max-w-2xl">Mua bán, niêm yết và trao đổi Bất động sản, Xe cộ, Đồ cổ, Nông sản, Dịch vụ và Web3 Assets với thanh khoản tức thì.</p>
+                    
+                    <!-- Search bar -->
+                    <div class="flex flex-col sm:flex-row gap-2 pt-2">
+                        <div class="relative flex-1">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                            <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Tìm kiếm bất động sản, xe hơi, đồ cổ, nông sản..." class="w-full bg-slate-950/80 border border-slate-700 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-green-500">
+                        </div>
+                        <select id="currencyFilter" onchange="filterProducts()" class="bg-slate-950/80 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-300 focus:outline-none focus:border-green-500">
+                            <option value="all">Tất cả tiền tệ</option>
+                            <option value="Pi">Pi Network</option>
+                            <option value="SDA">Sidra (SDA)</option>
+                            <option value="VND">VND (Việt Nam Đồng)</option>
+                            <option value="USD">USD ($)</option>
+                        </select>
+                    </div>
                 </div>
-                <span class="text-[10px] font-bold">Đăng tin</span>
-            </button>
-            <button onclick="filterMyPosts()" class="flex flex-col items-center gap-0.5 hover:text-indigo-600 transition">
-                <i class="fa-solid fa-folder-user text-base text-slate-500"></i>
-                <span class="text-[10px] font-medium">Thư mục tôi</span>
-            </button>
-            <button onclick="openWalletModal()" class="flex flex-col items-center gap-0.5 hover:text-indigo-600 transition">
-                <i class="fa-solid fa-wallet text-base text-slate-500"></i>
-                <span class="text-[10px] font-medium">Ví & Dán Ví</span>
-            </button>
-        </div>
-    </nav>
+            </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-slate-500 text-xs">
-        <p>Siêu Ứng Dụng Toàn Cầu &copy; 2026. Tích hợp vạn năng nhà cửa, xe cộ, giao dịch Web3.</p>
-    </footer>
+            <!-- MEGA CATEGORY GRID -->
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-lg text-slate-200"><i class="fa-solid fa-shapes text-green-400 mr-2"></i>Danh Mục Siêu Ứng Dụng</h3>
+                    <span class="text-xs text-slate-400">Chọn danh mục để xem nhanh</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+                    <button onclick="filterByCategory('Bất Động Sản')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-house-chimney"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Nhà Đất</span>
+                    </button>
+                    <button onclick="filterByCategory('Xe Cộ')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-car"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Xe Cộ</span>
+                    </button>
+                    <button onclick="filterByCategory('Đồ Cổ & Đá Quý')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-gem"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Đồ Cổ & Đá</span>
+                    </button>
+                    <button onclick="filterByCategory('Nông Sản & Hàng Sỉ')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-wheat-awn"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Nông Sản</span>
+                    </button>
+                    <button onclick="filterByCategory('Chợ Tạp Hóa')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-store"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Chợ Tạp Hóa</span>
+                    </button>
+                    <button onclick="filterByCategory('Dịch Vụ & Việc Làm')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-briefcase"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Dịch Vụ</span>
+                    </button>
+                    <button onclick="filterByCategory('Crypto & Web3')" class="category-btn bg-slate-900 border border-slate-800 hover:border-green-500 p-4 rounded-xl text-center transition group">
+                        <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-yellow-500/10 text-yellow-400 flex items-center justify-center text-xl group-hover:scale-110 transition"><i class="fa-solid fa-coins"></i></div>
+                        <span class="text-xs font-medium text-slate-300 block">Crypto P2P</span>
+                    </button>
+                </div>
+            </div>
 
-    <!-- ================= MODALS ================= -->
+            <!-- PRODUCT LISTINGS GRID -->
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-lg text-slate-200" id="currentCategoryTitle"><i class="fa-solid fa-store text-green-400 mr-2"></i>Tất Cả Sản Phẩm Giao Dịch</h3>
+                    <span class="text-xs text-slate-400 font-mono" id="productCountLabel">Hiển thị 4 mục</span>
+                </div>
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- Dynamic Rendered Products -->
+                </div>
+            </div>
+        </section>
 
-    <!-- 1. CATEGORY MODAL -->
-    <div id="categoryModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="app-card w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh]">
-            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <!-- TAB 2: MY LISTINGS & EDIT MANAGEMENT -->
+        <section id="tab-listings" class="space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900 border border-slate-800 p-6 rounded-2xl">
                 <div>
-                    <h3 id="modalCatTitle" class="font-bold text-sm text-slate-900">Danh Mục Chuyên Sâu</h3>
-                    <p id="modalCatSubtitle" class="text-xs text-slate-500">Hệ thống 1201+ thư mục</p>
+                    <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-boxes-stacked text-green-400 mr-2"></i>Quản Lý Tin Đăng & Sản Phẩm Của Tôi</h2>
+                    <p class="text-slate-400 text-sm">Chỉnh sửa, cập nhật giá hoặc thay đổi trạng thái hàng hóa của bạn trên hệ thống.</p>
                 </div>
-                <button onclick="closeCategoryModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
+                <button onclick="openPostModal()" class="bg-green-600 hover:bg-green-500 text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-lg shadow-green-600/20">
+                    <i class="fa-solid fa-plus mr-2"></i> Đăng Sản Phẩm Mới
                 </button>
             </div>
-            <div class="bg-slate-100 px-4 py-2 text-xs text-violet-700 flex items-center gap-1" id="modalBreadcrumb"></div>
-            <div class="p-5 overflow-y-auto space-y-2 flex-1" id="modalSubcategoryList"></div>
-            <div class="p-3 border-t border-slate-200 bg-slate-50 flex justify-between items-center">
-                <button id="modalBackBtn" onclick="categoryBackStep()" class="hidden px-3 py-1.5 rounded-xl bg-slate-200 text-slate-700 text-xs font-medium">Quay lại</button>
-                <button onclick="closeCategoryModal()" class="ml-auto px-4 py-1.5 rounded-xl bg-slate-200 text-slate-700 text-xs font-medium">Đóng</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- 2. POST MODAL (5 ẢNH + DÁN VÍ + THANH TOÁN) -->
-    <div id="postModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="app-card w-full max-w-xl overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-                <h3 id="postModalTitle" class="font-bold text-sm text-slate-900"><i class="fa-solid fa-plus-circle text-violet-600"></i> Đăng Bài Giao Dịch</h3>
-                <button onclick="closePostModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <div id="myListingsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Rendered My Listings -->
+            </div>
+        </section>
+
+        <!-- TAB 3: WEB3 WALLET & QR CENTER -->
+        <section id="tab-wallet" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-800 p-6 rounded-2xl space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-green-400 uppercase font-semibold">Ví Kỹ Thuật Số Đa Chuỗi</span>
+                        <h2 class="text-xl font-bold text-white">Quản Lý Địa Chỉ Ví & Tài Sản</h2>
+                    </div>
+                    <button onclick="connectNewWallet()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 px-4 py-2 rounded-xl text-sm transition">
+                        <i class="fa-solid fa-link mr-2 text-green-400"></i> Thêm / Đổi Ví
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+                        <span class="text-xs text-slate-400">Địa chỉ ví hoạt động</span>
+                        <p class="font-mono text-sm text-green-400 font-semibold mt-1" id="walletActiveAddr">0x71b8...84a2</p>
+                        <span class="text-[10px] text-slate-500 mt-2 block">Mạng: Pi Mainnet / Sidra Chain / BSC</span>
+                    </div>
+                    <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl">
+                        <span class="text-xs text-slate-400">Tổng Số Dư Khả Dụng</span>
+                        <p class="text-lg font-bold text-white mt-1" id="walletTotalBalance">1,250.00 Pi</p>
+                        <span class="text-[10px] text-emerald-400 mt-2 block"><i class="fa-solid fa-arrow-up"></i> +12.5% tuần này</span>
+                    </div>
+                    <div class="bg-slate-950/60 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-slate-400">Mã QR Thanh Toán</span>
+                            <p class="text-xs font-medium text-slate-200 mt-1">Quét nhận tiền trực tiếp</p>
+                        </div>
+                        <div class="w-12 h-12 bg-white rounded-lg p-1 flex items-center justify-center text-slate-950 font-bold text-xs">
+                            <i class="fa-solid fa-qrcode text-xl text-slate-900"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                <h3 class="font-bold text-lg text-white"><i class="fa-solid fa-wallet text-yellow-400 mr-2"></i>Danh Sách Tài Sổ & Token</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-slate-950/50 border border-slate-800 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-yellow-500/10 text-yellow-400 flex items-center justify-center font-bold">Pi</div>
+                            <div>
+                                <h4 class="font-semibold text-sm text-white">Pi Network Token</h4>
+                                <span class="text-xs text-slate-400">Pi Mainnet</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-sm text-white">1,250.00 Pi</span>
+                            <span class="text-xs text-green-400 block">~ $45.00 USD</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-slate-950/50 border border-slate-800 rounded-xl">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">SDA</div>
+                            <div>
+                                <h4 class="font-semibold text-sm text-white">Sidra Chain (SDA)</h4>
+                                <span class="text-xs text-slate-400">Sidra Network</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-bold text-sm text-white">5,000.00 SDA</span>
+                            <span class="text-xs text-green-400 block">~ $120.00 USD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: ESCROW ORDERS -->
+        <section id="tab-orders" class="space-y-6 hidden">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4">
+                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-receipt text-blue-400 mr-2"></i>Quản Lý Đơn Hàng & Ký Quỹ Escrow</h2>
+                <p class="text-slate-400 text-sm">Theo dõi các giao dịch mua bán, trạng thái khóa quỹ an toàn và xác nhận hoàn tất.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-950 text-slate-400 uppercase text-xs">
+                            <tr>
+                                <th class="p-3 rounded-l-lg">Mã Đơn</th>
+                                <th class="p-3">Sản Phẩm</th>
+                                <th class="p-3">Giá Trị</th>
+                                <th class="p-3">Trạng Thái Ký Quỹ</th>
+                                <th class="p-3 rounded-r-lg text-right">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800">
+                            <tr>
+                                <td class="p-3 font-mono text-xs text-green-400">#ORD-9842</td>
+                                <td class="p-3 font-medium text-white">Nhà Phố Thương Mại Cần Thơ</td>
+                                <td class="p-3 font-bold text-emerald-400">2,500 Pi</td>
+                                <td class="p-3"><span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs px-2.5 py-1 rounded-full">Đang Ký Quỹ Escrow</span></td>
+                                <td class="p-3 text-right">
+                                    <button onclick="alert('Đơn hàng đang chờ xác nhận từ người bán.')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg text-xs">Chi tiết</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-mono text-xs text-green-400">#ORD-9841</td>
+                                <td class="p-3 font-medium text-white">Lư Hương Đồ Cổ Minh Triều</td>
+                                <td class="p-3 font-bold text-emerald-400">350 USD</td>
+                                <td class="p-3"><span class="bg-green-500/10 text-green-400 border border-green-500/20 text-xs px-2.5 py-1 rounded-full">Hoàn Tất Giao Dịch</span></td>
+                                <td class="p-3 text-right">
+                                    <button onclick="alert('Giao dịch đã hoàn tất và giải ngân.')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1 rounded-lg text-xs">Xem biên lai</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: SETTINGS -->
+        <section id="tab-settings" class="space-y-6 hidden">
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-gear text-slate-400 mr-2"></i>Cài Đặt Hệ Thống & Hồ Sơ</h2>
+                
+                <div class="space-y-4 max-w-xl">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Tên Hiển Thị / Chủ Tài Khoản</label>
+                        <input type="text" value="Bảo Pi (Cần Thơ)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-green-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Mặc Định Đơn Vị Tiền Tệ</label>
+                        <select class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-green-500">
+                            <option>Pi Network (Pi)</option>
+                            <option>Sidra Chain (SDA)</option>
+                            <option>VND (₫)</option>
+                            <option>USD ($)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Trạng Thái Xác Thực KYC</label>
+                        <div class="flex items-center justify-between p-3 bg-slate-950 border border-slate-700 rounded-xl">
+                            <span class="text-sm text-green-400 font-semibold"><i class="fa-solid fa-circle-check mr-2"></i>Đã xác thực danh tính (KYC Verified)</span>
+                            <span class="text-xs text-slate-400 font-mono">ID: #86-CT</span>
+                        </div>
+                    </div>
+                    <button onclick="alert('Đã lưu cài đặt thành công!')" class="bg-green-600 hover:bg-green-500 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
+                        Lưu Thay Đổi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FIXED BOTTOM NAVIGATION BAR WITH CENTER POST BUTTON -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur border-t border-slate-800 px-4 py-2 z-40 flex items-center justify-around">
+        <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-green-400 transition" id="nav-btn-home">
+            <i class="fa-solid fa-store text-lg"></i>
+            <span class="text-[10px] mt-1 font-medium">Chợ</span>
+        </button>
+        <button onclick="switchTab('listings')" class="nav-btn flex flex-col items-center text-slate-400 hover:text-slate-200 transition" id="nav-btn-listings">
+            <i class="fa-solid fa-boxes-stacked text-lg"></i>
+            <span class="text-[10px] mt-1 font-medium">Tin Đăng</span>
+        </button>
+
+        <!-- CENTER FLOATING POST BUTTON (+) -->
+        <div class="relative -top-5">
+            <button onclick="openPostModal()" class="w-14 h-14 rounded-full bg-gradient-to-tr from-green-600 to-emerald-400 text-slate-950 flex flex-col items-center justify-center shadow-xl shadow-green-500/40 hover:scale-105 transition transform active:scale-95 border-4 border-slate-950">
+                <i class="fa-solid fa-plus text-xl font-black"></i>
+            </button>
+            <span class="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-[10px] font-bold text-green-400 whitespace-nowrap">Đăng bài</span>
+        </div>
+
+        <button onclick="switchTab('wallet')" class="nav-btn flex flex-col items-center text-slate-400 hover:text-slate-200 transition" id="nav-btn-wallet">
+            <i class="fa-solid fa-wallet text-lg"></i>
+            <span class="text-[10px] mt-1 font-medium">Ví Web3</span>
+        </button>
+        <button onclick="switchTab('settings')" class="nav-btn flex flex-col items-center text-slate-400 hover:text-slate-200 transition" id="nav-btn-settings">
+            <i class="fa-solid fa-gear text-lg"></i>
+            <span class="text-[10px] mt-1 font-medium">Cài đặt</span>
+        </button>
+    </nav>
+
+    <!-- MODAL: POST / EDIT PRODUCT -->
+    <div id="postModal" class="fixed inset-0 bg-black/70 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 relative my-8">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 id="modalTitle" class="font-bold text-lg text-white"><i class="fa-solid fa-circle-plus text-green-400 mr-2"></i>Đăng Bán Sản Phẩm Mới</h3>
+                <button onclick="closePostModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
-            <form id="postForm" onsubmit="savePost(event)" class="p-5 space-y-3.5 overflow-y-auto flex-1 text-xs">
-                <input type="hidden" id="editPostId" value="">
+            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4 text-sm">
+                <input type="hidden" id="editProductId">
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Tiêu đề sản phẩm *</label>
-                    <input type="text" id="postTitle" required placeholder="VD: Bán nhà mặt tiền hoặc xe ô tô chính chủ..." class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-violet-500">
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Tên Sản Phẩm / Tiêu Đề</label>
+                    <input type="text" id="pName" required placeholder="Ví dụ: Nhà Phố Cần Thơ, Lư Hương Đồ Cổ..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-green-500">
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Lĩnh vực chính *</label>
-                        <select id="postMainCat" onchange="updateSubCatDropdown()" required class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-violet-500"></select>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Danh Mục</label>
+                        <select id="pCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-green-500">
+                            <option value="Bất Động Sản">Bất Động Sản</option>
+                            <option value="Xe Cộ">Xe Cộ</option>
+                            <option value="Đồ Cổ & Đá Quý">Đồ Cổ & Đá Quý</option>
+                            <option value="Nông Sản & Hàng Sỉ">Nông Sản & Hàng Sỉ</option>
+                            <option value="Chợ Tạp Hóa">Chợ Tạp Hóa</option>
+                            <option value="Dịch Vụ & Việc Làm">Dịch Vụ & Việc Làm</option>
+                            <option value="Crypto & Web3">Crypto & Web3</option>
+                        </select>
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Phân nhánh *</label>
-                        <select id="postSubCat" required class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-violet-500">
-                            <option value="">-- Chọn phân nhánh --</option>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Loại Tiền Tệ</label>
+                        <select id="pCurrency" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:outline-none focus:border-green-500">
+                            <option value="Pi">Pi (Pi Network)</option>
+                            <option value="SDA">SDA (Sidra)</option>
+                            <option value="VND">VND (Việt Nam Đồng)</option>
+                            <option value="USD">USD ($)</option>
                         </select>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Giá bán *</label>
-                        <input type="text" id="postPrice" required placeholder="VD: 2.5 Tỷ VNĐ hoặc 100 PI" class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-violet-500">
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Mức Giá</label>
+                        <input type="text" id="pPrice" required placeholder="Ví dụ: 1,500 hoặc 50 Triệu" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-green-500">
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Địa điểm *</label>
-                        <input type="text" id="postLocation" required placeholder="VD: Cần Thơ, TP.HCM" class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-violet-500">
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Khu Vực / Địa Điểm</label>
+                        <input type="text" id="pLocation" required placeholder="Ví dụ: Ninh Kiều, Cần Thơ" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-green-500">
                     </div>
                 </div>
-
-                <!-- DÁN VÍ & THANH TOÁN -->
-                <div class="p-3 bg-violet-50 border border-violet-200 rounded-2xl space-y-2">
-                    <div class="font-bold text-violet-900"><i class="fa-solid fa-wallet"></i> Thao Tác Ví & Thanh Toán</div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Dán địa chỉ ví nhận tiền</label>
-                        <input type="text" id="postSellerWallet" placeholder="VD: GDK3P89... hoặc 0x71C3A9..." class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-slate-900 font-mono focus:outline-none focus:border-violet-500">
-                    </div>
-                    <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Phương thức thanh toán *</label>
-                        <select id="postPaymentMethod" required class="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-slate-900 focus:outline-none focus:border-violet-500">
-                            <option value="Thanh toán khi nhận hàng (COD)">🚚 Thanh toán khi nhận hàng (COD)</option>
-                            <option value="Thanh toán trước (Chuyển khoản / Web3)">💳 Thanh toán trước (Chuyển khoản / Web3)</option>
-                            <option value="Thỏa thuận trực tiếp">🤝 Thỏa thuận trực tiếp</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- TỐI ĐA 5 ẢNH -->
                 <div>
-                    <div class="flex items-center justify-between mb-1">
-                        <label class="font-semibold text-slate-700">Hình ảnh (Tối đa 5 ảnh)</label>
-                        <span id="imageCountBadge" class="text-violet-600 font-bold">0/5 ảnh</span>
-                    </div>
-                    <input type="file" id="postImageFiles" accept="image/*" multiple onchange="handleMultipleImagesUpload(event)" class="w-full text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:bg-violet-50 file:text-violet-700 border border-slate-300 rounded-xl bg-slate-100 cursor-pointer">
-                    <div id="imagePreviewContainer" class="mt-2 grid grid-cols-5 gap-2"></div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Liên Kết Hình Ảnh (URL)</label>
+                    <input type="url" id="pImage" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-green-500">
                 </div>
-
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Mô tả chi tiết</label>
-                    <textarea id="postDesc" rows="2" placeholder="Thông số chi tiết..." class="w-full bg-slate-100 border border-slate-300 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-violet-500"></textarea>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Mô Tả Chi Tiết</label>
+                    <textarea id="pDesc" rows="3" placeholder="Thông tin chi tiết tình trạng, giấy tờ, bảo hành..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-green-500"></textarea>
                 </div>
-
-                <div class="pt-2 flex justify-end gap-2">
-                    <button type="button" onclick="closePostModal()" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 font-medium">Hủy</button>
-                    <button type="submit" class="px-5 py-2 rounded-xl bg-violet-600 text-white font-bold shadow-md">Lưu Bài Đăng</button>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closePostModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl">Hủy</button>
+                    <button type="submit" class="bg-green-600 hover:bg-green-500 text-white font-medium px-5 py-2 rounded-xl shadow-lg shadow-green-600/30">Đăng / Lưu Tin</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 3. DETAIL MODAL -->
-    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="app-card w-full max-w-2xl overflow-hidden max-h-[90vh] flex flex-col text-xs">
-            <div class="relative bg-slate-900">
-                <img id="detailImg" src="" alt="" class="w-full h-56 object-cover">
-                <button onclick="closeDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 text-slate-900 flex items-center justify-center shadow"><i class="fa-solid fa-xmark"></i></button>
-                <div id="detailThumbs" class="absolute bottom-2 left-2 right-2 flex gap-1.5 overflow-x-auto justify-center"></div>
-            </div>
-            <div class="p-5 space-y-2.5 overflow-y-auto">
-                <div class="flex items-center justify-between">
-                    <span id="detailBadge" class="px-2.5 py-0.5 rounded-full font-bold bg-violet-100 text-violet-800">Danh mục</span>
-                    <span id="detailDate" class="text-slate-500">Đăng hôm nay</span>
-                </div>
-                <h2 id="detailTitle" class="text-base font-bold text-slate-900">Tiêu đề</h2>
-                <div class="text-sm font-extrabold text-emerald-600" id="detailPrice">0 VNĐ</div>
-                <p id="detailLocation" class="text-slate-600 flex items-center gap-1"><i class="fa-solid fa-location-dot text-rose-500"></i> Địa điểm</p>
-
-                <div class="p-3 bg-violet-50 border border-violet-200 rounded-2xl space-y-1.5">
-                    <div class="font-bold text-violet-900 flex justify-between">
-                        <span>Thanh toán:</span>
-                        <span id="detailPaymentMethod" class="text-slate-900 bg-white px-2 py-0.5 rounded border border-violet-200 font-normal">--</span>
-                    </div>
-                    <div class="flex justify-between items-center pt-1 border-t border-violet-200">
-                        <div>
-                            <span class="font-semibold text-slate-800">Ví nhận tiền:</span>
-                            <div id="detailSellerWallet" class="font-mono text-violet-700 break-all">Chưa cung cấp</div>
-                        </div>
-                        <button onclick="copySellerWallet()" id="copyWalletBtn" class="px-3 py-1.5 rounded-xl bg-violet-600 text-white font-bold shadow-sm">Sao chép ví</button>
-                    </div>
-                </div>
-
-                <div class="border-t border-slate-200 pt-2">
-                    <h4 class="font-bold uppercase text-slate-400 mb-1">Mô Tả Chi Tiết</h4>
-                    <p id="detailDesc" class="text-slate-700 leading-relaxed whitespace-pre-line"></p>
-                </div>
-            </div>
-            <div class="p-3 border-t border-slate-200 bg-slate-50 flex gap-2 justify-end">
-                <button onclick="closeDetailModal()" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 font-medium">Đóng</button>
-                <button onclick="alert('Đã gửi yêu cầu liên hệ người bán!')" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold shadow">Liên Hệ</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. WALLET MODAL -->
-    <div id="walletModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="app-card w-full max-w-sm p-5 space-y-4 text-xs">
-            <div class="flex items-center justify-between">
-                <h3 class="font-bold text-sm text-slate-900"><i class="fa-solid fa-wallet text-violet-600"></i> Quản Lý & Kết Nối Ví</h3>
-                <button onclick="closeWalletModal()" class="w-7 h-7 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div id="walletDashboard" class="hidden space-y-3">
-                <div class="p-3 rounded-2xl bg-violet-50 border border-violet-200 space-y-1.5">
-                    <div class="flex justify-between text-slate-500"><span>Trạng thái</span><span class="text-emerald-600 font-bold">Đã kết nối</span></div>
-                    <div class="font-mono text-slate-900 bg-white p-2 rounded-xl border border-violet-100 break-all" id="walletAddressDisplay">0x71C...3A9</div>
-                </div>
-                <button onclick="disconnectWallet()" class="w-full py-2 rounded-xl bg-rose-50 text-rose-600 border border-rose-200 font-bold">Ngắt kết nối</button>
-            </div>
-            <div id="walletOptions" class="space-y-2">
-                <p class="text-slate-500">Chọn mạng lưới ví:</p>
-                <button onclick="connectWallet('Pi Network Wallet', 'GDK3P89WXYZ9999PI')" class="w-full p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-slate-800 flex items-center justify-between"><span>Pi Network Wallet</span><i class="fa-solid fa-chevron-right text-slate-400"></i></button>
-                <button onclick="connectWallet('Sidra Web3 Wallet', '0x1A4C519999SDA')" class="w-full p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-slate-800 flex items-center justify-between"><span>Sidra Web3 Wallet</span><i class="fa-solid fa-chevron-right text-slate-400"></i></button>
-                <button onclick="connectWallet('MetaMask Wallet', '0x8F3B929999ETH')" class="w-full p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 font-bold text-slate-800 flex items-center justify-between"><span>MetaMask Wallet</span><i class="fa-solid fa-chevron-right text-slate-400"></i></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
     <script>
-        // Các ô màu sắc rõ ràng thể hiện sản phẩm và thư mục trên màn hình chính
-        const categoriesTree = [
-            { id: 'housing', name: 'Nhà Cửa & Đất', icon: 'fa-house-chimney', bg: 'bg-emerald-500', text: 'text-white', count: 180, subs: [{ id: 'house1', name: 'Nhà Phố & Biệt Thự', items: ['Nhà mặt tiền', 'Biệt thự sân vườn', 'Shophouse'] }] },
-            { id: 'vehicles', name: 'Xe Cộ & Ô Tô', icon: 'fa-car-side', bg: 'bg-indigo-500', text: 'text-white', count: 160, subs: [{ id: 'car1', name: 'Ô Tô Các Hãng', items: ['Toyota', 'VinFast', 'Hyundai', 'Ford'] }] },
-            { id: 'realestate', name: 'Bất Động Sản', icon: 'fa-building', bg: 'bg-cyan-500', text: 'text-white', count: 150, subs: [{ id: 're1', name: 'Căn Hộ & Đất Nền', items: ['Chung cư cao cấp', 'Đất thổ cư', 'Đất dự án'] }] },
-            { id: 'electronics', name: 'Điện Máy & Tech', icon: 'fa-laptop', bg: 'bg-violet-500', text: 'text-white', count: 120, subs: [{ id: 'el1', name: 'Điện Thoại & Laptop', items: ['iPhone', 'MacBook', 'Samsung'] }] },
-            { id: 'web3', name: 'Tài Sản Web3', icon: 'fa-cubes', bg: 'bg-pink-500', text: 'text-white', count: 110, subs: [{ id: 'w1', name: 'NFT & Token', items: ['Digital Art', 'Pi Network', 'Sidra SDA'] }] },
-            { id: 'services', name: 'Dịch Vụ Tiện Ích', icon: 'fa-screwdriver-wrench', bg: 'bg-amber-500', text: 'text-white', count: 110, subs: [{ id: 's1', name: 'Sửa Chữa & Đời Sống', items: ['Sửa nhà', 'Cứu hộ xe', 'Vận chuyển'] }] }
+        // Default Sample Database
+        let products = [
+            { id: 1, name: 'Nhà Phố Thương Mại Ninh Kiều', category: 'Bất Động Sản', price: '2,500', currency: 'Pi', location: 'Cần Thơ', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80', desc: 'Sổ hồng riêng, mặt tiền kinh doanh sầm uất.' },
+            { id: 2, name: 'Xe Ô Tô VinFast VF8 Eco', category: 'Xe Cộ', price: '650,000', currency: 'VND', location: 'Hồ Chí Minh', image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80', desc: 'Xe lướt đẹp như mới, pin nguyên bản.' },
+            { id: 3, name: 'Lư Hương Đồ Cổ Minh Triều', category: 'Đồ Cổ & Đá Quý', price: '350', currency: 'USD', location: 'Hà Nội', image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80', desc: 'Đồ sưu tầm quý hiếm, hoa văn tinh xảo.' },
+            { id: 4, name: 'Gạo Sạch Hữu Cơ Miền Tây 50kg', category: 'Nông Sản & Hàng Sỉ', price: '1,200,000', currency: 'VND', location: 'An Giang', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80', desc: 'Gạo thơm đặc sản, chuẩn tiêu chuẩn xuất khẩu.' }
         ];
 
-        const initialPosts = [
-            { id: 'post-1', author: 'user_mine', title: 'Bán nhà mặt tiền kinh doanh kết hợp gara xe ô tô', mainCat: 'housing', subCat: 'Nhà Phố & Biệt Thự', itemCat: 'Nhà mặt tiền', price: '4.2 Tỷ VNĐ', sellerWallet: 'GDK3P89WXYZ9999PI', paymentMethod: 'Thanh toán khi nhận hàng (COD)', location: 'Cần Thơ', images: ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'], desc: 'Nhà chính chủ 1 trệt 2 lầu, đường rộng 10m.', createdAt: '2026-04-01' },
-            { id: 'post-2', author: 'other_user', title: 'Xe ô tô VinFast VF8 Plus Pin CATL mới 99%', mainCat: 'vehicles', subCat: 'Ô Tô Các Hãng', itemCat: 'VinFast', price: '990.000.000 VNĐ', sellerWallet: '0x71C3A9B48102938475839281', paymentMethod: 'Thanh toán trước (Chuyển khoản / Web3)', location: 'TP.HCM', images: ['https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80'], desc: 'Xe đẹp chính chủ, bảo hiểm đầy đủ.', createdAt: '2026-03-31' }
-        ];
+        let currentFilterCategory = 'all';
 
-        let posts = [];
-        let uploadedImages = [];
-        let activeMainCat = null;
-        let activeSubCat = null;
-        let activeItemCat = null;
-        let isMyPostsView = false;
-        let currentModalMain = null;
-        let currentModalSub = null;
-        let currentDetailWallet = '';
+        // Initialize App on Load
+        window.onload = function() {
+            renderProducts();
+            renderMyListings();
+            updateCounts();
+        };
 
-        function initApp() {
-            const saved = localStorage.getItem('global_super_app_v2026_final');
-            posts = saved ? JSON.parse(saved) : initialPosts;
-            renderCategories();
-            renderPosts();
-            populateFormCategories();
-        }
-
-        function renderCategories() {
-            const container = document.getElementById('mainCategoryList');
-            container.innerHTML = categoriesTree.map(cat => `
-                <div onclick="openCategoryModal('${cat.id}')" 
-                     class="app-card p-4 cursor-pointer flex flex-col items-center text-center group border border-slate-100">
-                    <div class="w-12 h-12 rounded-2xl ${cat.bg} ${cat.text} flex items-center justify-center text-lg font-bold shadow-md mb-2 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid ${cat.icon}"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-900 text-xs">${cat.name}</h3>
-                    <span class="text-[10px] text-slate-400 mt-0.5">${cat.count}+ thư mục</span>
-                </div>
-            `).join('');
-        }
-
-        function openCategoryModal(id) {
-            currentModalMain = categoriesTree.find(c => c.id === id);
-            currentModalSub = null;
-            renderModalContent();
-            document.getElementById('categoryModal').classList.remove('hidden');
-        }
-
-        function closeCategoryModal() {
-            document.getElementById('categoryModal').classList.add('hidden');
-        }
-
-        function renderModalContent() {
-            const list = document.getElementById('modalSubcategoryList');
-            const title = document.getElementById('modalCatTitle');
-            const breadcrumb = document.getElementById('modalBreadcrumb');
-            const backBtn = document.getElementById('modalBackBtn');
-
-            if (!currentModalSub) {
-                title.innerText = currentModalMain.name;
-                breadcrumb.innerHTML = `<span>Trang chủ</span> <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> <span class="font-bold">${currentModalMain.name}</span>`;
-                backBtn.classList.add('hidden');
-                list.innerHTML = currentModalMain.subs.map(sub => `
-                    <div onclick="selectModalSubCat('${sub.id}')" class="p-3 rounded-xl bg-white border border-slate-200 hover:border-violet-500 flex items-center justify-between cursor-pointer transition">
-                        <span class="font-bold text-xs text-slate-900">${sub.name}</span>
-                        <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
-                    </div>
-                `).join('');
-            } else {
-                title.innerText = `${currentModalMain.name} > ${currentModalSub.name}`;
-                breadcrumb.innerHTML = `<span onclick="categoryBackStep()" class="cursor-pointer hover:underline">Trang chủ</span> <i class="fa-solid fa-chevron-right text-[8px] mx-1"></i> <span class="font-bold">${currentModalSub.name}</span>`;
-                backBtn.classList.remove('hidden');
-                list.innerHTML = `
-                    <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', null)" class="mb-2 p-2.5 rounded-xl bg-violet-50 border border-violet-200 text-violet-900 font-bold cursor-pointer flex justify-between">
-                        <span>Lọc tất cả ${currentModalSub.name}</span><i class="fa-solid fa-arrow-right"></i>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        ${currentModalSub.items.map(item => `
-                            <div onclick="applyFilter('${currentModalMain.id}', '${currentModalSub.name}', '${item}')" class="p-2.5 rounded-xl bg-white border border-slate-200 hover:border-emerald-500 cursor-pointer flex justify-between items-center text-xs">
-                                <span class="font-semibold text-slate-700">${item}</span>
-                                <i class="fa-solid fa-circle-dot text-[8px] text-slate-400"></i>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
+        // Navigation Tabs Controller
+        function switchTab(tabId) {
+            ['home', 'listings', 'wallet', 'orders', 'settings'].forEach(id => {
+                document.getElementById(`tab-${id}`).classList.add('hidden');
+                const btn = document.getElementById(`nav-btn-${id}`);
+                if(btn) {
+                    btn.classList.remove('text-green-400');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-btn-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-400');
+                activeBtn.classList.add('text-green-400');
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function selectModalSubCat(subId) {
-            currentModalSub = currentModalMain.subs.find(s => s.id === subId);
-            renderModalContent();
+        // Sidebar Drawer Toggle
+        function toggleSidebar() {
+            const drawer = document.getElementById('sidebarDrawer');
+            const overlay = document.getElementById('sidebarOverlay');
+            drawer.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
         }
 
-        function categoryBackStep() {
-            currentModalSub = null;
-            renderModalContent();
+        // Dark / Light Mode Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('themeIcon');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
         }
 
-        function applyFilter(mainId, subName, itemName) {
-            isMyPostsView = false;
-            activeMainCat = mainId;
-            activeSubCat = subName;
-            activeItemCat = itemName;
-            document.getElementById('breadcrumbPath').innerText = `${subName}${itemName ? ' > ' + itemName : ''}`;
-            document.getElementById('activeFilterBar').classList.remove('hidden');
-            closeCategoryModal();
-            renderPosts();
+        // Filter Products by Category & Search
+        function filterByCategory(cat) {
+            currentFilterCategory = cat;
+            document.getElementById('currentCategoryTitle').innerHTML = `<i class="fa-solid fa-store text-green-400 mr-2"></i>${cat === 'all' ? 'Tất Cả Sản Phẩm Giao Dịch' : cat}`;
+            renderProducts();
+            switchTab('home');
         }
 
-        function filterMyPosts() {
-            isMyPostsView = true;
-            activeMainCat = null; activeSubCat = null; activeItemCat = null;
-            document.getElementById('breadcrumbPath').innerText = "Thư mục của tôi (Quản lý bài đăng cá nhân)";
-            document.getElementById('activeFilterBar').classList.remove('hidden');
-            renderPosts();
-            window.scrollTo({top: 150, behavior: 'smooth'});
+        function filterProducts() {
+            renderProducts();
         }
 
-        function resetFilter() {
-            isMyPostsView = false;
-            activeMainCat = null; activeSubCat = null; activeItemCat = null;
-            document.getElementById('activeFilterBar').classList.add('hidden');
-            document.getElementById('searchInput').value = '';
-            const m = document.getElementById('mobileSearchInput'); if(m) m.value = '';
-            renderPosts();
-        }
+        // Render Homepage Products Grid
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const currencyVal = document.getElementById('currencyFilter').value;
 
-        function handleSearch() {
-            renderPosts();
-        }
-
-        function renderPosts() {
-            const grid = document.getElementById('postsGrid');
-            const search = (document.getElementById('searchInput').value || document.getElementById('mobileSearchInput').value || '').toLowerCase().trim();
-
-            let filtered = posts.filter(p => {
-                if (isMyPostsView && p.author !== 'user_mine') return false;
-                if (activeMainCat && p.mainCat !== activeMainCat) return false;
-                if (activeSubCat && p.subCat !== activeSubCat) return false;
-                if (activeItemCat && p.itemCat !== activeItemCat) return false;
-                if (search && !p.title.toLowerCase().includes(search) && !p.location.toLowerCase().includes(search)) return false;
-                return true;
+            const filtered = products.filter(p => {
+                const matchCat = currentFilterCategory === 'all' || p.category === currentFilterCategory;
+                const matchSearch = p.name.toLowerCase().includes(keyword) || p.desc.toLowerCase().includes(keyword) || p.location.toLowerCase().includes(keyword);
+                const matchCurr = currencyVal === 'all' || p.currency === currencyVal;
+                return matchCat && matchSearch && matchCurr;
             });
 
-            document.getElementById('itemCount').innerText = `${filtered.length} tin`;
+            document.getElementById('productCountLabel').innerText = `Hiển thị ${filtered.length} mục`;
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-xs text-slate-500 bg-white rounded-2xl border border-slate-200">Không tìm thấy tin đăng phù hợp.</div>`;
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-500"><i class="fa-solid fa-box-open text-3xl mb-2 block"></i> Không tìm thấy sản phẩm phù hợp.</div>`;
                 return;
             }
 
-            grid.innerHTML = filtered.map(post => {
-                const img = (post.images && post.images.length > 0) ? post.images[0] : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
-                return `
-                    <div class="app-card overflow-hidden flex flex-col justify-between border border-slate-100">
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-green-500/50 transition flex flex-col group">
+                    <div class="relative h-48 overflow-hidden bg-slate-950">
+                        <img src="${p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-2.5 left-2.5 bg-slate-950/80 backdrop-blur border border-slate-700 text-green-400 text-[10px] font-semibold px-2.5 py-1 rounded-full">${p.category}</span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                         <div>
-                            <div class="relative h-32 bg-slate-100 cursor-pointer" onclick="openDetailModal('${post.id}')">
-                                <img src="${img}" class="w-full h-full object-cover">
-                                <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold bg-white/90 text-violet-700 shadow-sm">${post.subCat}</span>
-                            </div>
-                            <div class="p-2.5 space-y-1">
-                                <h3 onclick="openDetailModal('${post.id}')" class="font-bold text-xs text-slate-900 line-clamp-2 cursor-pointer hover:text-violet-600">${post.title}</h3>
-                                <div class="text-xs font-extrabold text-emerald-600">${post.price}</div>
-                                <p class="text-[10px] text-slate-500 truncate"><i class="fa-solid fa-location-dot text-rose-500"></i> ${post.location}</p>
-                            </div>
+                            <h4 class="font-bold text-white text-sm line-clamp-1 group-hover:text-green-400 transition">${p.name}</h4>
+                            <p class="text-xs text-slate-400 mt-1 line-clamp-2">${p.desc}</p>
                         </div>
-                        <div class="p-2 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-[11px]">
-                            <button onclick="openDetailModal('${post.id}')" class="text-slate-600 hover:text-violet-600 font-medium">Chi tiết</button>
-                            <div class="flex gap-1">
-                                <button onclick="openEditPost('${post.id}')" class="w-6 h-6 rounded bg-white border border-slate-200 text-slate-700 hover:text-violet-600 flex items-center justify-center shadow-sm"><i class="fa-solid fa-pen text-[9px]"></i></button>
-                                <button onclick="deletePost('${post.id}')" class="w-6 h-6 rounded bg-white border border-slate-200 text-slate-700 hover:text-rose-600 flex items-center justify-center shadow-sm"><i class="fa-solid fa-trash text-[9px]"></i></button>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+                            <div>
+                                <span class="text-xs text-slate-500 block">Giá niêm yết</span>
+                                <span class="font-extrabold text-emerald-400 text-sm">${p.price} ${p.currency}</span>
                             </div>
+                            <button onclick="alert('Đã kết nối yêu cầu mua hàng & Ký quỹ Escrow cho: ${p.name}')" class="bg-green-600/10 hover:bg-green-600 text-green-400 hover:text-white border border-green-500/30 text-xs px-3 py-1.5 rounded-xl transition font-medium">
+                                Mua Ngay
+                            </button>
                         </div>
                     </div>
-                `;
-            }).join('');
-        }
-
-        function populateFormCategories() {
-            document.getElementById('postMainCat').innerHTML = categoriesTree.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-            updateSubCatDropdown();
-        }
-
-        function updateSubCatDropdown() {
-            const mainId = document.getElementById('postMainCat').value;
-            const mainObj = categoriesTree.find(c => c.id === mainId);
-            if (mainObj) {
-                document.getElementById('postSubCat').innerHTML = mainObj.subs.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
-            }
-        }
-
-        function handleMultipleImagesUpload(event) {
-            const files = Array.from(event.target.files);
-            if (uploadedImages.length + files.length > 5) { alert('Tối đa 5 ảnh!'); return; }
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = e => { uploadedImages.push(e.target.result); renderImagePreviews(); };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function removeImage(idx) { uploadedImages.splice(idx, 1); renderImagePreviews(); }
-
-        function renderImagePreviews() {
-            document.getElementById('imageCountBadge').innerText = `${uploadedImages.length}/5 ảnh`;
-            document.getElementById('imagePreviewContainer').innerHTML = uploadedImages.map((img, idx) => `
-                <div class="relative"><img src="${img}" class="w-full h-14 object-cover rounded-lg border"><button type="button" onclick="removeImage(${idx})" class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 text-white rounded-full text-[8px] flex items-center justify-center">×</button></div>
+                </div>
             `).join('');
         }
 
-        function openPostModal() {
-            document.getElementById('postForm').reset();
-            document.getElementById('editPostId').value = '';
-            uploadedImages = [];
-            renderImagePreviews();
-            document.getElementById('postModal').classList.remove('hidden');
+        // Render My Listings Table / Cards
+        function renderMyListings() {
+            const container = document.getElementById('myListingsContainer');
+            container.innerHTML = products.map(p => `
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between space-y-3">
+                    <div class="flex space-x-3">
+                        <img src="${p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80'}" class="w-16 h-16 rounded-xl object-cover bg-slate-950 border border-slate-800">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded-full">${p.category}</span>
+                            <h4 class="font-bold text-sm text-white truncate mt-1">${p.name}</h4>
+                            <p class="text-xs text-emerald-400 font-bold">${p.price} ${p.currency}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-slate-800 text-xs">
+                        <span class="text-slate-400"><i class="fa-solid fa-location-dot mr-1 text-red-400"></i>${p.location}</span>
+                        <div class="space-x-2">
+                            <button onclick="editProduct(${p.id})" class="text-amber-400 hover:underline"><i class="fa-solid fa-pen-to-square mr-1"></i>Sửa</button>
+                            <button onclick="deleteProduct(${p.id})" class="text-red-400 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        function openEditPost(id) {
-            const p = posts.find(x => x.id === id);
-            if (!p) return;
-            document.getElementById('editPostId').value = p.id;
-            document.getElementById('postTitle').value = p.title;
-            document.getElementById('postMainCat').value = p.mainCat;
-            updateSubCatDropdown();
-            document.getElementById('postSubCat').value = p.subCat;
-            document.getElementById('postPrice').value = p.price;
-            document.getElementById('postLocation').value = p.location;
-            document.getElementById('postSellerWallet').value = p.sellerWallet || '';
-            document.getElementById('postPaymentMethod').value = p.paymentMethod || 'Thanh toán khi nhận hàng (COD)';
-            document.getElementById('postDesc').value = p.desc || '';
-            uploadedImages = p.images ? [...p.images] : [];
-            renderImagePreviews();
-            document.getElementById('postModal').classList.remove('hidden');
+        // Update Counter Badges
+        function updateCounts() {
+            document.getElementById('countAll').innerText = products.length;
         }
 
-        function closePostModal() { document.getElementById('postModal').classList.add('hidden'); }
+        // Post & Edit Modal Controller
+        function openPostModal(editId = null) {
+            const modal = document.getElementById('postModal');
+            const title = document.getElementById('modalTitle');
+            document.getElementById('productForm').reset();
+            document.getElementById('editProductId').value = '';
 
-        function savePost(event) {
-            event.preventDefault();
-            const editId = document.getElementById('editPostId').value;
-            const imgs = uploadedImages.length > 0 ? uploadedImages : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80'];
-            const data = {
-                id: editId || 'post-' + Date.now(),
-                author: 'user_mine',
-                title: document.getElementById('postTitle').value,
-                mainCat: document.getElementById('postMainCat').value,
-                subCat: document.getElementById('postSubCat').value,
-                itemCat: '',
-                price: document.getElementById('postPrice').value,
-                location: document.getElementById('postLocation').value,
-                sellerWallet: document.getElementById('postSellerWallet').value,
-                paymentMethod: document.getElementById('postPaymentMethod').value,
-                images: imgs,
-                desc: document.getElementById('postDesc').value,
-                createdAt: new Date().toISOString().split('T')[0]
-            };
-            if (editId) {
-                const idx = posts.findIndex(x => x.id === editId);
-                if (idx !== -1) posts[idx] = data;
+            if(editId) {
+                const item = products.find(p => p.id === editId);
+                if(item) {
+                    title.innerHTML = `<i class="fa-solid fa-pen-to-square text-green-400 mr-2"></i>Chỉnh Sửa Sản Phẩm (#${item.id})`;
+                    document.getElementById('editProductId').value = item.id;
+                    document.getElementById('pName').value = item.name;
+                    document.getElementById('pCategory').value = item.category;
+                    document.getElementById('pCurrency').value = item.currency;
+                    document.getElementById('pPrice').value = item.price;
+                    document.getElementById('pLocation').value = item.location;
+                    document.getElementById('pImage').value = item.image;
+                    document.getElementById('pDesc').value = item.desc;
+                }
             } else {
-                posts.unshift(data);
+                title.innerHTML = `<i class="fa-solid fa-circle-plus text-green-400 mr-2"></i>Đăng Bán Sản Phẩm Mới`;
             }
-            localStorage.setItem('global_super_app_v2026_final', JSON.stringify(posts));
+
+            modal.classList.remove('hidden');
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').classList.add('hidden');
+        }
+
+        function handleProductSubmit(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const newItem = {
+                id: editId ? parseInt(editId) : Date.now(),
+                name: document.getElementById('pName').value,
+                category: document.getElementById('pCategory').value,
+                currency: document.getElementById('pCurrency').value,
+                price: document.getElementById('pPrice').value,
+                location: document.getElementById('pLocation').value,
+                image: document.getElementById('pImage').value || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80',
+                desc: document.getElementById('pDesc').value
+            };
+
+            if(editId) {
+                const index = products.findIndex(p => p.id === parseInt(editId));
+                if(index !== -1) products[index] = newItem;
+            } else {
+                products.unshift(newItem);
+            }
+
+            renderProducts();
+            renderMyListings();
+            updateCounts();
             closePostModal();
-            renderPosts();
+            alert('Lưu và đăng sản phẩm thành công!');
         }
 
-        function deletePost(id) {
-            if (confirm('Xóa bài đăng này?')) {
-                posts = posts.filter(x => x.id !== id);
-                localStorage.setItem('global_super_app_v2026_final', JSON.stringify(posts));
-                renderPosts();
+        function editProduct(id) {
+            openPostModal(id);
+        }
+
+        function deleteProduct(id) {
+            if(confirm('Bạn có chắc chắn muốn xóa tin đăng này không?')) {
+                products = products.filter(p => p.id !== id);
+                renderProducts();
+                renderMyListings();
+                updateCounts();
             }
         }
 
-        function openDetailModal(id) {
-            const p = posts.find(x => x.id === id);
-            if (!p) return;
-            document.getElementById('detailImg').src = p.images[0];
-            document.getElementById('detailBadge').innerText = p.subCat;
-            document.getElementById('detailDate').innerText = `Ngày: ${p.createdAt}`;
-            document.getElementById('detailTitle').innerText = p.title;
-            document.getElementById('detailPrice').innerText = p.price;
-            document.getElementById('detailLocation').innerHTML = `<i class="fa-solid fa-location-dot text-rose-500"></i> ${p.location}`;
-            currentDetailWallet = p.sellerWallet || 'Chưa cung cấp';
-            document.getElementById('detailSellerWallet').innerText = currentDetailWallet;
-            document.getElementById('detailPaymentMethod').innerText = p.paymentMethod || 'Thỏa thuận trực tiếp';
-            document.getElementById('detailDesc').innerText = p.desc || 'Không có mô tả.';
-            document.getElementById('detailThumbs').innerHTML = p.images.length > 1 ? p.images.map(img => `<img src="${img}" onclick="document.getElementById('detailImg').src='${img}'" class="w-8 h-8 object-cover rounded border-2 border-white cursor-pointer">`).join('') : '';
-            document.getElementById('detailModal').classList.remove('hidden');
+        function connectNewWallet() {
+            const newAddr = prompt("Nhập địa chỉ ví Web3 / Pi / Sidra của bạn:", "0x89b...31f9");
+            if(newAddr) {
+                document.getElementById('headerWalletAddr').innerText = newAddr.slice(0, 6) + '...' + newAddr.slice(-4);
+                document.getElementById('walletActiveAddr').innerText = newAddr;
+                alert('Đã kết nối ví thành công!');
+            }
         }
-
-        function copySellerWallet() {
-            if (!currentDetailWallet || currentDetailWallet === 'Chưa cung cấp') { alert('Chưa có ví!'); return; }
-            navigator.clipboard.writeText(currentDetailWallet).then(() => {
-                const btn = document.getElementById('copyWalletBtn');
-                btn.innerText = 'Đã chép!';
-                setTimeout(() => btn.innerText = 'Sao chép ví', 2000);
-            });
-        }
-
-        function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
-        function openWalletModal() { document.getElementById('walletModal').classList.remove('hidden'); }
-        function closeWalletModal() { document.getElementById('walletModal').classList.add('hidden'); }
-        function connectWallet(name, addr) {
-            document.getElementById('walletBtnText').innerText = addr.substring(0, 5) + '...';
-            document.getElementById('walletAddressDisplay').innerText = `${name}: ${addr}`;
-            document.getElementById('walletOptions').classList.add('hidden');
-            document.getElementById('walletDashboard').classList.remove('hidden');
-            alert(`Đã kết nối ${name}!`);
-        }
-        function disconnectWallet() {
-            document.getElementById('walletBtnText').innerText = 'Ví & Dán Ví';
-            document.getElementById('walletOptions').classList.remove('hidden');
-            document.getElementById('walletDashboard').classList.add('hidden');
-        }
-
-        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
