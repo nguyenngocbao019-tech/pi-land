@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siêu Ứng Dụng Toàn Cầu - PiLand</title>
+    <title>Siêu Ứng Dụng Chở Hàng Hóa Toàn Cầu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Firebase SDK Compat -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans pb-24">
+<body class="bg-slate-50 text-slate-800 font-sans pb-24">
 
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-indigo-700 via-blue-600 to-emerald-600 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-globe text-2xl text-yellow-300"></i>
-                <span class="text-base sm:text-lg font-bold tracking-wide">PiLand Super App</span>
+                <i class="fa-solid fa-truck-fast text-2xl text-yellow-300"></i>
+                <span class="text-sm sm:text-base font-extrabold tracking-wide">Siêu Ứng Dụng Chở Hàng Hóa Toàn Cầu</span>
             </div>
             <div class="flex items-center gap-2">
-                <button type="button" onclick="openPostModal()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-3 py-1.5 rounded-lg text-xs sm:text-sm shadow transition flex items-center gap-1 cursor-pointer">
+                <button type="button" onclick="openPostModal()" class="bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-bold px-3 py-1.5 rounded-xl text-xs shadow-md transition flex items-center gap-1 cursor-pointer">
                     <i class="fa-solid fa-plus"></i> Đăng Bài
                 </button>
             </div>
@@ -29,27 +29,27 @@
 
     <main class="max-w-7xl mx-auto px-4 py-6">
         
-        <!-- Profile & Quick Control Panel (Avatar, Thư mục của tôi, Cài đặt) -->
-        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <!-- Profile & Quick Control Panel -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3 w-full sm:w-auto">
-                <div class="relative group cursor-pointer" onclick="changeAvatar()">
-                    <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar" class="w-14 h-14 rounded-full object-cover border-2 border-blue-500 shadow-sm">
+                <div class="relative group cursor-pointer" onclick="openSettingsModal()">
+                    <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar" class="w-14 h-14 rounded-full object-cover border-2 border-indigo-500 shadow-sm">
                     <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-white text-xs">
                         <i class="fa-solid fa-camera"></i>
                     </div>
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-900 text-base" id="userNameDisplay">Bảo Pi (Thành viên)</h3>
-                    <p class="text-xs text-gray-500 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Đã kết nối Cloud & Web3</p>
+                    <h3 class="font-bold text-slate-900 text-base" id="userNameDisplay">Bảo Pi (Chủ xe & Logis)</h3>
+                    <p class="text-xs text-slate-500 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Đã kết nối Cloud & Web3</p>
                 </div>
             </div>
 
-            <!-- Các nút chuyển đổi phụ: Thư mục của tôi & Cài đặt -->
+            <!-- Thư mục của tôi & Cài đặt -->
             <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                <button type="button" onclick="toggleMyPosts()" id="myPostsBtn" class="flex-1 sm:flex-none bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 px-3.5 py-2 rounded-xl font-medium text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer">
+                <button type="button" onclick="toggleMyPosts()" id="myPostsBtn" class="flex-1 sm:flex-none bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 px-3.5 py-2 rounded-xl font-semibold text-xs transition flex items-center justify-center gap-2 cursor-pointer">
                     <i class="fa-solid fa-folder-open"></i> Thư mục của tôi
                 </button>
-                <button type="button" onclick="openSettingsModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3.5 py-2 rounded-xl font-medium text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer" title="Cài đặt hệ thống">
+                <button type="button" onclick="openSettingsModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-xl font-semibold text-xs transition flex items-center justify-center gap-2 cursor-pointer" title="Cài đặt hệ thống">
                     <i class="fa-solid fa-gear"></i> <span class="hidden sm:inline">Cài đặt</span>
                 </button>
             </div>
@@ -58,115 +58,186 @@
         <!-- Search Bar -->
         <div class="mb-6">
             <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400"></i>
-                <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Tìm kiếm tài sản, xe cộ, giá trị thực, dịch vụ hữu ích..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm text-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Tìm kiếm siêu xe, bất động sản, hàng hóa, dịch vụ..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white shadow-sm text-sm">
             </div>
         </div>
 
-        <!-- Nhóm Danh Mục Chính & Giá trị thực / Hữu ích -->
+        <!-- Nhóm Danh Mục Đa Sắc Màu Nổi Bật Ngoài Màn Hình Chính -->
         <div class="mb-8">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide"><i class="fa-solid fa-layer-group text-blue-600"></i> Danh mục & Giá trị thực</h3>
+                <h3 class="text-sm font-extrabold text-slate-700 uppercase tracking-wide"><i class="fa-solid fa-shapes text-indigo-600"></i> Khám Phá Danh Mục Nổi Bật</h3>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div onclick="filterByCategory('Bất động sản')" class="bg-white p-3.5 rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-base"><i class="fa-solid fa-house"></i></div>
-                    <div><h4 class="font-bold text-xs sm:text-sm">Bất động sản</h4><p class="text-[10px] text-gray-500">Giá trị thực</p></div>
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <!-- Siêu Xe -->
+                <div onclick="openCategoryPopup('Siêu Xe')" class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-red-500 to-orange-600 text-white shadow-md hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <i class="fa-solid fa-gauge-high text-2xl text-yellow-200"></i>
+                        <span class="text-[10px] bg-black/30 px-2 py-0.5 rounded-full font-bold">Hot</span>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-sm tracking-wide">Siêu Xe</h4>
+                        <p class="text-[11px] text-orange-100 font-medium">Ferrari, Bugatti...</p>
+                    </div>
                 </div>
-                <div onclick="filterByCategory('Xe cộ')" class="bg-white p-3.5 rounded-xl border border-emerald-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-base"><i class="fa-solid fa-car"></i></div>
-                    <div><h4 class="font-bold text-xs sm:text-sm">Xe cộ</h4><p class="text-[10px] text-gray-500">Ô tô, Xe máy</p></div>
+
+                <!-- Bất Động Sản -->
+                <div onclick="openCategoryPopup('Bất Động Sản')" class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-md hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <i class="fa-solid fa-building text-2xl text-yellow-200"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-sm tracking-wide">Bất Động Sản</h4>
+                        <p class="text-[11px] text-blue-100 font-medium">Giá trị thực</p>
+                    </div>
                 </div>
-                <div onclick="filterByCategory('Tiện ích hữu ích')" class="bg-white p-3.5 rounded-xl border border-amber-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-base"><i class="fa-solid fa-toolbox"></i></div>
-                    <div><h4 class="font-bold text-xs sm:text-sm">Hữu ích</h4><p class="text-[10px] text-gray-500">Dịch vụ & Đời sống</p></div>
+
+                <!-- Hàng Hóa -->
+                <div onclick="openCategoryPopup('Hàng Hóa')" class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-emerald-600 to-teal-700 text-white shadow-md hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <i class="fa-solid fa-boxes-stacked text-2xl text-yellow-200"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-sm tracking-wide">Hàng Hóa</h4>
+                        <p class="text-[11px] text-emerald-100 font-medium">Vận tải & Kho bãi</p>
+                    </div>
                 </div>
-                <div onclick="filterByCategory('Dịch vụ Web3')" class="bg-white p-3.5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-base"><i class="fa-solid fa-coins"></i></div>
-                    <div><h4 class="font-bold text-xs sm:text-sm">Dịch vụ Web3</h4><p class="text-[10px] text-gray-500">Pi & Crypto</p></div>
+
+                <!-- Hàng Sưu Tầm -->
+                <div onclick="openCategoryPopup('Hàng Sưu Tầm')" class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-purple-600 to-pink-600 text-white shadow-md hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <i class="fa-solid fa-gem text-2xl text-yellow-200"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-sm tracking-wide">Hàng Sưu Tầm</h4>
+                        <p class="text-[11px] text-purple-100 font-medium">Đồ độc lạ & Quý hiếm</p>
+                    </div>
+                </div>
+
+                <!-- Dịch vụ Web3 -->
+                <div onclick="openCategoryPopup('Dịch vụ Web3')" class="relative overflow-hidden rounded-2xl p-4 bg-gradient-to-br from-amber-500 to-yellow-600 text-white shadow-md hover:shadow-xl transition transform hover:-translate-y-1 cursor-pointer flex flex-col justify-between h-28 col-span-2 sm:col-span-1">
+                    <div class="flex justify-between items-start">
+                        <i class="fa-solid fa-coins text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-sm tracking-wide">Dịch vụ Web3</h4>
+                        <p class="text-[11px] text-yellow-100 font-medium">Pi & Crypto DEX</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Posts Listing Section -->
         <div class="flex justify-between items-center mb-4">
-            <h3 id="sectionTitle" class="text-base font-bold text-gray-800">Tất cả bài đăng trực tuyến</h3>
-            <span class="text-xs text-emerald-600 font-medium bg-emerald-50 px-2.5 py-1 rounded-full"><i class="fa-solid fa-cloud"></i> Cloud Active</span>
+            <h3 id="sectionTitle" class="text-base font-bold text-slate-800">Tất cả bài đăng trực tuyến</h3>
+            <span class="text-xs text-emerald-600 font-semibold bg-emerald-50 px-2.5 py-1 rounded-full"><i class="fa-solid fa-cloud"></i> Cloud Active</span>
         </div>
         <div id="postsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             <!-- Dữ liệu load tự động từ Firebase -->
         </div>
     </main>
 
-    <!-- Modal Tạo / Đăng Bài -->
-    <div id="postModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl">
+    <!-- Modal Popup Chi Tiết Danh Mục (Khi bấm vào từng ô danh mục ngoài màn hình chính) -->
+    <div id="categoryPopupModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <div>
+                    <h3 id="popupCategoryTitle" class="text-lg font-black text-slate-900">Danh Mục Sản Phẩm</h3>
+                    <p class="text-xs text-slate-500">Xem nhanh danh sách và tạo bài đăng trực tiếp trong danh mục này.</p>
+                </div>
+                <button type="button" onclick="closeCategoryPopup()" class="text-slate-400 hover:text-slate-600 text-2xl font-bold">&times;</button>
+            </div>
+            
+            <div class="mb-4 flex justify-between items-center bg-slate-50 p-3 rounded-xl">
+                <span class="text-xs font-semibold text-slate-600" id="popupItemCount">0 sản phẩm khả dụng</span>
+                <button type="button" onclick="closeCategoryPopup(); openPostModalPreselect();" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-3.5 py-1.5 rounded-xl text-xs shadow transition flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-plus"></i> Tạo bài đăng nhanh ở đây
+                </button>
+            </div>
+
+            <div id="popupPostsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Nội dung sản phẩm theo danh mục -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tạo / Sửa Bài Đăng -->
+    <div id="postModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h3 class="text-base font-bold text-gray-900">Tạo bài đăng mới lên hệ thống</h3>
-                <button type="button" onclick="closePostModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+                <h3 id="postModalTitle" class="text-base font-bold text-slate-900">Tạo bài đăng mới lên hệ thống</h3>
+                <button type="button" onclick="closePostModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
             </div>
             <form onsubmit="savePost(event)" class="space-y-3.5">
+                <input type="hidden" id="editPostId" value="">
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Tiêu đề bài đăng</label>
-                    <input type="text" id="postTitle" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tiêu đề bài đăng</label>
+                    <input type="text" id="postTitle" required class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="VD: Siêu xe Ferrari 2026 / Bất động sản mặt tiền...">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Danh mục chính</label>
-                        <select id="postMainCat" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            <option value="Bất động sản">Bất động sản</option>
-                            <option value="Xe cộ">Xe cộ</option>
-                            <option value="Tiện ích hữu ích">Tiện ích hữu ích</option>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Danh mục chính</label>
+                        <select id="postMainCat" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <option value="Siêu Xe">Siêu Xe</option>
+                            <option value="Bất Động Sản">Bất Động Sản</option>
+                            <option value="Hàng Hóa">Hàng Hóa</option>
+                            <option value="Hàng Sưu Tầm">Hàng Sưu Tầm</option>
                             <option value="Dịch vụ Web3">Dịch vụ Web3</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Giá trị / Giá bán</label>
-                        <input type="text" id="postPrice" placeholder="VD: 1.5 tỷ / 100 Pi" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Giá trị / Giá bán</label>
+                        <input type="text" id="postPrice" placeholder="VD: 15 tỷ / 500 Pi" required class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Khu vực / Địa điểm</label>
-                    <input type="text" id="postLocation" placeholder="VD: Cần Thơ" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Khu vực / Địa điểm</label>
+                    <input type="text" id="postLocation" placeholder="VD: Cần Thơ / Toàn quốc" required class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Địa chỉ ví nhận tiền (G...)</label>
-                    <input type="text" id="postSellerWallet" placeholder="VD: GDK3P89WXYZ..." required class="w-full border rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Địa chỉ ví Web3 nhận tiền (G...)</label>
+                    <input type="text" id="postSellerWallet" placeholder="VD: GDK3P89WXYZ..." required class="w-full border rounded-xl px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
+                
+                <!-- Tải ảnh từ Thư viện / Bộ nhớ thiết bị hoặc dán URL -->
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Hình ảnh (URL Link ảnh)</label>
-                    <input type="text" id="postImage" placeholder="Dán link ảnh https://..." class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Hình ảnh sản phẩm (Chọn từ máy hoặc dán URL)</label>
+                    <div class="flex gap-2 mb-2">
+                        <input type="file" id="postImageFile" accept="image/*" onchange="previewImageFile(event)" class="w-full text-xs border rounded-xl p-1.5 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer">
+                    </div>
+                    <input type="text" id="postImage" placeholder="Hoặc dán link ảnh https://..." class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Mô tả chi tiết</label>
-                    <textarea id="postDesc" rows="2" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Mô tả chi tiết</label>
+                    <textarea id="postDesc" rows="2" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Mô tả thông số siêu xe, tình trạng hàng hóa..."></textarea>
                 </div>
                 <div class="flex justify-end space-x-2 pt-2">
-                    <button type="button" onclick="closePostModal()" class="px-4 py-2 border rounded-lg text-xs font-medium text-gray-600">Hủy</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium shadow">Lưu bài đăng</button>
+                    <button type="button" onclick="closePostModal()" class="px-4 py-2 border rounded-xl text-xs font-semibold text-slate-600">Hủy</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow">Lưu bài đăng</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Modal Cài đặt hệ thống -->
-    <div id="settingsModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4">
+    <!-- Modal Cài đặt hệ thống & Avatar -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4">
             <div class="flex justify-between items-center border-b pb-2">
-                <h3 class="text-base font-bold text-gray-900"><i class="fa-solid fa-gear text-blue-600"></i> Cài đặt tài khoản</h3>
-                <button type="button" onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+                <h3 class="text-base font-bold text-slate-950"><i class="fa-solid fa-gear text-indigo-600"></i> Cài đặt tài khoản</h3>
+                <button type="button" onclick="closeSettingsModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Tên hiển thị của bạn</label>
-                <input type="text" id="inputUserName" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" value="Bảo Pi">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tên hiển thị của bạn</label>
+                <input type="text" id="inputUserName" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" value="Bảo Pi">
             </div>
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Link Avatar (URL Ảnh đại diện)</label>
-                <input type="text" id="inputAvatarUrl" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="https://...">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Link Avatar (URL Ảnh đại diện)</label>
+                <input type="text" id="inputAvatarUrl" class="w-full border rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="https://...">
             </div>
             <div class="flex justify-end gap-2 pt-2">
-                <button type="button" onclick="closeSettingsModal()" class="px-3.5 py-2 border rounded-lg text-xs font-medium text-gray-600">Đóng</button>
-                <button type="button" onclick="saveSettings()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium shadow">Lưu thay đổi</button>
+                <button type="button" onclick="closeSettingsModal()" class="px-3.5 py-2 border rounded-xl text-xs font-semibold text-slate-600">Đóng</button>
+                <button type="button" onclick="saveSettings()" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow">Lưu thay đổi</button>
             </div>
         </div>
     </div>
@@ -193,7 +264,6 @@
         const myUserId = "user_" + (localStorage.getItem('my_device_id') || Math.random().toString(36).substring(2));
         if(!localStorage.getItem('my_device_id')) localStorage.setItem('my_device_id', myUserId);
 
-        // Load profile info
         window.onload = function() {
             const savedName = localStorage.getItem('my_user_name');
             const savedAvatar = localStorage.getItem('my_avatar_url');
@@ -222,8 +292,21 @@
             }
         }
 
+        // Đọc file ảnh từ bộ nhớ thiết bị chuyển sang Base64
+        function previewImageFile(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('postImage').value = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
         async function savePost(event) {
             event.preventDefault();
+            const editId = document.getElementById('editPostId').value;
             const imgUrl = document.getElementById('postImage').value.trim() || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
 
             const postData = {
@@ -240,13 +323,35 @@
             };
 
             try {
-                await db.collection('posts').add(postData);
+                if (editId) {
+                    await db.collection('posts').doc(editId).update(postData);
+                    alert("Cập nhật bài đăng thành công!");
+                } else {
+                    await db.collection('posts').add(postData);
+                    alert("Đăng bài thành công lên hệ thống đám mây!");
+                }
                 closePostModal();
                 await fetchPostsFromCloud();
-                alert("Đăng bài thành công lên hệ thống đám mây!");
             } catch (error) {
                 alert("Lỗi khi lưu bài: " + error.message);
             }
+        }
+
+        function editPost(id) {
+            const p = posts.find(item => item.id === id);
+            if (!p) return;
+            
+            document.getElementById('editPostId').value = p.id;
+            document.getElementById('postTitle').value = p.title;
+            document.getElementById('postMainCat').value = p.mainCat;
+            document.getElementById('postPrice').value = p.price;
+            document.getElementById('postLocation').value = p.location;
+            document.getElementById('postSellerWallet').value = p.sellerWallet;
+            document.getElementById('postImage').value = p.image;
+            document.getElementById('postDesc').value = p.desc || '';
+            document.getElementById('postModalTitle').innerText = "Chỉnh sửa bài đăng";
+            
+            openPostModal();
         }
 
         async function deletePost(id) {
@@ -254,6 +359,7 @@
                 try {
                     await db.collection('posts').doc(id).delete();
                     await fetchPostsFromCloud();
+                    closeCategoryPopup();
                 } catch (error) {
                     alert("Lỗi khi xóa: " + error.message);
                 }
@@ -275,39 +381,84 @@
             }
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400"><i class="fa-solid fa-box-open text-4xl mb-2"></i><p>Chưa có bài đăng nào trên hệ thống.</p></div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400"><i class="fa-solid fa-box-open text-4xl mb-2"></i><p>Chưa có bài đăng nào trên hệ thống.</p></div>`;
                 return;
             }
 
             container.innerHTML = filtered.map(p => `
-                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
                     <div>
-                        <div class="h-44 overflow-hidden relative bg-gray-100">
+                        <div class="h-44 overflow-hidden relative bg-slate-100">
                             <img src="${p.image}" alt="Product" class="w-full h-full object-cover">
-                            <span class="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-md backdrop-blur-sm">${p.mainCat}</span>
+                            <span class="absolute top-2 left-2 bg-slate-900/70 text-white text-[10px] px-2.5 py-1 rounded-lg font-bold backdrop-blur-sm shadow">${p.mainCat}</span>
                         </div>
                         <div class="p-3.5">
-                            <h4 class="font-bold text-gray-900 text-sm mb-1 line-clamp-1">${p.title}</h4>
-                            <p class="text-blue-600 font-bold text-base mb-1.5">${p.price}</p>
-                            <p class="text-gray-500 text-xs mb-1.5 flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> ${p.location}</p>
-                            <p class="text-gray-600 text-xs line-clamp-2 mb-2">${p.desc || 'Không có mô tả.'}</p>
+                            <h4 class="font-bold text-slate-900 text-sm mb-1 line-clamp-1">${p.title}</h4>
+                            <p class="text-indigo-600 font-extrabold text-base mb-1.5">${p.price}</p>
+                            <p class="text-slate-500 text-xs mb-1.5 flex items-center gap-1"><i class="fa-solid fa-location-dot text-slate-400"></i> ${p.location}</p>
+                            <p class="text-slate-600 text-xs line-clamp-2 mb-2">${p.desc || 'Không có mô tả.'}</p>
                         </div>
                     </div>
-                    <div class="p-3.5 pt-0 border-t border-gray-100 mt-1">
-                        <div class="bg-gray-50 p-2 rounded-lg mb-2.5 flex items-center justify-between">
-                            <span class="text-[11px] text-gray-500 font-mono truncate max-w-[130px]">Ví: ${p.sellerWallet}</span>
-                            <button type="button" onclick="navigator.clipboard.writeText('${p.sellerWallet}'); alert('Đã copy ví!');" class="text-blue-600 text-xs font-semibold cursor-pointer"><i class="fa-regular fa-copy"></i> Copy</button>
+                    <div class="p-3.5 pt-0 border-t border-slate-100 mt-1">
+                        <div class="bg-slate-50 p-2 rounded-xl mb-2.5 flex items-center justify-between">
+                            <span class="text-[11px] text-slate-500 font-mono truncate max-w-[130px]">Ví: ${p.sellerWallet}</span>
+                            <button type="button" onclick="navigator.clipboard.writeText('${p.sellerWallet}'); alert('Đã copy ví!');" class="text-indigo-600 text-xs font-bold cursor-pointer"><i class="fa-regular fa-copy"></i> Copy</button>
                         </div>
-                        ${p.author === myUserId ? `<button type="button" onclick="deletePost('${p.id}')" class="w-full bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold py-1.5 rounded-lg transition cursor-pointer">Xóa bài của bạn</button>` : ''}
+                        ${p.author === myUserId ? `
+                            <div class="flex gap-2">
+                                <button type="button" onclick="editPost('${p.id}')" class="flex-1 bg-amber-50 hover:bg-amber-100 text-amber-700 text-xs font-bold py-1.5 rounded-xl transition cursor-pointer">Sửa</button>
+                                <button type="button" onclick="deletePost('${p.id}')" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold py-1.5 rounded-xl transition cursor-pointer">Xóa</button>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `).join('');
         }
 
-        function filterByCategory(cat) {
-            isMyPosts = false;
-            currentFilter = cat;
-            renderPosts();
+        // Mở Popup Danh Mục
+        let activeCategoryPopupName = '';
+        function openCategoryPopup(catName) {
+            activeCategoryPopupName = catName;
+            document.getElementById('popupCategoryTitle').innerText = `Danh mục: ${catName}`;
+            const modal = document.getElementById('categoryPopupModal');
+            if(modal) modal.classList.remove('hidden');
+            renderPopupPosts();
+        }
+
+        function closeCategoryPopup() {
+            const modal = document.getElementById('categoryPopupModal');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        function renderPopupPosts() {
+            const container = document.getElementById('popupPostsContainer');
+            const filtered = posts.filter(p => p.mainCat === activeCategoryPopupName);
+            document.getElementById('popupItemCount').innerText = `${filtered.length} sản phẩm khả dụng`;
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400 text-xs"><p>Chưa có sản phẩm nào trong danh mục này.</p></div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => `
+                <div class="bg-slate-50 rounded-xl border border-slate-200 p-3 flex flex-col justify-between">
+                    <div>
+                        <img src="${p.image}" class="w-full h-32 object-cover rounded-lg mb-2">
+                        <h4 class="font-bold text-slate-900 text-xs line-clamp-1">${p.title}</h4>
+                        <p class="text-indigo-600 font-extrabold text-sm">${p.price}</p>
+                        <p class="text-slate-500 text-[11px]"><i class="fa-solid fa-location-dot"></i> ${p.location}</p>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-200 flex justify-between items-center">
+                        <span class="text-[10px] text-slate-400 font-mono truncate max-w-[100px]">Ví: ${p.sellerWallet}</span>
+                        ${p.author === myUserId ? `
+                            <div class="flex gap-1">
+                                <button onclick="closeCategoryPopup(); editPost('${p.id}')" class="bg-amber-100 text-amber-700 text-[10px] px-2 py-1 rounded font-bold">Sửa</button>
+                                <button onclick="deletePost('${p.id}')" class="bg-red-100 text-red-600 text-[10px] px-2 py-1 rounded font-bold">Xóa</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
         }
 
         function toggleMyPosts() {
@@ -315,18 +466,34 @@
             currentFilter = 'All';
             const btn = document.getElementById('myPostsBtn');
             if (isMyPosts) {
-                btn.classList.add('bg-blue-600', 'text-white');
+                btn.classList.add('bg-indigo-600', 'text-white');
                 btn.classList.remove('bg-blue-50', 'text-blue-600');
             } else {
-                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.remove('bg-indigo-600', 'text-white');
                 btn.classList.add('bg-blue-50', 'text-blue-600');
             }
             renderPosts();
         }
 
         function openPostModal() {
+            document.getElementById('editPostId').value = '';
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postPrice').value = '';
+            document.getElementById('postLocation').value = '';
+            document.getElementById('postSellerWallet').value = '';
+            document.getElementById('postImage').value = '';
+            document.getElementById('postImageFile').value = '';
+            document.getElementById('postDesc').value = '';
+            document.getElementById('postModalTitle').innerText = "Tạo bài đăng mới lên hệ thống";
             const modal = document.getElementById('postModal');
             if(modal) modal.classList.remove('hidden');
+        }
+
+        function openPostModalPreselect() {
+            openPostModal();
+            if(activeCategoryPopupName) {
+                document.getElementById('postMainCat').value = activeCategoryPopupName;
+            }
         }
 
         function closePostModal() {
@@ -342,10 +509,6 @@
         function closeSettingsModal() {
             const modal = document.getElementById('settingsModal');
             if(modal) modal.classList.add('hidden');
-        }
-
-        function changeAvatar() {
-            openSettingsModal();
         }
 
         function saveSettings() {
@@ -366,10 +529,10 @@
         function filterPosts() {
             const keyword = document.getElementById('searchInput').value.toLowerCase();
             const container = document.getElementById('postsContainer');
-            const filtered = posts.filter(p => p.title.toLowerCase().includes(keyword) || p.location.toLowerCase().includes(keyword));
+            const filtered = posts.filter(p => p.title.toLowerCase().includes(keyword) || p.location.toLowerCase().includes(keyword) || p.mainCat.toLowerCase().includes(keyword));
             
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400"><p>Không tìm thấy bài đăng.</p></div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400"><p>Không tìm thấy bài đăng phù hợp.</p></div>`;
                 return;
             }
             let temp = posts;
