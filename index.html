@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siêu Ứng Dụng Toàn Cầu - PiLand Pro</title>
+    <title>Siêu Ứng Dụng Toàn Cầu - PiLand</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Firebase SDK Compat -->
@@ -13,127 +13,165 @@
 <body class="bg-gray-50 text-gray-800 font-sans pb-24">
 
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white shadow-lg sticky top-0 z-50">
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-globe text-2xl text-yellow-300 animate-spin" style="animation-duration: 10s;"></i>
-                <div>
-                    <span class="text-base font-bold tracking-wide block">Siêu Ứng Dụng Toàn Cầu</span>
-                    <span class="text-[10px] text-yellow-200 uppercase tracking-widest">Hệ thống 1,201+ Danh Mục & Cloud</span>
-                </div>
+                <i class="fa-solid fa-globe text-2xl text-yellow-300"></i>
+                <span class="text-base sm:text-lg font-bold tracking-wide">PiLand Super App</span>
             </div>
-            <div class="flex items-center space-x-2">
-                <button onclick="openPostModal()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-3 py-1.5 rounded-xl text-sm shadow transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus-circle"></i> Đăng Bài
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openPostModal()" class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-3 py-1.5 rounded-lg text-xs sm:text-sm shadow transition flex items-center gap-1 cursor-pointer">
+                    <i class="fa-solid fa-plus"></i> Đăng Bài
                 </button>
             </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-6">
-        <!-- Search & Control Bar -->
-        <div class="mb-6 flex flex-col md:flex-row gap-3">
-            <div class="relative flex-1">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400"></i>
-                <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Tìm kiếm trong 1,201+ danh mục, bất động sản, xe cộ, Web3..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm text-sm">
+        
+        <!-- Profile & Quick Control Panel (Avatar, Thư mục của tôi, Cài đặt) -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div class="relative group cursor-pointer" onclick="changeAvatar()">
+                    <img id="userAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" alt="Avatar" class="w-14 h-14 rounded-full object-cover border-2 border-blue-500 shadow-sm">
+                    <div class="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-white text-xs">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-900 text-base" id="userNameDisplay">Bảo Pi (Thành viên)</h3>
+                    <p class="text-xs text-gray-500 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Đã kết nối Cloud & Web3</p>
+                </div>
             </div>
-            <button onclick="toggleMyPosts()" id="myPostsBtn" class="bg-white border border-gray-300 hover:bg-gray-100 px-4 py-2.5 rounded-xl font-medium text-sm shadow-sm transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-user-tag text-blue-600"></i> Bài đăng của tôi
-            </button>
+
+            <!-- Các nút chuyển đổi phụ: Thư mục của tôi & Cài đặt -->
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button type="button" onclick="toggleMyPosts()" id="myPostsBtn" class="flex-1 sm:flex-none bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 px-3.5 py-2 rounded-xl font-medium text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-folder-open"></i> Thư mục của tôi
+                </button>
+                <button type="button" onclick="openSettingsModal()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3.5 py-2 rounded-xl font-medium text-xs sm:text-sm transition flex items-center justify-center gap-2 cursor-pointer" title="Cài đặt hệ thống">
+                    <i class="fa-solid fa-gear"></i> <span class="hidden sm:inline">Cài đặt</span>
+                </button>
+            </div>
         </div>
 
-        <!-- Category Grid (Color-coded & Hierarchical simulation) -->
+        <!-- Search Bar -->
         <div class="mb-6">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400"></i>
+                <input type="text" id="searchInput" oninput="filterPosts()" placeholder="Tìm kiếm tài sản, xe cộ, giá trị thực, dịch vụ hữu ích..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm text-sm">
+            </div>
+        </div>
+
+        <!-- Nhóm Danh Mục Chính & Giá trị thực / Hữu ích -->
+        <div class="mb-8">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="font-bold text-gray-800 text-sm uppercase tracking-wider"><i class="fa-solid fa-layer-group text-blue-600 mr-1"></i> Nhóm danh mục chính (1,201+ phân cấp)</h3>
-                <span onclick="filterByCategory('All')" class="text-xs text-blue-600 cursor-pointer font-semibold hover:underline">Xem tất cả</span>
+                <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wide"><i class="fa-solid fa-layer-group text-blue-600"></i> Danh mục & Giá trị thực</h3>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div onclick="filterByCategory('Bất động sản')" class="bg-white p-3.5 rounded-xl border-l-4 border-blue-500 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-base"><i class="fa-solid fa-house-chimney"></i></div>
-                    <div><h4 class="font-bold text-xs">Bất động sản</h4><p class="text-[10px] text-gray-500">Nhà đất, Kho xưởng</p></div>
+                <div onclick="filterByCategory('Bất động sản')" class="bg-white p-3.5 rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-base"><i class="fa-solid fa-house"></i></div>
+                    <div><h4 class="font-bold text-xs sm:text-sm">Bất động sản</h4><p class="text-[10px] text-gray-500">Giá trị thực</p></div>
                 </div>
-                <div onclick="filterByCategory('Xe cộ')" class="bg-white p-3.5 rounded-xl border-l-4 border-emerald-500 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-base"><i class="fa-solid fa-car-side"></i></div>
-                    <div><h4 class="font-bold text-xs">Xe cộ</h4><p class="text-[10px] text-gray-500">Ô tô, Xe máy, Phụ tùng</p></div>
+                <div onclick="filterByCategory('Xe cộ')" class="bg-white p-3.5 rounded-xl border border-emerald-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-base"><i class="fa-solid fa-car"></i></div>
+                    <div><h4 class="font-bold text-xs sm:text-sm">Xe cộ</h4><p class="text-[10px] text-gray-500">Ô tô, Xe máy</p></div>
                 </div>
-                <div onclick="filterByCategory('Đồ điện tử')" class="bg-white p-3.5 rounded-xl border-l-4 border-amber-500 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-base"><i class="fa-solid fa-laptop-code"></i></div>
-                    <div><h4 class="font-bold text-xs">Đồ điện tử</h4><p class="text-[10px] text-gray-500">Phone, Laptop, Tech</p></div>
+                <div onclick="filterByCategory('Tiện ích hữu ích')" class="bg-white p-3.5 rounded-xl border border-amber-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-base"><i class="fa-solid fa-toolbox"></i></div>
+                    <div><h4 class="font-bold text-xs sm:text-sm">Hữu ích</h4><p class="text-[10px] text-gray-500">Dịch vụ & Đời sống</p></div>
                 </div>
-                <div onclick="filterByCategory('Dịch vụ Web3')" class="bg-white p-3.5 rounded-xl border-l-4 border-purple-500 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-base"><i class="fa-solid fa-coins"></i></div>
-                    <div><h4 class="font-bold text-xs">Dịch vụ Web3</h4><p class="text-[10px] text-gray-500">Pi Network, DEX, Smart</p></div>
+                <div onclick="filterByCategory('Dịch vụ Web3')" class="bg-white p-3.5 rounded-xl border border-purple-100 shadow-sm hover:shadow-md transition cursor-pointer flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-base"><i class="fa-solid fa-coins"></i></div>
+                    <div><h4 class="font-bold text-xs sm:text-sm">Dịch vụ Web3</h4><p class="text-[10px] text-gray-500">Pi & Crypto</p></div>
                 </div>
             </div>
         </div>
 
-        <!-- Section Title -->
+        <!-- Posts Listing Section -->
         <div class="flex justify-between items-center mb-4">
             <h3 id="sectionTitle" class="text-base font-bold text-gray-800">Tất cả bài đăng trực tuyến</h3>
-            <span class="text-xs text-gray-400" id="postCountBadge">Đang đồng bộ Cloud...</span>
+            <span class="text-xs text-emerald-600 font-medium bg-emerald-50 px-2.5 py-1 rounded-full"><i class="fa-solid fa-cloud"></i> Cloud Active</span>
         </div>
-
-        <!-- Posts Listing Container -->
         <div id="postsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-            <!-- Dữ liệu render tự động từ Firebase -->
+            <!-- Dữ liệu load tự động từ Firebase -->
         </div>
     </main>
 
-    <!-- Modal Tạo / Sửa Bài Đăng -->
-    <div id="postModal" class="fixed inset-0 bg-black/60 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 shadow-2xl">
+    <!-- Modal Tạo / Đăng Bài -->
+    <div id="postModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-xl">
             <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h3 class="text-base font-bold text-gray-900" id="modalTitle">Tạo bài đăng mới trên Siêu Ứng Dụng</h3>
-                <button onclick="closePostModal()" class="text-gray-400 hover:text-gray-600 text-2xl font-bold">&times;</button>
+                <h3 class="text-base font-bold text-gray-900">Tạo bài đăng mới lên hệ thống</h3>
+                <button type="button" onclick="closePostModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
             </div>
-            <form onsubmit="savePost(event)" class="space-y-3.5 text-sm">
-                <input type="hidden" id="editPostId">
+            <form onsubmit="savePost(event)" class="space-y-3.5">
                 <div>
-                    <label class="block font-medium text-gray-700 mb-1">Tiêu đề bài đăng *</label>
-                    <input type="text" id="postTitle" required placeholder="VD: Bán căn hộ cao cấp hoặc Dịch vụ Smart Contract..." class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Tiêu đề bài đăng</label>
+                    <input type="text" id="postTitle" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-medium text-gray-700 mb-1">Danh mục cấp 1</label>
-                        <select id="postMainCat" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Danh mục chính</label>
+                        <select id="postMainCat" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                             <option value="Bất động sản">Bất động sản</option>
                             <option value="Xe cộ">Xe cộ</option>
-                            <option value="Đồ điện tử">Đồ điện tử</option>
+                            <option value="Tiện ích hữu ích">Tiện ích hữu ích</option>
                             <option value="Dịch vụ Web3">Dịch vụ Web3</option>
-                            <option value="Khác (1,201+ mục)">Khác (1,201+ mục)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block font-medium text-gray-700 mb-1">Giá bán *</label>
-                        <input type="text" id="postPrice" required placeholder="VD: 2.5 tỷ / 150 Pi" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Giá trị / Giá bán</label>
+                        <input type="text" id="postPrice" placeholder="VD: 1.5 tỷ / 100 Pi" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                     </div>
                 </div>
                 <div>
-                    <label class="block font-medium text-gray-700 mb-1">Khu vực / Địa điểm *</label>
-                    <input type="text" id="postLocation" required placeholder="VD: Cần Thơ, TP.HCM, Toàn quốc" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Khu vực / Địa điểm</label>
+                    <input type="text" id="postLocation" placeholder="VD: Cần Thơ" required class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block font-medium text-gray-700 mb-1">Địa chỉ ví Web3 giao dịch (G... / 0x...) *</label>
-                    <input type="text" id="postSellerWallet" required placeholder="VD: GDK3P89WXYZ9999PINEWORK..." class="w-full border rounded-xl px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Địa chỉ ví nhận tiền (G...)</label>
+                    <input type="text" id="postSellerWallet" placeholder="VD: GDK3P89WXYZ..." required class="w-full border rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block font-medium text-gray-700 mb-1">Hình ảnh (Hỗ trợ tối đa 5 ảnh / Link URL)</label>
-                    <input type="text" id="postImage" placeholder="Dán link ảnh https://... (hoặc để trống dùng ảnh mặc định)" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Hình ảnh (URL Link ảnh)</label>
+                    <input type="text" id="postImage" placeholder="Dán link ảnh https://..." class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block font-medium text-gray-700 mb-1">Mô tả chi tiết sản phẩm / dịch vụ</label>
-                    <textarea id="postDesc" rows="3" placeholder="Nhập thông tin chi tiết..." class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Mô tả chi tiết</label>
+                    <textarea id="postDesc" rows="2" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
                 </div>
-                <div class="flex justify-end space-x-3 pt-3 border-t">
-                    <button type="button" onclick="closePostModal()" class="px-4 py-2 border rounded-xl font-medium text-gray-600 hover:bg-gray-100">Hủy</button>
-                    <button type="submit" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow">Đăng Lên Cloud</button>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closePostModal()" class="px-4 py-2 border rounded-lg text-xs font-medium text-gray-600">Hủy</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium shadow">Lưu bài đăng</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Script Xử Lý Đầy Đủ Chức Năng -->
+    <!-- Modal Cài đặt hệ thống -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl space-y-4">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-base font-bold text-gray-900"><i class="fa-solid fa-gear text-blue-600"></i> Cài đặt tài khoản</h3>
+                <button type="button" onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-700 mb-1">Tên hiển thị của bạn</label>
+                <input type="text" id="inputUserName" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" value="Bảo Pi">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-700 mb-1">Link Avatar (URL Ảnh đại diện)</label>
+                <input type="text" id="inputAvatarUrl" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="https://...">
+            </div>
+            <div class="flex justify-end gap-2 pt-2">
+                <button type="button" onclick="closeSettingsModal()" class="px-3.5 py-2 border rounded-lg text-xs font-medium text-gray-600">Đóng</button>
+                <button type="button" onclick="saveSettings()" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium shadow">Lưu thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Xử Lý Chính -->
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyBf6d6065u3...",
@@ -144,11 +182,201 @@
             appId: "1:445774560229:web:..."
         };
 
-        firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         const db = firebase.firestore();
 
         let posts = [];
         let currentFilter = 'All';
         let isMyPosts = false;
         const myUserId = "user_" + (localStorage.getItem('my_device_id') || Math.random().toString(36).substring(2));
-        if(!localStorage.getItem('my_device_id')) localStorage.setItem('my_
+        if(!localStorage.getItem('my_device_id')) localStorage.setItem('my_device_id', myUserId);
+
+        // Load profile info
+        window.onload = function() {
+            const savedName = localStorage.getItem('my_user_name');
+            const savedAvatar = localStorage.getItem('my_avatar_url');
+            if(savedName) {
+                document.getElementById('userNameDisplay').innerText = savedName;
+                document.getElementById('inputUserName').value = savedName;
+            }
+            if(savedAvatar) {
+                document.getElementById('userAvatar').src = savedAvatar;
+                document.getElementById('inputAvatarUrl').value = savedAvatar;
+            }
+            fetchPostsFromCloud();
+        };
+
+        async function fetchPostsFromCloud() {
+            try {
+                const snapshot = await db.collection('posts').orderBy('createdAt', 'desc').get();
+                posts = [];
+                snapshot.forEach(doc => {
+                    posts.push({ id: doc.id, ...doc.data() });
+                });
+                renderPosts();
+            } catch (error) {
+                console.error("Lỗi:", error);
+                document.getElementById('postsContainer').innerHTML = `<p class="col-span-full text-center text-red-500 py-10">Lỗi kết nối Firebase: ${error.message}</p>`;
+            }
+        }
+
+        async function savePost(event) {
+            event.preventDefault();
+            const imgUrl = document.getElementById('postImage').value.trim() || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+
+            const postData = {
+                author: myUserId,
+                authorName: localStorage.getItem('my_user_name') || 'Bảo Pi',
+                title: document.getElementById('postTitle').value,
+                mainCat: document.getElementById('postMainCat').value,
+                price: document.getElementById('postPrice').value,
+                location: document.getElementById('postLocation').value,
+                sellerWallet: document.getElementById('postSellerWallet').value,
+                image: imgUrl,
+                desc: document.getElementById('postDesc').value,
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                await db.collection('posts').add(postData);
+                closePostModal();
+                await fetchPostsFromCloud();
+                alert("Đăng bài thành công lên hệ thống đám mây!");
+            } catch (error) {
+                alert("Lỗi khi lưu bài: " + error.message);
+            }
+        }
+
+        async function deletePost(id) {
+            if(confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
+                try {
+                    await db.collection('posts').doc(id).delete();
+                    await fetchPostsFromCloud();
+                } catch (error) {
+                    alert("Lỗi khi xóa: " + error.message);
+                }
+            }
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            let filtered = posts;
+
+            if (isMyPosts) {
+                filtered = posts.filter(p => p.author === myUserId);
+                document.getElementById('sectionTitle').innerText = "Thư mục bài đăng của bạn";
+            } else if (currentFilter !== 'All') {
+                filtered = posts.filter(p => p.mainCat === currentFilter);
+                document.getElementById('sectionTitle').innerText = `Danh mục: ${currentFilter}`;
+            } else {
+                document.getElementById('sectionTitle').innerText = "Tất cả bài đăng trực tuyến";
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400"><i class="fa-solid fa-box-open text-4xl mb-2"></i><p>Chưa có bài đăng nào trên hệ thống.</p></div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(p => `
+                <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                        <div class="h-44 overflow-hidden relative bg-gray-100">
+                            <img src="${p.image}" alt="Product" class="w-full h-full object-cover">
+                            <span class="absolute top-2 left-2 bg-black/60 text-white text-[10px] px-2 py-0.5 rounded-md backdrop-blur-sm">${p.mainCat}</span>
+                        </div>
+                        <div class="p-3.5">
+                            <h4 class="font-bold text-gray-900 text-sm mb-1 line-clamp-1">${p.title}</h4>
+                            <p class="text-blue-600 font-bold text-base mb-1.5">${p.price}</p>
+                            <p class="text-gray-500 text-xs mb-1.5 flex items-center gap-1"><i class="fa-solid fa-location-dot"></i> ${p.location}</p>
+                            <p class="text-gray-600 text-xs line-clamp-2 mb-2">${p.desc || 'Không có mô tả.'}</p>
+                        </div>
+                    </div>
+                    <div class="p-3.5 pt-0 border-t border-gray-100 mt-1">
+                        <div class="bg-gray-50 p-2 rounded-lg mb-2.5 flex items-center justify-between">
+                            <span class="text-[11px] text-gray-500 font-mono truncate max-w-[130px]">Ví: ${p.sellerWallet}</span>
+                            <button type="button" onclick="navigator.clipboard.writeText('${p.sellerWallet}'); alert('Đã copy ví!');" class="text-blue-600 text-xs font-semibold cursor-pointer"><i class="fa-regular fa-copy"></i> Copy</button>
+                        </div>
+                        ${p.author === myUserId ? `<button type="button" onclick="deletePost('${p.id}')" class="w-full bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold py-1.5 rounded-lg transition cursor-pointer">Xóa bài của bạn</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterByCategory(cat) {
+            isMyPosts = false;
+            currentFilter = cat;
+            renderPosts();
+        }
+
+        function toggleMyPosts() {
+            isMyPosts = !isMyPosts;
+            currentFilter = 'All';
+            const btn = document.getElementById('myPostsBtn');
+            if (isMyPosts) {
+                btn.classList.add('bg-blue-600', 'text-white');
+                btn.classList.remove('bg-blue-50', 'text-blue-600');
+            } else {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-blue-50', 'text-blue-600');
+            }
+            renderPosts();
+        }
+
+        function openPostModal() {
+            const modal = document.getElementById('postModal');
+            if(modal) modal.classList.remove('hidden');
+        }
+
+        function closePostModal() {
+            const modal = document.getElementById('postModal');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        function openSettingsModal() {
+            const modal = document.getElementById('settingsModal');
+            if(modal) modal.classList.remove('hidden');
+        }
+
+        function closeSettingsModal() {
+            const modal = document.getElementById('settingsModal');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        function changeAvatar() {
+            openSettingsModal();
+        }
+
+        function saveSettings() {
+            const name = document.getElementById('inputUserName').value.trim();
+            const avatar = document.getElementById('inputAvatarUrl').value.trim();
+            if(name) {
+                localStorage.setItem('my_user_name', name);
+                document.getElementById('userNameDisplay').innerText = name;
+            }
+            if(avatar) {
+                localStorage.setItem('my_avatar_url', avatar);
+                document.getElementById('userAvatar').src = avatar;
+            }
+            closeSettingsModal();
+            alert("Đã cập nhật thông tin thành công!");
+        }
+
+        function filterPosts() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            const container = document.getElementById('postsContainer');
+            const filtered = posts.filter(p => p.title.toLowerCase().includes(keyword) || p.location.toLowerCase().includes(keyword));
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-gray-400"><p>Không tìm thấy bài đăng.</p></div>`;
+                return;
+            }
+            let temp = posts;
+            posts = filtered;
+            renderPosts();
+            posts = temp;
+        }
+    </script>
+</body>
+</html>
