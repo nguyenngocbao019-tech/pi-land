@@ -22,19 +22,24 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col font-sans pb-24">
 
-    <!-- HEADER / TOP BAR -->
+    <!-- HEADER / TOP BAR WITH APP AVATAR UPLOAD -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 px-4 py-3 flex items-center justify-between shadow-sm">
         <div class="flex items-center space-x-3">
             <button onclick="toggleSidebar()" class="text-slate-600 hover:text-slate-900 p-2 rounded-xl hover:bg-slate-100 transition">
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
-            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('home')">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-400 flex items-center justify-center shadow-md shadow-emerald-500/20">
-                    <i class="fa-solid fa-globe text-white font-bold"></i>
+            <div class="flex items-center space-x-2.5">
+                <div class="relative group cursor-pointer" onclick="document.getElementById('appAvatarInput').click()" title="Bấm để đổi ảnh đại diện App">
+                    <img id="appAvatarImg" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-2xl object-cover shadow-md border-2 border-emerald-500">
+                    <div class="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-white text-[10px]">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="font-bold text-base leading-tight bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">GlobalX Super App</h1>
-                    <span class="text-[10px] text-slate-500 uppercase tracking-wider">Hệ Thống Giao Dịch Toàn Cầu</span>
+                <input type="file" id="appAvatarInput" accept="image/*" class="hidden" onchange="updateAppAvatar(event)">
+
+                <div class="cursor-pointer" onclick="switchTab('home')">
+                    <h1 class="font-bold text-base leading-tight text-slate-900">GlobalX App</h1>
+                    <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Public Feed & Escrow</span>
                 </div>
             </div>
         </div>
@@ -57,16 +62,16 @@
         </div>
         <div class="p-4 overflow-y-auto flex-1 space-y-4 text-sm">
             <div class="space-y-1">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Danh Mục Cấp 1</span>
+                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Danh Mục Cấp 1 (7 Mục)</span>
                 <a href="#" onclick="filterByCategory('all'); toggleSidebar();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 text-slate-700 transition">
-                    <span><i class="fa-solid fa-layer-group w-6 text-emerald-600"></i> Tất cả danh mục</span>
+                    <span><i class="fa-solid fa-layer-group w-6 text-emerald-600"></i> Tất cả danh mục công khai</span>
                     <span class="text-xs bg-slate-200 px-2.5 py-0.5 rounded-full text-slate-600 font-bold" id="countAll">0</span>
                 </a>
                 <a href="#" onclick="filterByCategory('Bất Động Sản'); toggleSidebar();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 text-slate-700 transition">
                     <span><i class="fa-solid fa-house-chimney w-6 text-blue-500"></i> Nhà Cửa & BĐS</span>
                 </a>
                 <a href="#" onclick="filterByCategory('Xe Cộ'); toggleSidebar();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 text-slate-700 transition">
-                    <span><i class="fa-solid fa-car w-6 text-amber-500"></i> Xe Cộ & Phương Tiện</span>
+                    <span><i class="fa-solid fa-car w-6 text-amber-500"></i> Xe Cộ & Siêu Xe</span>
                 </a>
                 <a href="#" onclick="filterByCategory('Đồ Cổ & Đá Quý'); toggleSidebar();" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 text-slate-700 transition">
                     <span><i class="fa-solid fa-gem w-6 text-purple-500"></i> Đồ Cổ & Đá Quý</span>
@@ -96,21 +101,20 @@
     <!-- MAIN APP CONTAINER -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 space-y-6">
 
-        <!-- TAB 1: HOMEPAGE / MARKETPLACE -->
+        <!-- TAB 1: HOMEPAGE / PUBLIC MARKETPLACE FEED -->
         <section id="tab-home" class="space-y-6">
-            <!-- Hero Banner -->
             <div class="bg-gradient-to-r from-white via-slate-50 to-emerald-50 border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden">
                 <div class="relative z-10 space-y-4">
                     <div class="inline-flex items-center space-x-2 bg-emerald-100 border border-emerald-200 px-3 py-1 rounded-full text-emerald-700 text-xs font-medium">
-                        <i class="fa-solid fa-shield-halved"></i> <span>Escrow Đảm Bảo Giao Dịch Toàn Cầu 24/7</span>
+                        <i class="fa-solid fa-globe"></i> <span>Bảng Tin Công Khai Toàn Cầu (Public Feed)</span>
                     </div>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Trung Tâm Giao Dịch Toàn Cầu Super App</h2>
-                    <p class="text-slate-600 text-sm max-w-2xl">Mở khóa toàn bộ danh mục mua bán: Bất động sản cao cấp, siêu xe quốc tế, đồ cổ, nông sản và tài sản Web3.</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Trung Tâm Giao Dịch Đăng Bài Công Khai</h2>
+                    <p class="text-slate-600 text-sm max-w-2xl">Mọi tin đăng sản phẩm mới đều được đồng bộ công khai để mọi người truy cập đều có thể xem và giao dịch an toàn.</p>
                     
                     <div class="flex flex-col sm:flex-row gap-2 pt-2">
                         <div class="relative flex-1">
                             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
-                            <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Tìm kiếm bất động sản, siêu xe Ferrari, đồ cổ..." class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500 shadow-sm">
+                            <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Tìm kiếm sản phẩm, siêu xe, bất động sản..." class="w-full bg-white border border-slate-300 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-emerald-500 shadow-sm">
                         </div>
                         <select id="currencyFilter" onchange="filterProducts()" class="bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm text-slate-700 focus:outline-none focus:border-emerald-500 shadow-sm">
                             <option value="all">Tất cả tiền tệ</option>
@@ -123,10 +127,10 @@
                 </div>
             </div>
 
-            <!-- MEGA CATEGORY GRID (FULL WINDOW SHORTCUTS) -->
+            <!-- MEGA CATEGORY GRID -->
             <div>
                 <div class="flex items-center justify-between mb-3">
-                    <h3 class="font-bold text-lg text-slate-900"><i class="fa-solid fa-shapes text-emerald-600 mr-2"></i>Danh Mục Siêu Ứng Dụng (Mở Tất Cả Cửa Sổ)</h3>
+                    <h3 class="font-bold text-lg text-slate-900"><i class="fa-solid fa-shapes text-emerald-600 mr-2"></i>Danh Mục Giao Dịch</h3>
                     <span class="text-xs text-slate-500">Chạm để lọc nhanh danh mục</span>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
@@ -161,31 +165,31 @@
                 </div>
             </div>
 
-            <!-- PRODUCT LISTINGS GRID -->
+            <!-- PUBLIC PRODUCT LISTINGS GRID -->
             <div>
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-bold text-lg text-slate-900" id="currentCategoryTitle"><i class="fa-solid fa-store text-emerald-600 mr-2"></i>Tất Cả Sản Phẩm Giao Dịch</h3>
+                    <h3 class="font-bold text-lg text-slate-900" id="currentCategoryTitle"><i class="fa-solid fa-globe text-emerald-600 mr-2"></i>Bảng Tin Sản Phẩm Công Khai (Public Feed)</h3>
                     <span class="text-xs text-slate-500 font-mono" id="productCountLabel">Hiển thị mục</span>
                 </div>
                 <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
             </div>
         </section>
 
-        <!-- TAB 2: MY LISTINGS & EDIT MANAGEMENT -->
+        <!-- TAB 2: MY LISTINGS -->
         <section id="tab-listings" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
                 <div>
-                    <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-boxes-stacked text-emerald-600 mr-2"></i>Quản Lý Tin Đăng & Sản Phẩm Của Tôi</h2>
-                    <p class="text-slate-500 text-sm">Chỉnh sửa, cập nhật giá hoặc thay đổi trạng thái hàng hóa của bạn trên hệ thống.</p>
+                    <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-boxes-stacked text-emerald-600 mr-2"></i>Quản Lý Tin Đăng Cá Nhân</h2>
+                    <p class="text-slate-500 text-sm">Các sản phẩm bạn đăng sẽ tự động xuất hiện công khai trên toàn hệ thống.</p>
                 </div>
                 <button onclick="openPostModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-4 py-2.5 rounded-xl text-sm transition shadow-lg shadow-emerald-600/20">
-                    <i class="fa-solid fa-plus mr-2"></i> Đăng Sản Phẩm Mới
+                    <i class="fa-solid fa-plus mr-2"></i> Đăng Bài Công Khai
                 </button>
             </div>
             <div id="myListingsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </section>
 
-        <!-- TAB 3: WEB3 WALLET & QR CENTER -->
+        <!-- TAB 3: WEB3 WALLET -->
         <section id="tab-wallet" class="space-y-6 hidden">
             <div class="bg-gradient-to-r from-white to-slate-50 border border-slate-200 p-6 rounded-2xl space-y-6 shadow-sm">
                 <div class="flex items-center justify-between">
@@ -220,96 +224,26 @@
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
-                <h3 class="font-bold text-lg text-slate-900"><i class="fa-solid fa-wallet text-yellow-500 mr-2"></i>Danh Sách Tài Sản & Token</h3>
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center font-bold">Pi</div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-900">Pi Network Token</h4>
-                                <span class="text-xs text-slate-500">Pi Mainnet</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-bold text-sm text-slate-900">1,250.00 Pi</span>
-                            <span class="text-xs text-emerald-600 block">~ $45.00 USD</span>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">SDA</div>
-                            <div>
-                                <h4 class="font-semibold text-sm text-slate-900">Sidra Chain (SDA)</h4>
-                                <span class="text-xs text-slate-500">Sidra Network</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <span class="font-bold text-sm text-slate-900">5,000.00 SDA</span>
-                            <span class="text-xs text-emerald-600 block">~ $120.00 USD</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </section>
 
-        <!-- TAB 4: ESCROW ORDERS -->
+        <!-- TAB 4: ORDERS -->
         <section id="tab-orders" class="space-y-6 hidden">
             <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 shadow-sm">
                 <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-receipt text-blue-500 mr-2"></i>Quản Lý Đơn Hàng & Ký Quỹ Escrow</h2>
-                <p class="text-slate-500 text-sm">Theo dõi các giao dịch mua bán toàn cầu, trạng thái khóa quỹ an toàn.</p>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-700">
-                        <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
-                            <tr>
-                                <th class="p-3 rounded-l-lg">Mã Đơn</th>
-                                <th class="p-3">Sản Phẩm</th>
-                                <th class="p-3">Giá Trị</th>
-                                <th class="p-3">Trạng Thái Ký Quỹ</th>
-                                <th class="p-3 rounded-r-lg text-right">Thao Tác</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr>
-                                <td class="p-3 font-mono text-xs text-emerald-600">#ORD-9842</td>
-                                <td class="p-3 font-medium text-slate-900">Ferrari 488 Spider</td>
-                                <td class="p-3 font-bold text-emerald-600">12,500 Pi</td>
-                                <td class="p-3"><span class="bg-amber-100 text-amber-700 border border-amber-200 text-xs px-2.5 py-1 rounded-full">Đang Ký Quỹ Escrow</span></td>
-                                <td class="p-3 text-right">
-                                    <button onclick="alert('Đang chờ xác nhận.')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-lg text-xs">Chi tiết</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <p class="text-slate-500 text-sm">Theo dõi các giao dịch mua bán toàn cầu.</p>
             </div>
         </section>
 
         <!-- TAB 5: SETTINGS -->
         <section id="tab-settings" class="space-y-6 hidden">
             <div class="bg-white border border-slate-200 p-6 rounded-2xl space-y-6 shadow-sm">
-                <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-gear text-slate-500 mr-2"></i>Cài Đặt Hệ Thống & Hồ Sơ</h2>
-                <div class="space-y-4 max-w-xl">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">Tên Hiển Thị / Chủ Tài Khoản</label>
-                        <input type="text" value="Bảo Pi (Cần Thơ)" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-emerald-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">Trạng Thái Xác Thực KYC Toàn Cầu</label>
-                        <div class="flex items-center justify-between p-3 bg-slate-50 border border-slate-300 rounded-xl">
-                            <span class="text-sm text-emerald-600 font-semibold"><i class="fa-solid fa-circle-check mr-2"></i>Đã xác thực danh tính (KYC Verified)</span>
-                            <span class="text-xs text-slate-500 font-mono">ID: #86-CT</span>
-                        </div>
-                    </div>
-                    <button onclick="alert('Đã lưu cài đặt thành công!')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition shadow-md shadow-emerald-600/20">Lưu Thay Đổi</button>
-                </div>
+                <h2 class="text-xl font-bold text-slate-900"><i class="fa-solid fa-gear text-slate-500 mr-2"></i>Cài Đặt Hệ Thống</h2>
             </div>
         </section>
 
     </main>
 
-    <!-- FIXED BOTTOM NAVIGATION BAR WITH CENTER POST BUTTON (+) -->
+    <!-- FIXED BOTTOM NAVIGATION BAR -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-slate-200 px-4 py-2 z-40 flex items-center justify-around shadow-lg">
         <button onclick="switchTab('home')" class="nav-btn flex flex-col items-center text-emerald-600 transition" id="nav-btn-home">
             <i class="fa-solid fa-store text-lg"></i>
@@ -337,11 +271,11 @@
         </button>
     </nav>
 
-    <!-- MODAL: POST / EDIT PRODUCT WITH WALLET ADDRESS INPUT -->
+    <!-- MODAL: POST / EDIT PRODUCT -->
     <div id="postModal" class="fixed inset-0 bg-black/40 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white border border-slate-200 rounded-2xl max-w-lg w-full p-6 space-y-4 relative my-8 shadow-2xl">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-                <h3 id="modalTitle" class="font-bold text-lg text-slate-900"><i class="fa-solid fa-circle-plus text-emerald-600 mr-2"></i>Đăng Bán Sản Phẩm Mới</h3>
+                <h3 id="modalTitle" class="font-bold text-lg text-slate-900"><i class="fa-solid fa-circle-plus text-emerald-600 mr-2"></i>Đăng Bài Công Khai Mới</h3>
                 <button onclick="closePostModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             
@@ -376,8 +310,8 @@
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">Mức Giá</label>
-                        <input type="text" id="pPrice" required placeholder="Ví dụ: 12,500 hoặc 3 Tỷ" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-emerald-500">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">Mức Giá Thực Tế</label>
+                        <input type="text" id="pPrice" required placeholder="Ví dụ: 12,500 hoặc 7.5 Tỷ" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-emerald-500">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-600 mb-1">Khu Vực / Địa Điểm</label>
@@ -387,6 +321,11 @@
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">Địa Chỉ Ví Nhận Tiền / Thanh Toán (Wallet Address)</label>
                     <input type="text" id="pWalletAddr" required placeholder="Nhập địa chỉ ví nhận thanh toán (0x... hoặc Pi Wallet)..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-slate-900 focus:outline-none focus:border-emerald-500 font-mono text-xs">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-600 mb-1">Tải Hình Ảnh Sản Phẩm Lên (Tối đa 5 ảnh)</label>
+                    <input type="file" id="pImageFileInput" accept="image/*" multiple class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-700 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+                    <span class="text-[10px] text-slate-400 mt-1 block">Chọn tối đa 5 ảnh trực tiếp từ thiết bị của bạn.</span>
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-slate-600 mb-1">Mô Tả Chi Tiết</label>
@@ -400,17 +339,18 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <!-- JAVASCRIPT APPLICATION LOGIC WITH PUBLIC STORAGE SYNC -->
     <script>
-        let products = [
-            { id: 1, name: 'Ferrari 488 Spider V8', category: 'Xe Cộ', price: '12,500', currency: 'Pi', location: 'Hồ Chí Minh', walletAddr: '0x71b8...84a2', image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=600&q=80', desc: 'Siêu xe thể thao đỉnh cao, nhập khẩu chính hãng.' },
-            { id: 2, name: 'Toyota Land Cruiser VXR 3.5L', category: 'Xe Cộ', price: '4.2 Tỷ', currency: 'VND', location: 'Cần Thơ', walletAddr: '0x99a1...12c4', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=600&q=80', desc: 'Xe mới 100%, full option, giao ngay.' },
-            { id: 3, name: 'Mercedes-Benz S450 Luxury', category: 'Xe Cộ', price: '4,800', currency: 'USD', location: 'Hà Nội', walletAddr: '0x44f2...77e9', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80', desc: 'Đẳng cấp thương gia, nội thất da cao cấp.' },
-            { id: 4, name: 'Nhà Phố Thương Mại Ninh Kiều', category: 'Bất Động Sản', price: '2,500', currency: 'Pi', location: 'Cần Thơ', walletAddr: '0x71b8...84a2', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80', desc: 'Sổ hồng riêng, mặt tiền kinh doanh sầm uất.' },
-            { id: 5, name: 'Lư Hương Đồ Cổ Minh Triều', category: 'Đồ Cổ & Đá Quý', price: '350', currency: 'USD', location: 'Hà Nội', walletAddr: '0x88b2...11f3', image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80', desc: 'Đồ sưu tầm quý hiếm, hoa văn tinh xảo.' },
-            { id: 6, name: 'Gạo Sạch Hữu Cơ Miền Tây 50kg', category: 'Nông Sản & Hàng Sỉ', price: '1,200,000', currency: 'VND', location: 'An Giang', walletAddr: '0x55c3...99a1', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80', desc: 'Gạo thơm đặc sản, chuẩn tiêu chuẩn xuất khẩu.' }
+        let defaultProducts = [
+            { id: 1, name: 'Ferrari 488 Spider V8', category: 'Xe Cộ', price: '7.8 Tỷ', currency: 'VND', location: 'Hồ Chí Minh', walletAddr: '0x71b8...84a2', images: ['https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&w=600&q=80'], desc: 'Siêu xe thể thao đỉnh cao, giá thực tế, giấy tờ chính hãng.' },
+            { id: 2, name: 'Toyota Land Cruiser VXR 3.5L', category: 'Xe Cộ', price: '4.2 Tỷ', currency: 'VND', location: 'Cần Thơ', walletAddr: '0x99a1...12c4', images: ['https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=600&q=80'], desc: 'Xe mới 100%, full option, giao ngay.' },
+            { id: 3, name: 'Mercedes-Benz S450 Luxury', category: 'Xe Cộ', price: '4.9 Tỷ', currency: 'VND', location: 'Hà Nội', walletAddr: '0x44f2...77e9', images: ['https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80'], desc: 'Đẳng cấp thương gia, nội thất da cao cấp.' },
+            { id: 4, name: 'Nhà Phố Thương Mại Ninh Kiều', category: 'Bất Động Sản', price: '5.5 Tỷ', currency: 'VND', location: 'Cần Thơ', walletAddr: '0x71b8...84a2', images: ['https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80'], desc: 'Sổ hồng riêng, mặt tiền kinh doanh sầm uất.' },
+            { id: 5, name: 'Lư Hương Đồ Cổ Minh Triều', category: 'Đồ Cổ & Đá Quý', price: '350', currency: 'USD', location: 'Hà Nội', walletAddr: '0x88b2...11f3', images: ['https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80'], desc: 'Đồ sưu tầm quý hiếm, hoa văn tinh xảo.' },
+            { id: 6, name: 'Gạo Sạch Hữu Cơ Miền Tây 50kg', category: 'Nông Sản & Hàng Sỉ', price: '1,200,000', currency: 'VND', location: 'An Giang', walletAddr: '0x55c3...99a1', images: ['https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80'], desc: 'Gạo thơm đặc sản, chuẩn tiêu chuẩn xuất khẩu.' }
         ];
 
+        let products = JSON.parse(localStorage.getItem('globalx_public_products')) || defaultProducts;
         let currentFilterCategory = 'all';
 
         window.onload = function() {
@@ -418,6 +358,10 @@
             renderMyListings();
             updateCounts();
         };
+
+        function saveToPublicStorage() {
+            localStorage.setItem('globalx_public_products', JSON.stringify(products));
+        }
 
         function switchTab(tabId) {
             ['home', 'listings', 'wallet', 'orders', 'settings'].forEach(id => {
@@ -448,13 +392,25 @@
 
         function filterByCategory(cat) {
             currentFilterCategory = cat;
-            document.getElementById('currentCategoryTitle').innerHTML = `<i class="fa-solid fa-store text-emerald-600 mr-2"></i>${cat === 'all' ? 'Tất Cả Sản Phẩm Giao Dịch' : cat}`;
+            document.getElementById('currentCategoryTitle').innerHTML = `<i class="fa-solid fa-globe text-emerald-600 mr-2"></i>${cat === 'all' ? 'Bảng Tin Sản Phẩm Công Khai' : cat}`;
             renderProducts();
             switchTab('home');
         }
 
         function filterProducts() {
             renderProducts();
+        }
+
+        function updateAppAvatar(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('appAvatarImg').src = e.target.result;
+                    alert('Đã cập nhật ảnh đại diện ứng dụng thành công!');
+                }
+                reader.readAsDataURL(file);
+            }
         }
 
         function renderProducts() {
@@ -472,57 +428,64 @@
             document.getElementById('productCountLabel').innerText = `Hiển thị ${filtered.length} mục`;
 
             if(filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400"><i class="fa-solid fa-box-open text-3xl mb-2 block"></i> Không tìm thấy sản phẩm phù hợp.</div>`;
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400"><i class="fa-solid fa-box-open text-3xl mb-2 block"></i> Không tìm thấy sản phẩm công khai nào phù hợp.</div>`;
                 return;
             }
 
-            grid.innerHTML = filtered.map(p => `
-                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition flex flex-col group shadow-sm">
-                    <div class="relative h-48 overflow-hidden bg-slate-100">
-                        <img src="${p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur border border-slate-200 text-emerald-600 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
-                    </div>
-                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm line-clamp-1 group-hover:text-emerald-600 transition">${p.name}</h4>
-                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.desc}</p>
-                            <span class="text-[10px] font-mono text-slate-400 mt-2 block"><i class="fa-solid fa-wallet mr-1"></i>Ví: ${p.walletAddr || '0x71...84a2'}</span>
+            grid.innerHTML = filtered.map(p => {
+                const mainImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80';
+                return `
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden hover:border-emerald-500/50 transition flex flex-col group shadow-sm">
+                        <div class="relative h-48 overflow-hidden bg-slate-100">
+                            <img src="${mainImg}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur border border-slate-200 text-emerald-600 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">${p.category}</span>
+                            <span class="absolute bottom-2.5 right-2.5 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow">Công Khai</span>
                         </div>
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <div>
-                                <span class="text-xs text-slate-400 block">Giá niêm yết</span>
-                                <span class="font-extrabold text-emerald-600 text-sm">${p.price} ${p.currency}</span>
+                                <h4 class="font-bold text-slate-900 text-sm line-clamp-1 group-hover:text-emerald-600 transition">${p.name}</h4>
+                                <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.desc}</p>
+                                <span class="text-[10px] font-mono text-slate-400 mt-2 block"><i class="fa-solid fa-wallet mr-1"></i>Ví: ${p.walletAddr || '0x71...84a2'}</span>
                             </div>
-                            <button onclick="alert('Đã kết nối Ký quỹ Escrow cho: ${p.name}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 text-xs px-3 py-1.5 rounded-xl transition font-medium">
-                                Mua Ngay
-                            </button>
+                            <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+                                <div>
+                                    <span class="text-xs text-slate-400 block">Giá thực tế</span>
+                                    <span class="font-extrabold text-emerald-600 text-sm">${p.price} ${p.currency}</span>
+                                </div>
+                                <button onclick="alert('Đã kết nối Ký quỹ Escrow toàn cầu cho sản phẩm: ${p.name}')" class="bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white border border-emerald-200 text-xs px-3 py-1.5 rounded-xl transition font-medium">
+                                    Mua Ngay
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function renderMyListings() {
             const container = document.getElementById('myListingsContainer');
-            container.innerHTML = products.map(p => `
-                <div class="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-sm">
-                    <div class="flex space-x-3">
-                        <img src="${p.image || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80'}" class="w-16 h-16 rounded-xl object-cover bg-slate-100 border border-slate-200">
-                        <div class="flex-1 min-w-0">
-                            <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">${p.category}</span>
-                            <h4 class="font-bold text-sm text-slate-900 truncate mt-1">${p.name}</h4>
-                            <p class="text-xs text-emerald-600 font-bold">${p.price} ${p.currency}</p>
+            container.innerHTML = products.map(p => {
+                const mainImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80';
+                return `
+                    <div class="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-sm">
+                        <div class="flex space-x-3">
+                            <img src="${mainImg}" class="w-16 h-16 rounded-xl object-cover bg-slate-100 border border-slate-200">
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">${p.category}</span>
+                                <h4 class="font-bold text-sm text-slate-900 truncate mt-1">${p.name}</h4>
+                                <p class="text-xs text-emerald-600 font-bold">${p.price} ${p.currency}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                            <span class="text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-red-500"></i>${p.location}</span>
+                            <div class="space-x-2">
+                                <button onclick="editProduct(${p.id})" class="text-amber-600 hover:underline"><i class="fa-solid fa-pen-to-square mr-1"></i>Sửa</button>
+                                <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Xóa</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
-                        <span class="text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-red-500"></i>${p.location}</span>
-                        <div class="space-x-2">
-                            <button onclick="editProduct(${p.id})" class="text-amber-600 hover:underline"><i class="fa-solid fa-pen-to-square mr-1"></i>Sửa</button>
-                            <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Xóa</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function updateCounts() {
@@ -538,7 +501,7 @@
             if(editId) {
                 const item = products.find(p => p.id === editId);
                 if(item) {
-                    title.innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald-600 mr-2"></i>Chỉnh Sửa Sản Phẩm (#${item.id})`;
+                    title.innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald-600 mr-2"></i>Chỉnh Sửa Bài Đăng (#${item.id})`;
                     document.getElementById('editProductId').value = item.id;
                     document.getElementById('pName').value = item.name;
                     document.getElementById('pCategory').value = item.category;
@@ -549,7 +512,7 @@
                     document.getElementById('pDesc').value = item.desc;
                 }
             } else {
-                title.innerHTML = `<i class="fa-solid fa-circle-plus text-emerald-600 mr-2"></i>Đăng Bán Sản Phẩm Mới`;
+                title.innerHTML = `<i class="fa-solid fa-circle-plus text-emerald-600 mr-2"></i>Đăng Bài Công Khai Mới`;
             }
 
             modal.classList.remove('hidden');
@@ -562,6 +525,19 @@
         function handleProductSubmit(e) {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
+            
+            const fileInput = document.getElementById('pImageFileInput');
+            let imageList = [];
+
+            if (fileInput.files && fileInput.files.length > 0) {
+                const maxFiles = Math.min(fileInput.files.length, 5);
+                for (let i = 0; i < maxFiles; i++) {
+                    imageList.push(URL.createObjectURL(fileInput.files[i]));
+                }
+            } else {
+                imageList = ['https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80'];
+            }
+
             const newItem = {
                 id: editId ? parseInt(editId) : Date.now(),
                 name: document.getElementById('pName').value,
@@ -570,22 +546,28 @@
                 price: document.getElementById('pPrice').value,
                 location: document.getElementById('pLocation').value,
                 walletAddr: document.getElementById('pWalletAddr').value,
-                image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80',
+                images: imageList,
                 desc: document.getElementById('pDesc').value
             };
 
             if(editId) {
                 const index = products.findIndex(p => p.id === parseInt(editId));
-                if(index !== -1) products[index] = newItem;
+                if(index !== -1) {
+                    if (imageList.length === 1 && fileInput.files.length === 0) {
+                        newItem.images = products[index].images;
+                    }
+                    products[index] = newItem;
+                }
             } else {
                 products.unshift(newItem);
             }
 
+            saveToPublicStorage();
             renderProducts();
             renderMyListings();
             updateCounts();
             closePostModal();
-            alert('Lưu và đăng sản phẩm thành công!');
+            alert('Đã đăng bài công khai thành công! Mọi người trên hệ thống đều có thể xem.');
         }
 
         function editProduct(id) {
@@ -593,8 +575,9 @@
         }
 
         function deleteProduct(id) {
-            if(confirm('Bạn có chắc chắn muốn xóa tin đăng này không?')) {
+            if(confirm('Bạn có chắc chắn muốn xóa bài đăng này không?')) {
                 products = products.filter(p => p.id !== id);
+                saveToPublicStorage();
                 renderProducts();
                 renderMyListings();
                 updateCounts();
